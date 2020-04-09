@@ -1,0 +1,165 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #333;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+button {
+    color: #3076ff;
+    font-size: 2rem;
+    background: rgba(0, 0, 0, 0);
+}
+button:hover {
+    color: darkorange;
+}
+
+#gameContainer {
+    border: 3px solid green;
+    display: flex;
+    flex-flow: row-reverse;
+    justify-content: space-between;
+    background: #07123b;
+}
+
+#cardContainer {
+    border: 3px solid red;
+    padding: 30px 100px;
+    background: rgba(22, 22, 22, 0.71);
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    width: 60%;
+    max-height: 730px;
+    max-width: 47%;
+    overflow: scroll;
+}
+
+#heroStatsContainer {
+    border: 5px solid #666;
+    border-radius: 3px;
+    font-size: 3rem;
+    display: flex;
+}
+
+#heroSkillsContainer {
+    display: flex;
+    border: 3px solid crimson;
+    align-items: center;
+}
+.heroSkill {
+    border: 2px solid;
+    border-radius: 2px;
+    margin: 0 1rem;
+    padding: 5px;
+    font-size: 2rem;
+    color: lightgoldenrodyellow;
+    background: black;
+    display: flex;
+    justify-content: center;
+}
+.heroSkill:hover {
+    color: crimson;
+    cursor: pointer;
+    border: 2px solid yellow;
+    box-shadow: 0 0px 45px 10px red, 1px 6px 22px 7px rgba(255, 255, 0, 1);
+}
+.playableSkill {
+    box-shadow: 0 0 15px 15px #8817ff;
+    color: orange;
+}
+
+
+#bottomActionBar {
+    display: flex;
+    border: 3px solid violet;
+    justify-content: space-between;
+}
+
+#buttonContainer {
+    display: flex;
+}
+
+.heroStat {
+    padding: 15px;
+    margin: auto;
+}
+
+#heroHp {
+    color: red;
+}
+#heroMana {
+    color: #3076ff;
+}
+
+.spellCardStyle {
+    border: 1px solid #2eb7ff;
+}
+.minionCardStyle {
+    border: 1px solid #fffe27;
+}
+.cardStyle {
+    border-radius: 3px;
+    background: #381e1c;
+    height: 20rem;
+    width: 13rem;
+    margin: 0 3rem;
+    transition: .2s all;
+    position: relative;
+    padding: 10px 0;
+}
+.cardStyle div {
+    font-size: 2rem;
+}
+.cardStyle:hover {
+    background: #4c2926;
+    border: 4px solid #ffdc36;
+    box-sizing: border-box;
+    box-shadow: 0 5px 110px 25px red, 1px 6px 22px 7px rgba(255, 255, 0, 1);
+    cursor: pointer;
+}
+
+.cardContent {
+    border: 1px solid #ff9b0e;
+    border-radius: 3px;
+    height: 85%;
+    margin: 1rem 1.1rem;
+    background: #eca867;
+    pointer-events: none;
+}
+
+.displayTooltip {
+    display: block;
+    padding: 10px;
+    border: 3px solid crimson;
+    color: white;
+    background: black;
+    position: absolute;
+    top: 6.5rem;
+    left: 0;
+    width: 20rem;
+    z-index: 10;
+}
+
+.hideTooltip {
+    display: none;
+}
+
+.hasTooltip::after {
+    content: "Effect";
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: red;
+    font-size: 1.5rem;
+}
+
+.playableMinion {
+    border: 4px solid #fffe27;
+    box-shadow: 0 0 30px 10px #fffe27;
+}
+
+.playableSpell {
+    border: 4px solid #2eb7ff;
+    box-shadow: 0 0 30px 10px #2eb7ff;
+}
