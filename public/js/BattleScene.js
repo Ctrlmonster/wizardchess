@@ -36,7 +36,7 @@ class BattleScene extends Phaser.Scene {
 
   preload() {
     //this.load.plugin('rexgridtableplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexgridtableplugin.min.js', true);
-    this.load.plugin('rexgridtableplugin', 'lib/phaser/plugins/rexgridtableplugin.min.js', true);
+    this.load.plugin('rexgridtableplugin', 'public/lib/phaser/plugins/rexgridtableplugin.min.js', true);
   }
 
   setSelectionMode(mode) {
