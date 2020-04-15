@@ -3,67 +3,91 @@
 
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="public/css/main.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
 </head>
 
 <body>
 
+<div id="gameOverMessage" class="hideTooltip">
+    Match over. <span id="lossOrWin"></span><br>
+    <div id="returnToLobby">Return to the Lobby</div>
+</div>
+
 
 
 <div id="gameContainer">
-    <div id="cardContainer">
+    <div id="historyContainer" class="scrollbar hideTooltip">
+        <div>History</div>
+    </div>
+    <div id="cellTooltip" class="hideTooltip">
+        <div> </div>
+        <div> </div>
+        <div> </div>
+        <div> </div>
+        <div> </div>
+        <div> </div>
+        <div> </div>
+        <div> </div>
     </div>
 </div>
 <div id="bottomActionBar">
 
-    <div id="heroStatsContainer">
-        <div class="heroStat">HP: <span id="heroHp">X</span></div>
-        <div class="heroStat">Mana: <span id="heroMana">Y</span></div>
+    <div id="heroStatsContainer" class="hideTooltip">
+        <div>Hero: <span id="heroClass">Class</span></div>
+        <div>HP: <span id="heroHp">X</span></div>
+        <div>Mana: <span id="heroMana">Y</span></div>
+        <div>Cards left: <span id="cardsLeft">Z</span></div>
     </div>
 
     <div id="heroSkillsContainer">
-        <div class="heroSkill">Skill 1</div>
-        <div class="heroSkill">Skill 2</div>
-        <div class="heroSkill">Skill 3</div>
-        <div class="heroSkill">Break Free</div>
+        <div class="heroSkill hideTooltip">Skill 1</div>
+        <div class="heroSkill hideTooltip">Skill 2</div>
+        <div class="heroSkill hideTooltip">Skill 3</div>
+        <div class="heroSkill hideTooltip">Break Free</div>
     </div>
 
     <div id="buttonContainer">
         <button id="queue" style="width:300px;height:100px">
             Join Queue
         </button>
-        <button id="leaveGame" style="width:300px;height:100px">
+        <!--<button id="leaveGame" style="width:300px;height:100px">
             Leave Game
-        </button>
-        <button id="endTurn" style="width:300px;height:100px">
+        </button>-->
+        <button id="endTurn" style="width:300px;height:100px" class="hideTooltip">
             End Turn
         </button>
     </div>
+</div>
 
+<div id="cardContainer" class="scrollbar">
 </div>
 
 
 
 <!-- libs -->
 <!--<script src="lib/phaser.min.js"></script>-->
-<script src="/public/lib/axios.min.js"></script>
-<script src="/public/lib/phaser/phaser.min.js"></script>
-<script src="/public/lib/phaser/plugins/rexgridtableplugin.min.js"></script>
+<!--<script src="lib/axios.min.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+
+<script src="public/lib/phaser/phaser.min.js"></script>
+<!--<script src="./public/lib/phaser/phaser.min.js"></script>-->
+<script src="public/lib/phaser/plugins/rexgridtableplugin.min.js"></script>
 <!--<script src="lib/phaser/phaser-3.22.0/dist/phaser.js"></script>-->
 
 <!-- ui -->
-<script src="/public/js/ui.js"></script>
+<script src="public/js/ui.js"></script>
 <!-- own scripts -->
-<script src="/public/js/constants.js"></script>
-<script src="/public/js/GameClient.js"></script>
-<script src="/public/js/functions.js"></script>
+<script src="public/js/constants.js"></script>
+<script src="public/js/GameClient.js"></script>
+<script src="public/js/functions.js"></script>
 <!-- own scenes -->
-<script src="/public/js/Cell.js"></script>
-<script src="/public/js/BootScene.js"></script>
-<script src="/public/js/WorldScene.js"></script>
-<script src="/public/js/BattleScene.js"></script>
-<script src="/public/js/MyUIScene.js"></script>
-<script src="/public/js/game.js"></script>
+<script src="public/js/Cell.js"></script>
+<script src="public/js/BootScene.js"></script>
+<script src="public/js/WorldScene.js"></script>
+<script src="public/js/BattleScene.js"></script>
+<script src="public/js/MyUIScene.js"></script>
+<script src="public/js/game.js"></script>
 
 
 

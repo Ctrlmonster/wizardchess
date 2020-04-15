@@ -7,13 +7,13 @@ const BootScene = new Phaser.Class({
   },
 
   preload: function () {
-    this.load.image('tiles', 'assets/map/spritesheet.png');   // map tiles
-    this.load.tilemapTiledJSON('map', 'assets/map/map.json');   // map in json format
-    this.load.spritesheet('player', 'assets/RPG_assets.png', {frameWidth: 16, frameHeight: 16});
-    this.load.spritesheet('otherPlayer', 'assets/RPG_assets.png', {frameWidth: 16, frameHeight: 16});
+    this.load.image('tiles', 'public/assets/map/spritesheet.png');   // map tiles
+    this.load.tilemapTiledJSON('map', 'public/assets/map/map.json');   // map in json format
+    this.load.spritesheet('player', 'public/assets/RPG_assets.png', {frameWidth: 16, frameHeight: 16});
+    this.load.spritesheet('otherPlayer', 'public/assets/RPG_assets.png', {frameWidth: 16, frameHeight: 16});
 
-    this.load.image('dragonblue', 'assets/dragonblue.png');
-    this.load.image('dragonorange', 'assets/dragonorange.png');
+    this.load.image('dragonblue', 'public/assets/dragonblue.png');
+    this.load.image('dragonorange', 'public/assets/dragonorange.png');
   },
   create: function() {
     createAnimations(this);
