@@ -102,6 +102,12 @@ button:hover {
     margin-bottom: 2px;
 }
 
+#introMessage {
+    font-size: 2rem;
+    color: white;
+    margin: 0 auto;
+}
+
 #gameOverMessage {
     position: absolute;
     left: 40%;

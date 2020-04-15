@@ -13,6 +13,7 @@ const historyContainer = document.getElementById("historyContainer");
 const gameOverMessage = document.getElementById("gameOverMessage");
 const returnToLobbyButton = document.getElementById("returnToLobby");
 const lossOrWinDisplay = document.getElementById("lossOrWin");
+const introMessage = document.getElementById("introMessage");
 
 returnToLobbyButton.addEventListener("click", () => {
   location.reload();
@@ -23,6 +24,7 @@ function showGameElements() {
   historyContainer.classList.remove("hideTooltip");
   heroStatsContainer.classList.remove("hideTooltip");
   endTurnButton.classList.remove("hideTooltip");
+  introMessage.classList.add("hideTooltip");
 
 }
 
