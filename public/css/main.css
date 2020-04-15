@@ -271,7 +271,7 @@ button:hover {
 }
 
 .hideTooltip {
-    display: none;
+    display: none!important;
 }
 
 .hasTooltip::after {
