@@ -58,6 +58,7 @@ class GameClient { // rename api service or something
           break;
 
         case "game_update":
+          this.sendSelectionMode("board");
           this.getMatchData().then(res => {
             // TODO: update sprite and client table
             // TODO: needs func to update table from grid
