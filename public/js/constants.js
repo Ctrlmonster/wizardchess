@@ -9,12 +9,25 @@ const CELL_DRAW_OFFSET = CELL_DRAW_SIZE / 2;
 
 
 
-// const ip = "192.168.178.25:"; // or "localhost: // or "https://wizardchess-proto.herokuapp.com/"
-const ip = "wizardchess-proto.herokuapp.com";
-const port = "";
-//const port = "5000";
-const server_address = `https://${ip+port}/`;
-//const server_address = `http://${ip+port}/`;
-const ws_address = `ws://${ip+port}/`;
+// const ip = "192.168.178.25:"; // or "localhost" // or "wizardchess.herokuapp.com"
+
+
+// localhost needs http/ws -> heroku needs https and wss
+const localServer = true;
+let server_address, ws_address, ip, port;
+if (localServer) {
+  ip = "localhost:";
+  port = "5000";
+  server_address = `http://${ip+port}/`;
+  ws_address = `ws://${ip+port}/`;
+} else {
+  ip = "wizardchess.herokuapp.com";
+  port = "";
+  server_address = `https://${ip+port}/`;
+  ws_address = `wss://${ip+port}/`;
+}
+
+
+
 const url = (path) => server_address + path;
 const ws_url = (path) => ws_address + path;

@@ -1,4 +1,4 @@
-class BattleScene extends Phaser.Scene {
+class BattleSceneBUG extends Phaser.Scene {
   constructor(config={key: 'BattleScene'}) {
     super(config);
     this.gridCells = null;
@@ -13,7 +13,6 @@ class BattleScene extends Phaser.Scene {
     this.myTurn = null;
     this.hand = [];
     // hero stats;
-    this.hero = null;
     this.pos = null;
     this.hp = null;
     this.mana = null;
@@ -65,27 +64,26 @@ class BattleScene extends Phaser.Scene {
         tableCells[flatIndex].clearData();
         if (cell.content && !cell.content.visible) tableCells[flatIndex].setData("content", cell);
 
-        let {container} = tableCells[flatIndex];
-        // link both
-        cell.drawingObject = container;
-        container.dataObject = cell;
 
+        let {container} = tableCells[flatIndex];
+        container.x = x;
+        container.y = y;
         if (container.sprite != null) container.clearSprite();
         // set text for cells with entities
         if (cell.content && cell.content.visible) {
           container.setEntityText(cell.content, cell.friendly);
           //if (container.sprite == null) {
-          if (cell.content.type === "monster") {
-            if (cell.friendly) {
-              container.setSprite(this.createFriendlyEntity({x,y}));
+            if (cell.content.type === "monster") {
+              if (cell.friendly) {
+                container.setSprite(this.createFriendlyEntity({x,y}));
+              }
+              else {
+                container.setSprite(this.createEnemyEntity({x,y}));
+              }
             }
             else {
-              container.setSprite(this.createEnemyEntity({x,y}));
+              container.clearSprite(true);
             }
-          }
-          else {
-            container.clearSprite(true);
-          }
           //}
         }
         else {
@@ -110,6 +108,7 @@ class BattleScene extends Phaser.Scene {
   }
 
   updateHistory(newHistory) {
+    console.log(newHistory);
     if (!newHistory) return;
     if (newHistory.length === this.eventHistory.length) return;
 
@@ -121,8 +120,6 @@ class BattleScene extends Phaser.Scene {
   }
 
   updateMatchData(data) {
-    this.cardsLeft = data.cardsLeft;
-    this.hero = data.hero;
     this.eventHistory = data.eventHistory;
     this.player_index = data.index;
     this.pos = data.pos;
@@ -135,7 +132,7 @@ class BattleScene extends Phaser.Scene {
     this.hand = data.hand;
     this.skills = data.skills;
   }
-
+  
   updateHeroSprites() {
     this.player.setPosition(
       this.pos.x*CELL_DRAW_SIZE+CELL_DRAW_OFFSET,
@@ -166,7 +163,6 @@ class BattleScene extends Phaser.Scene {
         initMatchSelectionModes(); //
       });
 
-      showGameElements();
       this.createPlayerHand();
       this.updateHeroUi();
       initHeroSkills();
@@ -176,10 +172,8 @@ class BattleScene extends Phaser.Scene {
     // ==================================00
     //createLeaveButton(this);
     createEndTurnButton(this);
-    //this.cameras.main.setBackgroundColor(0xffaa00);
+    this.cameras.main.setBackgroundColor(0xffaa00);
     this.scene.launch("MyUIScene");
-
-    document.getElementById("queue").classList.add("hideTooltip");
   }
 
 
@@ -200,13 +194,14 @@ class BattleScene extends Phaser.Scene {
     this.gameTable.table.cells[cellIndex].container.setSprite(this.otherPlayer);
   }
 
-  // ------------------------------------------------
+  // ------------------------------------------------select
   // own methods
 
   initTable() {
     const newCellObject = function (scene, cell) {
       const bg = scene.add.graphics(0, 0)
         .fillStyle(0xffffff)
+        .lineStyle(1, 0x000000)
         .fillRect(2, 2, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
         .strokeRect(2, 2, CELL_DRAW_SIZE, CELL_DRAW_SIZE);
       const txt = scene.add.text(5, 5, `${cell.colIndx}|${cell.rowIndx}`);
@@ -250,7 +245,6 @@ class BattleScene extends Phaser.Scene {
 
     // draw bound
     this.active_highlight = this.add.graphics();
-    this.active_highlight.lineStyle(3, 0x000000).strokeRectShape(this.gameTable.getBounds());
   }
 
   showCellContentTooltip(cell) {
@@ -266,7 +260,7 @@ class BattleScene extends Phaser.Scene {
 
     this.hoveredCell = cell;
 
-    cellTooltipDetails[0].innerHTML = `${cell.friendly? "<span style='color: #223fff'>Friendly</span>": "<span style='color: crimson'>Enemy</span>"}`;
+    cellTooltipDetails[0].innerHTML = `${cell.friendly? "<span style='color: #31ff04'>Friendly</span>": "<span style='color: crimson'>Enemy</span>"}`;
 
     if (content.name) cellTooltipDetails[1].innerHTML = `<div style='border-bottom: 1px solid #333'>Name: ${content.name}</div>`;
     else cellTooltipDetails[1].innerHTML = "";
@@ -279,10 +273,12 @@ class BattleScene extends Phaser.Scene {
     cellTooltipDetails[6].innerHTML = `Can Defend: ${content.canDefend}`;
 
     if (content.buffs.length) {
-      cellTooltipDetails[7].innerHTML = `Buffs:`;
+      cellTooltipDetails[7].innerHTML = `Status:`;
       content.buffs.forEach(buff => {
-        cellTooltipDetails[7].innerHTML += ` ${buff.name}<br>`
+        cellTooltipDetails[7].innerHTML += `${cell.friendly ? "<span style='color: #31ff04'>Buff:</span>" : "<span style='color: crimson'>Debuff:</span>"} ${buff.name} ${buff.ccType ? '('+ buff.ccType +')' : ''}<br>`
       })
+    } else {
+      cellTooltipDetails[7].innerHTML = `Status:`;
     }
 
 
@@ -331,11 +327,8 @@ class BattleScene extends Phaser.Scene {
   }
 
   updateHeroUi() {
-    heroClass.innerHTML = stringToUpperCase(this.hero);
-    //heroClass.innerHTML = this.hero[0].toUpperCase() + this.hero.slice(-this.hero.length+1);
     heroHp.innerHTML = this.hp;
     heroMana.innerHTML = this.mana;
-    cardsLeft.innerHTML = this.cardsLeft;
   }
 
   updateHeroSkillBar() {
@@ -422,6 +415,7 @@ class BattleScene extends Phaser.Scene {
   }
 
   saveActionRequestData(data) {
+    console.log(data);
     this.actionRequestData = data;
   }
 
@@ -449,31 +443,26 @@ class BattleScene extends Phaser.Scene {
   highlightCell(pos, initSelection) {
     let cellIndex = (pos.y * GRID_NUM_COLS) + pos.x; // convert x/y table coords to 1d index
     let {container} = this.gameTable.table.cells[cellIndex];
+
+    /*
+    if (!initSelection) {
+      container.select(this.board[pos.x][pos.y].friendly);
+    } else {
+      container.select();
+    }*/
+
     container.select(initSelection);
+
+
+    //container.select();
   }
 
 
 
   deselectedAllCells() {
     this.gameTable.table.cells.forEach(cell => {
-      cell.container.deselect();
+        cell.container.deselect();
     });
-
-
-    /*
-    for (let x = 0; x < this.board.length; x++) {
-      for (let y = 0; y < this.board[x].length; y++) {
-        let cell = this.board[x][y];
-        let cellIndex = this.pos.y * GRID_NUM_COLS + this.pos.x;
-        console.log("--------");
-        console.log(cell.cellType);
-        if (cell.cellType === "blocked") {
-          this.gameTable.table.cells[cellIndex].container.deselect(cell.cellType);
-        }
-      }
-    }*/
-
-
   }
 
 

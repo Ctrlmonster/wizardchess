@@ -3,18 +3,50 @@ class GameClient { // rename api service or something
     this.player_id = null;
     this.socket = null;
     // TODO: game_ref really a scene ref?
-    this.game_ref = game_ref // only needed for socket msg defines atm
+    this.game_ref = game_ref; // only needed for socket msg defines atm
+
+    this.sendIdleMessage = this.sendIdleMessage.bind(this);
+    this.sendIdleMessage();
   }
+
+  // idle pings to the server -> every 10 seconds
+  sendIdleMessage() {
+    return axios.post(url('sendIdleMessage'), {
+      id: this.player_id
+    }).then(() => { // send the message again in 10 seconds
+      setTimeout(this.sendIdleMessage, 10000);
+    })
+  }
+
+
 
   initSocketConnection() {
     this.socket = new WebSocket(ws_url('connect'));
-    //this.socket = new WebSocket('ws://localhost:5000/connect');
 
     // send the player id on connection open
     this.socket.onopen = () => this.socket.send(this.player_id);
     // define different ws messages and how to react to them
     this.socket.onmessage = (message) => {
       switch (message.data) {
+        case "idle":
+          //console.log("received ws idle message from server");
+          break;
+        case "game_over":
+          console.log("game is over");
+          this.getMatchData().then(res => {
+            let gameResult;
+            if (res.data.hp <= 0 && res.data.otherHp <= 0)
+              gameResult = "It ended in a Draw.";
+            if (res.data.hp <= 0 && res.data.otherHp > 0)
+              gameResult = "You lost.";
+            if (res.data.hp > 0 && res.data.otherHp <= 0)
+              gameResult = "You won!";
+
+            lossOrWinDisplay.innerHTML = gameResult;
+            gameOverMessage.classList.remove("hideTooltip");
+          });
+
+          break;
         // event approach
         case "action_request":
           this.getActionRequest().then(res => {
@@ -27,11 +59,11 @@ class GameClient { // rename api service or something
 
         case "game_update":
           this.getMatchData().then(res => {
-            console.log(res.data);
             // TODO: update sprite and client table
             // TODO: needs func to update table from grid
             let battleS = this.game_ref.scene.get('BattleScene');
             // update the data
+            battleS.updateHistory(res.data.eventHistory);
             battleS.updateMatchData(res.data);
             battleS.updateTableData(); // update the local grid
             battleS.createPlayerHand(); // create player hand from the new cards
@@ -69,7 +101,6 @@ class GameClient { // rename api service or something
     return axios.post(url('getMatchData'), {
       id: this.player_id
     });
-
   }
 
   exitBattle() {

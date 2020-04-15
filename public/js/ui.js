@@ -1,23 +1,65 @@
 const cardContainer = document.getElementById("cardContainer");
+const cellTooltip = document.getElementById("cellTooltip");
+const cellTooltipDetails = document.querySelectorAll("#cellTooltip div");
 const heroSkillContainer = document.getElementById("heroSkillsContainer");
+const heroStatsContainer = document.getElementById("heroStatsContainer");
 const heroSkills = document.querySelectorAll(".heroSkill");
 let gameCanvas; // needs to wait for canvas creation by phaser
 const heroHp = document.getElementById("heroHp");
+const heroClass = document.getElementById("heroClass");
 const heroMana = document.getElementById("heroMana");
+const cardsLeft = document.getElementById("cardsLeft");
+const historyContainer = document.getElementById("historyContainer");
+const gameOverMessage = document.getElementById("gameOverMessage");
+const returnToLobbyButton = document.getElementById("returnToLobby");
+const lossOrWinDisplay = document.getElementById("lossOrWin");
+
+returnToLobbyButton.addEventListener("click", () => {
+  location.reload();
+});
+
+function showGameElements() {
+  heroSkills.forEach(skill => skill.classList.remove("hideTooltip"));
+  historyContainer.classList.remove("hideTooltip");
+  heroStatsContainer.classList.remove("hideTooltip");
+  endTurnButton.classList.remove("hideTooltip");
+
+}
 
 function updateHeroSkill(skillData) {
   const skillElem = heroSkills[skillData.skillIndex];
-  const cd = (skillData.coolDown === 0) ? 'Now' : `${skillData.coolDown} Rounds`;
+  //const cd = (skillData.coolDown === 0) ? 'Now' : `${skillData.coolDown} Rounds`;
+  const cd = `Cd: ${skillData.coolDown} / ${skillData.maxCoolDown} Rounds`;
   skillElem.innerHTML =
-    `${skillData.name}<br>
-     ${cd} | ${skillData.mana}m`;
+    `
+<div>${skillData.name}<br>
+${cd}</br>
+${skillData.mana} Mana</div>`;
 
   if (skillData.playable) {
     skillElem.classList.add('playableSkill');
   } else {
     skillElem.classList.remove('playableSkill');
   }
+
+  const tooltipElem = document.createElement('DIV');
+  tooltipElem.classList.add("hideTooltip");
+  tooltipElem.innerHTML = skillData.info;
+
+  skillElem.addEventListener("mouseout", () => {
+    tooltipElem.classList.add("hideTooltip");
+    tooltipElem.classList.remove("displayHeroSkillTooltip");
+  });
+
+  skillElem.addEventListener("mouseover", () => {
+    tooltipElem.classList.remove("hideTooltip");
+    tooltipElem.classList.add("displayHeroSkillTooltip");
+  });
+
+  skillElem.appendChild(tooltipElem);
 }
+
+
 function initHeroSkills() {
   let battleScene = game.scene.getScene('BattleScene');
   heroSkills.forEach((skillElem, i) => {
@@ -103,7 +145,7 @@ function createCardElem(cardData, handIndex, dataCallback) {
   cardContentElem.appendChild(dataElem);
 
   dataElem = document.createElement("DIV");
-  dataElem.innerHTML = `${displayData.cardType}`;
+  dataElem.innerHTML = `${stringToUpperCase(displayData.cardType)}`;
   cardContentElem.appendChild(dataElem);
 
   dataElem = document.createElement("DIV");
@@ -119,11 +161,6 @@ function createCardElem(cardData, handIndex, dataCallback) {
     dataElem.innerHTML = `HP: ${displayData.hp}`;
     cardContentElem.appendChild(dataElem);
   }
-
-
-
-
-
 
 
   cardElem.addEventListener("click", () => {
@@ -144,6 +181,11 @@ function initMatchSelectionModes() {
     battleScene.setSelectionMode('board');
   });
 
+  // cell hovering
+  /*gameCanvas.addEventListener('mousemove', evt => {
+    console.log();
+  })*/
+
   cardContainer.addEventListener('mouseover', () => {
     battleScene.setSelectionMode('hand');
   });
@@ -151,6 +193,25 @@ function initMatchSelectionModes() {
 }
 
 
-// hover over cell data has to be inside phaser
+function createNewHistoryEntry(data) {
+  console.log(data);
+  let entry = document.createElement("DIV");
+  entry.classList.add("historyEntry");
+  entry.innerHTML = `Player`;
 
-// hover over card can be in html
+  let friendly = client.player_id === data.playerId;
+  let type = stringToUpperCase(data.type);
+  let name = data.name;
+  let turn = data.turn;
+
+  entry.innerHTML = `${friendly? "<span style='color: #223fff'>Myself</span>": "<span style='color: crimson'>Enemy</span>"} Turn Nr. <span>${turn}</span><br>`;
+  entry.innerHTML += `${type}: ${name}`;
+
+  historyContainer.appendChild(entry);
+  console.log(historyContainer.scrollHeight);
+  historyContainer.scrollTop = historyContainer.scrollHeight
+}
+
+function stringToUpperCase(string) {
+  return string[0].toUpperCase() + string.slice(-string.length+1);
+}
