@@ -254,7 +254,7 @@ class BattleScene extends Phaser.Scene {
   }
 
   showCellContentTooltip(cell) {
-    cellTooltipDetails.forEach(cell => cell.innerHTML = ""); // start with a reset
+    //cellTooltipDetails.forEach(cell => cell.innerHTML = ""); // start with a reset
 
     if (this.hoveredCell === cell) return;
     else {
@@ -285,6 +285,8 @@ class BattleScene extends Phaser.Scene {
       content.buffs.forEach(buff => {
         cellTooltipDetails[7].innerHTML += ` ${buff.name}<br>`
       })
+    } else {
+      cellTooltipDetails[7].innerHTML = "";
     }
 
 
