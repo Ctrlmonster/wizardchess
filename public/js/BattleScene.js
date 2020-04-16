@@ -254,6 +254,8 @@ class BattleScene extends Phaser.Scene {
   }
 
   showCellContentTooltip(cell) {
+    cellTooltipDetails.forEach(cell => cell.innerHTML = ""); // start with a reset
+
     if (this.hoveredCell === cell) return;
     else {
       this.hoveredCell = null;
