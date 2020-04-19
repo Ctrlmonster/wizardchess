@@ -183,11 +183,6 @@ function initMatchSelectionModes() {
     battleScene.setSelectionMode('board');
   });
 
-  // cell hovering
-  /*gameCanvas.addEventListener('mousemove', evt => {
-    console.log();
-  })*/
-
   cardContainer.addEventListener('mouseover', () => {
     battleScene.setSelectionMode('hand');
   });

@@ -163,7 +163,8 @@ class BattleScene extends Phaser.Scene {
 
       // notify server that initial data was retrieved
       client.sendReadyForMatchMessage().then(res => {
-        initMatchSelectionModes(); //
+        initMatchSelectionModes();
+        this.setSelectionMode('board');
       });
 
       showGameElements();

@@ -24,10 +24,11 @@ class Cell extends Phaser.GameObjects.Container {
 
   setPosText(cellType) {
     if (cellType !== 'blocked') {
-      const pos = {x: Math.trunc(this.x / CELL_DRAW_SIZE), y: Math.trunc(this.y / CELL_DRAW_SIZE)};
+      //const pos = {x: Math.trunc(this.x / CELL_DRAW_SIZE), y: Math.trunc(this.y / CELL_DRAW_SIZE)};
       //this.textObject.setFontSize(15);
-      this.textObject.setColor("#000000"); // comment-in to activate cell positions drawn
+      //this.textObject.setColor("#000000"); // comment-in to activate cell positions drawn
       this.textObject.setText(``);
+      this.graphics.clear();
       this.graphics.fillStyle(0xffffff)
         .lineStyle(1, 0xcccccc)
 
@@ -35,12 +36,13 @@ class Cell extends Phaser.GameObjects.Container {
     }
     else {
       //this.textObject.setFontSize(15);
-      this.textObject.setColor("#ffffff");
+      //this.textObject.setColor("#ffffff");
+      this.graphics.clear();
       this.graphics.fillStyle(0x000000)
         .lineStyle(1, 0xcccccc)
         .fillRect(2, 2, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
         .strokeRect(2, 2, CELL_DRAW_SIZE, CELL_DRAW_SIZE);
-        this.textObject.setText(``);
+      this.textObject.setText(``);
 
       //this.textObject.setColor(0x000000);
     }
@@ -81,6 +83,7 @@ class Cell extends Phaser.GameObjects.Container {
     */
 
     if (initSelection) {
+      this.graphics.clear();
       this.graphics.fillStyle(0xffa500)
         .lineStyle(1, 0xcccccc)
         .fillRect(2, 2, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
@@ -88,6 +91,7 @@ class Cell extends Phaser.GameObjects.Container {
     }
 
     else {
+      this.graphics.clear();
       this.graphics.fillStyle(0xaa22ff)
         .lineStyle(1, 0xcccccc)
         .fillRect(2, 2, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
@@ -109,12 +113,14 @@ class Cell extends Phaser.GameObjects.Container {
 
 
     if (this.dataObject.cellType === 'blocked') {
+      this.graphics.clear();
       this.graphics.fillStyle(0x000000)
         .lineStyle(1, 0xcccccc)
         .fillRect(2, 2, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
         .strokeRect(2, 2, CELL_DRAW_SIZE, CELL_DRAW_SIZE);
     }
     else {
+      this.graphics.clear();
       this.graphics.fillStyle(0xffffff)
         .lineStyle(1, 0xcccccc)
         .fillRect(2, 2, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
