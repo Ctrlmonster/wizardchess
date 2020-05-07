@@ -14,6 +14,7 @@ const gameOverMessage = document.getElementById("gameOverMessage");
 const returnToLobbyButton = document.getElementById("returnToLobby");
 const lossOrWinDisplay = document.getElementById("lossOrWin");
 const introMessage = document.getElementById("introMessage");
+const heroSelect = document.getElementById("heroSelect");
 
 returnToLobbyButton.addEventListener("click", () => {
   location.reload();
@@ -84,6 +85,8 @@ function createCardElem(cardData, handIndex, dataCallback) {
   delete displayData.playable;
   delete displayData.cardId;
 
+  console.log(displayData);
+
   let cardElem = document.createElement('DIV');
   let cardContentElem = document.createElement('DIV');
 
@@ -143,18 +146,27 @@ function createCardElem(cardData, handIndex, dataCallback) {
 
   let dataElem = document.createElement("DIV");
   dataElem.innerHTML = `${displayData.name}<br>`;
+  //dataElem.style.borderBottom = "1px solid black";
+  cardContentElem.appendChild(dataElem);
+
+  dataElem = document.createElement("DIV");
+  dataElem.innerHTML = `Mana Cost: ${displayData.mana}`;
   dataElem.style.borderBottom = "1px solid black";
   cardContentElem.appendChild(dataElem);
 
-  dataElem = document.createElement("DIV");
-  dataElem.innerHTML = `${stringToUpperCase(displayData.cardType)}`;
-  cardContentElem.appendChild(dataElem);
-
-  dataElem = document.createElement("DIV");
-  dataElem.innerHTML = `Mana: ${displayData.mana}`;
-  cardContentElem.appendChild(dataElem);
+  if (displayData.cardType === 'spell') {
+    dataElem = document.createElement("DIV");
+    dataElem.innerHTML = `${stringToUpperCase(displayData.cardType)}`;
+    cardContentElem.appendChild(dataElem);
+  }
 
   if (displayData.cardType === "monster") {
+    if (displayData.monsterType) {
+      dataElem = document.createElement("DIV");
+      dataElem.innerHTML = `${stringToUpperCase(displayData.monsterType)}`;
+      cardContentElem.appendChild(dataElem);
+    }
+
     dataElem = document.createElement("DIV");
     dataElem.innerHTML = `Atk: ${displayData.atk}`;
     cardContentElem.appendChild(dataElem);
@@ -162,7 +174,30 @@ function createCardElem(cardData, handIndex, dataCallback) {
     dataElem = document.createElement("DIV");
     dataElem.innerHTML = `HP: ${displayData.hp}`;
     cardContentElem.appendChild(dataElem);
+
+    if (displayData.magicPower) {
+      dataElem = document.createElement("DIV");
+      dataElem.innerHTML = `Spellpower: ${displayData.magicPower}`;
+      cardContentElem.appendChild(dataElem);
+    }
+    if (displayData.healPower) {
+      dataElem = document.createElement("DIV");
+      dataElem.innerHTML = `Healpower: ${displayData.healPower}`;
+      cardContentElem.appendChild(dataElem);
+    }
+    if (displayData.monsterMana) {
+      dataElem = document.createElement("DIV");
+      dataElem.innerHTML = `Casts: ${displayData.monsterMana / 10}`;
+      cardContentElem.appendChild(dataElem);
+    }
+
+    if (displayData.commanderMinion) {
+      dataElem = document.createElement("DIV");
+      dataElem.innerHTML = `Commander`;
+      cardContentElem.appendChild(dataElem);
+    }
   }
+
 
 
   cardElem.addEventListener("click", () => {
@@ -212,3 +247,8 @@ function createNewHistoryEntry(data) {
 function stringToUpperCase(string) {
   return string[0].toUpperCase() + string.slice(-string.length+1);
 }
+
+
+heroSelect.addEventListener('change', function() {
+  client.selectedHero = this.value;
+});

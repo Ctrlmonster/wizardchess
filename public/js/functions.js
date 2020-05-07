@@ -109,8 +109,9 @@ function createEndTurnButton(game_ref) {
   endTurnButton.addEventListener('click', () => {
     game_ref.actionRequestData = null; // clear previous turns ar data (just for belows highlighting fn)
     game_ref.updateHighlighting(); // remove highlighting
+    endTurnButton.classList.add("endOfTurnButtonStyle");
+    endTurnButton.classList.remove("highlightButton");
     client.endTurn().then(res => { // remove end turn highlighting
-      endTurnButton.classList.remove("highlightButton");
       heroSkills.forEach(skill => skill.classList.remove("playableSkill"))
     })
   })

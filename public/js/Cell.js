@@ -9,6 +9,32 @@ class Cell extends Phaser.GameObjects.Container {
     this.attackColor = 0x990011;
     this.moveColor = 0x00ccc11;
     this.sprite = null;
+    this.image = null;
+    this.extraImage = null;
+  }
+
+  setExtraImage(image) {
+    this.extraImage = image;
+    this.scene.add.existing(this.extraImage);
+  }
+
+  clearExtraImage() {
+    if (this.extraImage) {
+      this.extraImage.destroy();
+      this.extraImage = null;
+    }
+  }
+
+  setImage(image) {
+    this.image = image;
+    this.scene.add.existing(this.image);
+  }
+
+  clearImage() {
+    if (this.image) {
+      this.image.destroy();
+      this.image = null;
+    }
   }
 
   setSprite(sprite) {
@@ -53,18 +79,34 @@ class Cell extends Phaser.GameObjects.Container {
     this.textObject.setFontSize(11);
     if (friendly) this.textObject.setColor("#223fff");
     else this.textObject.setColor("#ff0000");
+    let text;
 
-    let text = `${entity.atk}    ${entity.hp}`;
-    let ccText = `\n\n\n`;
-    if (entity.buffs.length) {
-      ccText += 'Buff'
+    if (entity.healPower != null && entity.mana != null) {
+      text = `${entity.atk}    ${entity.hp}`;
+      text += `\n${entity.healPower ? entity.healPower : entity.magicPower}    ${(entity.mana/10)}`;
+      let ccText = `\n\n`;
+      if (entity.buffs.length) {
+        ccText += 'B'
+      }
+      if (entity.hasCC) {
+        ccText += ' CC'
+      }
+      text += ccText;
     }
-    if (entity.hasCC) {
-      ccText += ' CC'
+    else {
+      text = `${entity.atk}    ${entity.hp}`;
+      let ccText = `\n\n\n`;
+      if (entity.buffs.length) {
+        ccText += 'B'
+      }
+      if (entity.hasCC) {
+        ccText += ' CC'
+      }
+      text += ccText;
     }
 
-    text += ccText;
     this.textObject.setText(text);
+    this.textObject.setDepth(100);
   }
 
   select(initSelection) {

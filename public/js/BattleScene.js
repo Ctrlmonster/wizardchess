@@ -70,36 +70,128 @@ class BattleScene extends Phaser.Scene {
         cell.drawingObject = container;
         container.dataObject = cell;
 
-        if (container.sprite != null) container.clearSprite();
+        if (container.sprite != null) {
+          container.clearSprite();
+          container.clearImage();
+          container.clearExtraImage();
+        }
         // set text for cells with entities
         if (cell.content && cell.content.visible) {
           container.setEntityText(cell.content, cell.friendly);
           //if (container.sprite == null) {
           if (cell.content.type === "monster") {
+            console.log(`is idling: ${cell.content.idling}`);
+            if (cell.content.idling) {
+              container.setExtraImage(this.createIdlingIcon({x,y}));
+            }
+            // check for monster types
+            if (cell.content.monsterType) {
+                switch (cell.content.monsterType) {
+                  case "healer":
+                    if (container.image == null) // check if an image already exists
+                      container.setImage(this.createHealerImage({x,y}));
+                    break;
+                  case "melee":
+                    if (container.image == null) // check if an image already exists
+                      container.setImage(this.createMeleeImage({x,y}));
+                    break;
+                  case "caster":
+                    if (container.image == null) // check if an image already exists
+                      container.setImage(this.createCasterImage({x,y}));
+                    break;
+                  case "tank":
+                    if (container.image == null) // check if an image already exists
+                      container.setImage(this.createTankImage({x,y}));
+                    break;
+                }
+              }
+
+
             if (cell.friendly) {
-              container.setSprite(this.createFriendlyEntity({x,y}));
+              container.setSprite(this.createFriendlyEntity({x, y}))
             }
             else {
               container.setSprite(this.createEnemyEntity({x,y}));
             }
           }
           else {
-            container.clearSprite(true);
+            container.clearSprite();
+            container.clearImage();
+            container.clearExtraImage();
           }
-          //}
+
         }
         else {
           container.clearSprite();
+          container.clearImage();
+          container.clearExtraImage();
           container.setPosText(cell.cellType);
         }
       }
     }
   }
 
+  createIdlingIcon(pos) {
+    let icon_offset = CELL_DRAW_OFFSET;
+    let idling_icon = new Phaser.GameObjects.Image(this, pos.x*CELL_DRAW_SIZE+icon_offset, pos.y*CELL_DRAW_SIZE+2, 'idling_icon');
+    //healer_icon.setAlpha(0.5);
+    idling_icon.displayWidth = CELL_DRAW_SIZE/3;
+    idling_icon.displayHeight = CELL_DRAW_SIZE/3;
+    idling_icon.setDepth(99);
+    return idling_icon;
+  }
+
+  createMeleeImage(pos) {
+    let icon_offset = CELL_DRAW_OFFSET;
+    let melee_icon = new Phaser.GameObjects.Image(this, pos.x*CELL_DRAW_SIZE+icon_offset, pos.y*CELL_DRAW_SIZE+icon_offset*1.8, 'melee_icon');
+    //healer_icon.setAlpha(0.5);
+    melee_icon.displayWidth = CELL_DRAW_SIZE/3;
+    melee_icon.displayHeight = CELL_DRAW_SIZE/3;
+    melee_icon.setDepth(99);
+    return melee_icon;
+  }
+
+  createCasterImage(pos) {
+    let icon_offset = CELL_DRAW_OFFSET;
+    let caster_icon = new Phaser.GameObjects.Image(this, pos.x*CELL_DRAW_SIZE+icon_offset, pos.y*CELL_DRAW_SIZE+icon_offset*1.8, 'caster_icon');
+    //healer_icon.setAlpha(0.5);
+    caster_icon.displayWidth = CELL_DRAW_SIZE/3;
+    caster_icon.displayHeight = CELL_DRAW_SIZE/3;
+    caster_icon.setDepth(99);
+    return caster_icon;
+  }
+
+  createTankImage(pos) {
+    let icon_offset = CELL_DRAW_OFFSET;
+    let caster_icon = new Phaser.GameObjects.Image(this, pos.x*CELL_DRAW_SIZE+icon_offset, pos.y*CELL_DRAW_SIZE+icon_offset*1.8, 'tank_icon');
+    //healer_icon.setAlpha(0.5);
+    caster_icon.displayWidth = CELL_DRAW_SIZE/3;
+    caster_icon.displayHeight = CELL_DRAW_SIZE/3;
+    caster_icon.setDepth(99);
+    return caster_icon;
+  }
+
+  createHealerImage(pos) {
+    let icon_offset = CELL_DRAW_OFFSET;
+    let healer_icon = new Phaser.GameObjects.Image(this, pos.x*CELL_DRAW_SIZE+icon_offset, pos.y*CELL_DRAW_SIZE+icon_offset*1.8, 'healer_icon');
+    //healer_icon.setAlpha(0.5);
+    healer_icon.displayWidth = CELL_DRAW_SIZE/3;
+    healer_icon.displayHeight = CELL_DRAW_SIZE/3;
+    healer_icon.setDepth(99);
+    return healer_icon;
+
+    // background style
+    /*let icon_offset = CELL_DRAW_OFFSET+2;
+    let healer_icon = new Phaser.GameObjects.Image(this, pos.x*CELL_DRAW_SIZE+icon_offset, pos.y*CELL_DRAW_SIZE+icon_offset, 'healer_icon');
+    healer_icon.setAlpha(0.5);
+    healer_icon.displayWidth = CELL_DRAW_SIZE-2;
+    healer_icon.displayHeight = CELL_DRAW_SIZE-2;
+    return healer_icon;*/
+  }
+
   createFriendlyEntity(pos) {
     const entity = this.add.sprite(pos.x*CELL_DRAW_SIZE+CELL_DRAW_OFFSET, pos.y*CELL_DRAW_SIZE+CELL_DRAW_OFFSET,
       `dragonblue`, 6);
-    // TODO: check if old sprites need to be removed
     return entity;
   }
 
@@ -181,6 +273,7 @@ class BattleScene extends Phaser.Scene {
     this.scene.launch("MyUIScene");
 
     document.getElementById("queue").classList.add("hideTooltip");
+    document.getElementById("heroSelect").classList.add("hideTooltip");
   }
 
 
@@ -191,6 +284,7 @@ class BattleScene extends Phaser.Scene {
       this.pos.y*CELL_DRAW_SIZE+CELL_DRAW_OFFSET,
       'player', 6);
     this.add.existing(this.player);
+
     let cellIndex = this.pos.y * GRID_NUM_COLS + this.pos.x;
     this.gameTable.table.cells[cellIndex].container.setSprite(this.player);
 
@@ -211,6 +305,7 @@ class BattleScene extends Phaser.Scene {
         .fillRect(2, 2, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
         .strokeRect(2, 2, CELL_DRAW_SIZE, CELL_DRAW_SIZE);
       const txt = scene.add.text(5, 5, `${cell.colIndx}|${cell.rowIndx}`);
+      // TODO: add multiple text objects for better positioning and easier styling
       // game.scene.scenes[1].gameTable.table.cells[0].container.list[1].text
       return new Cell(scene, 0, 0, [bg, txt]);
     };
@@ -419,7 +514,7 @@ class BattleScene extends Phaser.Scene {
     } // else just send the selected position (for now simply notifies that the client has clicked "outside")
     else {
       client.sendActionResponse(pos).then(res => {
-        this.actionRequestData = [];
+        //this.actionRequestData = [];
         this.updateHighlighting();
         // this.deselectedAllCells()
       })
@@ -431,6 +526,8 @@ class BattleScene extends Phaser.Scene {
   }
 
   updateHighlighting() {
+    if (this.myTurn) endTurnButton.classList.remove("endOfTurnButtonStyle");
+
     // reset highlights
     this.deselectedAllCells(); // TODO: add deselectAllCards
 
@@ -463,22 +560,6 @@ class BattleScene extends Phaser.Scene {
     this.gameTable.table.cells.forEach(cell => {
       cell.container.deselect();
     });
-
-
-    /*
-    for (let x = 0; x < this.board.length; x++) {
-      for (let y = 0; y < this.board[x].length; y++) {
-        let cell = this.board[x][y];
-        let cellIndex = this.pos.y * GRID_NUM_COLS + this.pos.x;
-        console.log("--------");
-        console.log(cell.cellType);
-        if (cell.cellType === "blocked") {
-          this.gameTable.table.cells[cellIndex].container.deselect(cell.cellType);
-        }
-      }
-    }*/
-
-
   }
 
 
