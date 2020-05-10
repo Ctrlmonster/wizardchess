@@ -292,16 +292,19 @@ function initMatchSelectionModes() {
   canvasContainer.addEventListener('mouseover', () => {
     battleScene.setSelectionMode('board');
   });
-  /*gameContainer.addEventListener('mouseover', () => {
-    battleScene.setSelectionMode('board');
-  });*/
 
+  gameContainer.addEventListener('mouseover', () => {
+    battleScene.setSelectionMode('board');
+  });
+
+
+  /*
   canvasContainer.addEventListener('click', (evt) => {
     if (!(evt.pageX > canvasRect.left && evt.pageX < canvasRect.right &&
         evt.pageY > canvasRect.top && evt.pageY < canvasRect.bottom)) {
       battleScene.selectCell({x: -1, y: -1}); // auto deselect if clicked outside of the board
     }
-  });
+  });*/
 
   cardContainer.addEventListener('mouseover', () => {
     battleScene.setSelectionMode('hand');
