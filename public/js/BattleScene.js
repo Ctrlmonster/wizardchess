@@ -47,7 +47,9 @@ class BattleScene extends Phaser.Scene {
   }
 
   setSelectionMode(mode, initCall=false) {
-    if ((mode === this.selectionMode || !this.myTurn) && (initCall || this.actionRequestData.length))
+    console.log(`set mode: current ${this.selectionMode} | new ${this.selectionMode}`);
+
+    if ((mode === this.selectionMode || !this.myTurn)) //&& (initCall || (this.actionRequestData && this.actionRequestData.length)))
       return;
 
     this.selectionMode = mode;
@@ -632,6 +634,7 @@ class BattleScene extends Phaser.Scene {
 
   selectSkill(skillIndex) {
     if (!this.myTurn || !this.actionRequestData.length) return;
+
     console.log(this.actionRequestData);
     let options = this.actionRequestData.filter(option => option.type === 'skill');
     if (!options.length) return;
@@ -651,7 +654,7 @@ class BattleScene extends Phaser.Scene {
       client.sendActionResponse({}).then(res => {
         this.actionRequestData = [];
       });
-      //this.actionRequestData = [];
+      this.actionRequestData = [];
     }
   }
 
@@ -674,7 +677,7 @@ class BattleScene extends Phaser.Scene {
       client.sendActionResponse({}).then(res => {
         this.actionRequestData = [];
       });
-      //this.actionRequestData = [];
+      this.actionRequestData = [];
     }
   }
 
@@ -705,14 +708,15 @@ class BattleScene extends Phaser.Scene {
         // this.deselectedAllCells()
       })
     }
-    //this.actionRequestData = [];
+    this.actionRequestData = [];
   }
 
   saveActionRequestData(data) {
-    if (this.actionRequestData == null)
+    this.actionRequestData = data;
+    /*if (this.actionRequestData == null)
       this.actionRequestData = data;
     else
-      this.actionRequestData = this.actionRequestData.concat(data);
+      this.actionRequestData = this.actionRequestData.concat(data);*/
   }
 
   updateHighlighting() {

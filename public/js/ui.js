@@ -2,6 +2,7 @@ const cardContainer = document.getElementById("cardContainer");
 const cellTooltip = document.getElementById("cellTooltip");
 const cellTooltipDetails = document.querySelectorAll("#cellTooltip div");
 const heroSkillContainer = document.getElementById("heroSkillsContainer");
+const heroArea = document.getElementById("heroArea");
 const heroStatsContainer = document.getElementById("heroStatsContainer");
 const enemyStatsContainer = document.getElementById("enemyStatsContainer");
 
@@ -144,10 +145,17 @@ function initHeroSkills() {
     initHeroSkillTooltips(skill, true)
   });
 
-  heroSkillContainer.addEventListener('mouseover', () => {
-    console.log("set select mode to skill");
+
+
+  heroArea.addEventListener('mouseover', () => {
     battleScene.setSelectionMode('skill');
   })
+
+  /*
+  heroSkillContainer.addEventListener('mouseover', () => {
+    //console.log("set select mode to skill");
+    battleScene.setSelectionMode('skill');
+  })*/
 }
 
 
@@ -293,9 +301,10 @@ function initMatchSelectionModes() {
     battleScene.setSelectionMode('board');
   });
 
+  /*
   gameContainer.addEventListener('mouseover', () => {
     battleScene.setSelectionMode('board');
-  });
+  });*/
 
 
   /*
