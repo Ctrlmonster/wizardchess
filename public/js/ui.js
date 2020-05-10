@@ -3,14 +3,38 @@ const cellTooltip = document.getElementById("cellTooltip");
 const cellTooltipDetails = document.querySelectorAll("#cellTooltip div");
 const heroSkillContainer = document.getElementById("heroSkillsContainer");
 const heroStatsContainer = document.getElementById("heroStatsContainer");
-const heroSkills = document.querySelectorAll(".heroSkill");
+const enemyStatsContainer = document.getElementById("enemyStatsContainer");
+
+// ===========================================================================================
+
+const heroSkills = document.querySelectorAll("#heroSkillsContainer .heroSkill");
+const enemySkills = document.querySelectorAll("#enemySkillsContainer .heroSkill");
+
+const heroSkillTooltips = document.querySelectorAll("#heroSkillsContainer .heroSkillTooltip");
+const enemySkillTooltips = document.querySelectorAll("#enemySkillsContainer .heroSkillTooltip");
+
+const skillIconElems = document.querySelectorAll("#heroSkillsContainer .skillIcon");
+const enemySkillIconElems = document.querySelectorAll("#enemySkillsContainer .enemySkillIcon");
+
+const skillCdElems = document.querySelectorAll("#heroSkillsContainer .skillCd");
+const enemySkillCdElems = document.querySelectorAll("#enemySkillsContainer .skillCd");
+
+// ===========================================================================================
 let gameCanvas; // needs to wait for canvas creation by phaser
 const heroHp = document.getElementById("heroHp");
 const heroClass = document.getElementById("heroClass");
 const heroMana = document.getElementById("heroMana");
 const cardsLeft = document.getElementById("cardsLeft");
+
+const enemyHeroHp = document.getElementById("enemyHeroHp");
+const enemyHeroClass = document.getElementById("enemyHeroClass");
+const enemyHeroMana = document.getElementById("enemyHeroMana");
+const enemyCardsLeft = document.getElementById("enemyCardsLeft");
+
+
 const historyContainer = document.getElementById("historyContainer");
 const gameOverMessage = document.getElementById("gameOverMessage");
+const startDuelMessage = document.getElementById("startDuelMessage");
 const returnToLobbyButton = document.getElementById("returnToLobby");
 const lossOrWinDisplay = document.getElementById("lossOrWin");
 const introMessage = document.getElementById("introMessage");
@@ -22,44 +46,85 @@ returnToLobbyButton.addEventListener("click", () => {
 
 function showGameElements() {
   heroSkills.forEach(skill => skill.classList.remove("hideTooltip"));
+  enemySkills.forEach(skill => skill.classList.remove("hideTooltip"));
+
   historyContainer.classList.remove("hideTooltip");
   heroStatsContainer.classList.remove("hideTooltip");
+  enemyStatsContainer.classList.remove("hideTooltip");
   endTurnButton.classList.remove("hideTooltip");
   introMessage.classList.add("hideTooltip");
-
 }
 
-function updateHeroSkill(skillData) {
-  const skillElem = heroSkills[skillData.skillIndex];
-  //const cd = (skillData.coolDown === 0) ? 'Now' : `${skillData.coolDown} Rounds`;
-  const cd = `Cd: ${skillData.coolDown} / ${skillData.maxCoolDown} Rounds`;
-  skillElem.innerHTML =
-    `
-<div>${skillData.name}<br>
-${cd}</br>
-${skillData.mana} Mana</div>`;
 
-  if (skillData.playable) {
-    skillElem.classList.add('playableSkill');
+function updateHeroSkillIcon(skillData, enemy=false) {
+  const icon_path = client_address + `/public/${skillData.icon}`;
+  const index = skillData.skillIndex;
+  if (!enemy)
+    skillIconElems[index].src = icon_path;
+  else
+    enemySkillIconElems[index].src = icon_path;
+
+  // TODO auch nur einmal!
+}
+
+function updateHeroSkill(skillData, enemy=false) {
+  let skillInfoElems = !enemy ? heroSkillTooltips[skillData.skillIndex] : enemySkillTooltips[skillData.skillIndex];
+  let skillIcon = !enemy ? skillIconElems[skillData.skillIndex] : enemySkillIconElems[skillData.skillIndex];
+
+  if (!skillData.playable) {
+    skillIcon.classList.add('skillOnCd');
+    if (!enemy) {
+      heroSkills[skillData.skillIndex].classList.remove("playableSkill")
+    }
   } else {
-    skillElem.classList.remove('playableSkill');
+    skillIcon.classList.remove('skillOnCd');
+    if (!enemy) {
+      heroSkills[skillData.skillIndex].classList.add("playableSkill")
+    }
   }
 
-  const tooltipElem = document.createElement('DIV');
-  tooltipElem.classList.add("hideTooltip");
-  tooltipElem.innerHTML = skillData.info;
+  if (!enemy)
+    skillCdElems[skillData.skillIndex].innerHTML = (skillData.coolDown > 0) ? skillData.coolDown : '';
+  else
+    enemySkillCdElems[skillData.skillIndex].innerHTML = (skillData.coolDown > 0) ? skillData.coolDown : '';
 
-  skillElem.addEventListener("mouseout", () => {
-    tooltipElem.classList.add("hideTooltip");
-    tooltipElem.classList.remove("displayHeroSkillTooltip");
+  const cd = `Cd: ${skillData.coolDown} / ${skillData.maxCoolDown} Rounds`;
+  const defaultText = `
+<div>${skillData.name}<br>
+${cd}</br>
+${skillData.mana} Mana</div><br>
+`;
+
+  skillInfoElems.children[0].innerHTML = defaultText;
+}
+
+function initHeroSkillTooltips(skillData, enemy=false) {
+  const skillInfoElems = !enemy ? heroSkillTooltips[skillData.skillIndex] : enemySkillTooltips[skillData.skillIndex];
+  const skillContainer = !enemy ? heroSkills[skillData.skillIndex] : enemySkills[skillData.skillIndex];
+
+  const cd = `Cd: ${skillData.coolDown} / ${skillData.maxCoolDown} Rounds`;
+  const defaultText = `
+<div>${skillData.name}<br>
+${cd}</br>
+${skillData.mana} Mana</div>
+`;
+  skillInfoElems.children[0].innerHTML = defaultText;
+
+  //const tooltipElem = document.createElement('DIV');
+  //skillInfo.children[1].classList.add("hideTooltip");
+  skillInfoElems.children[1].innerHTML = skillData.info;
+
+  skillContainer.addEventListener("mouseout", () => {
+    skillInfoElems.classList.add("hideTooltip");
+    skillInfoElems.classList.remove("displayHeroSkillTooltip");
   });
 
-  skillElem.addEventListener("mouseover", () => {
-    tooltipElem.classList.remove("hideTooltip");
-    tooltipElem.classList.add("displayHeroSkillTooltip");
+  skillContainer.addEventListener("mouseover", () => {
+    skillInfoElems.classList.remove("hideTooltip");
+    skillInfoElems.classList.add("displayHeroSkillTooltip");
   });
 
-  skillElem.appendChild(tooltipElem);
+  //skillInfo.children[0].appendChild(tooltipElem);
 }
 
 
@@ -67,11 +132,20 @@ function initHeroSkills() {
   let battleScene = game.scene.getScene('BattleScene');
   heroSkills.forEach((skillElem, i) => {
     skillElem.addEventListener('click', () => {
+      console.log(`selected skill index ${i}`);
       battleScene.selectSkill(i);
     });
   });
 
+  battleScene.skills.forEach((skill) => {
+    initHeroSkillTooltips(skill)
+  });
+  battleScene.opponentSkills.forEach((skill) => {
+    initHeroSkillTooltips(skill, true)
+  });
+
   heroSkillContainer.addEventListener('mouseover', () => {
+    console.log("set select mode to skill");
     battleScene.setSelectionMode('skill');
   })
 }
@@ -84,8 +158,6 @@ function createCardElem(cardData, handIndex, dataCallback) {
   delete displayData.handIndex;
   delete displayData.playable;
   delete displayData.cardId;
-
-  console.log(displayData);
 
   let cardElem = document.createElement('DIV');
   let cardContentElem = document.createElement('DIV');
@@ -212,16 +284,28 @@ function createCardElem(cardData, handIndex, dataCallback) {
 
 function initMatchSelectionModes() {
   let battleScene = game.scene.getScene('BattleScene');
+  let gameContainer = document.querySelector("#gameContainer");
+  let canvasContainer = document.querySelector("#canvasContainer");
   gameCanvas = document.querySelector("canvas");
+  const canvasRect = gameCanvas.getBoundingClientRect();
 
-  gameCanvas.addEventListener('mouseover', () => {
+  canvasContainer.addEventListener('mouseover', () => {
     battleScene.setSelectionMode('board');
+  });
+  /*gameContainer.addEventListener('mouseover', () => {
+    battleScene.setSelectionMode('board');
+  });*/
+
+  canvasContainer.addEventListener('click', (evt) => {
+    if (!(evt.pageX > canvasRect.left && evt.pageX < canvasRect.right &&
+        evt.pageY > canvasRect.top && evt.pageY < canvasRect.bottom)) {
+      battleScene.selectCell({x: -1, y: -1}); // auto deselect if clicked outside of the board
+    }
   });
 
   cardContainer.addEventListener('mouseover', () => {
     battleScene.setSelectionMode('hand');
   });
-
 }
 
 
@@ -252,3 +336,8 @@ function stringToUpperCase(string) {
 heroSelect.addEventListener('change', function() {
   client.selectedHero = this.value;
 });
+
+
+
+
+

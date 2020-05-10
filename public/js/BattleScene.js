@@ -7,6 +7,7 @@ class BattleScene extends Phaser.Scene {
     this.selectionMode = null; // hand | board | skill
     // -----------------------------------
     // player stats
+    this.rotateCanvas = null;
     this.player_index = null;
     this.board = null;
     this.turn = null;
@@ -17,6 +18,12 @@ class BattleScene extends Phaser.Scene {
     this.pos = null;
     this.hp = null;
     this.mana = null;
+    this.cardsLeft = null;
+
+    this.enemyHero = null;
+    this.enemyCardsLeft = null;
+    this.enemyHp = null;
+    this.enemyMana = null;
 
     this.active_highlight = null;
     this.hoveredCell = null;
@@ -39,8 +46,8 @@ class BattleScene extends Phaser.Scene {
     this.load.plugin('rexgridtableplugin', 'public/lib/phaser/plugins/rexgridtableplugin.min.js', true);
   }
 
-  setSelectionMode(mode) {
-    if (mode === this.selectionMode || !this.myTurn)
+  setSelectionMode(mode, initCall=false) {
+    if ((mode === this.selectionMode || !this.myTurn) && (initCall || this.actionRequestData.length))
       return;
 
     this.selectionMode = mode;
@@ -51,6 +58,7 @@ class BattleScene extends Phaser.Scene {
         endTurnButton.classList.remove("highlightButton");
     });
   }
+
 
 
 
@@ -73,17 +81,33 @@ class BattleScene extends Phaser.Scene {
         if (container.sprite != null) {
           container.clearSprite();
           container.clearImage();
-          container.clearExtraImage();
+          /*container.clearExtraImage();
+          container.clearCommanderImage();*/
         }
+        container.clearExtraImage();
+        container.clearCommanderImage();
         // set text for cells with entities
         if (cell.content && cell.content.visible) {
           container.setEntityText(cell.content, cell.friendly);
+
+          if (cell.content.commander) {
+            if (container.commanderImage == null)
+              /*if (cell.content.type === 'hero')
+                container.setCommanderImage(this.createHeroIcon({x,y}));
+              else*/
+              if (cell.content.type !== 'hero')
+                container.setCommanderImage(this.createCommanderIcon({x,y}));
+          }
+
+          if (cell.content.idling) {
+            /*console.log(cell.content);
+            console.log(container.extraImage);*/
+            if (container.extraImage == null)
+              container.setExtraImage(this.createIdlingIcon({x,y}));
+          }
+
           //if (container.sprite == null) {
           if (cell.content.type === "monster") {
-            console.log(`is idling: ${cell.content.idling}`);
-            if (cell.content.idling) {
-              container.setExtraImage(this.createIdlingIcon({x,y}));
-            }
             // check for monster types
             if (cell.content.monsterType) {
                 switch (cell.content.monsterType) {
@@ -93,6 +117,7 @@ class BattleScene extends Phaser.Scene {
                     break;
                   case "melee":
                     if (container.image == null) // check if an image already exists
+                      //container.setImage(this.createRogueImage({x,y}));
                       container.setImage(this.createMeleeImage({x,y}));
                     break;
                   case "caster":
@@ -106,7 +131,6 @@ class BattleScene extends Phaser.Scene {
                 }
               }
 
-
             if (cell.friendly) {
               container.setSprite(this.createFriendlyEntity({x, y}))
             }
@@ -117,9 +141,8 @@ class BattleScene extends Phaser.Scene {
           else {
             container.clearSprite();
             container.clearImage();
-            container.clearExtraImage();
+            //container.clearExtraImage();
           }
-
         }
         else {
           container.clearSprite();
@@ -131,6 +154,54 @@ class BattleScene extends Phaser.Scene {
     }
   }
 
+  createRogueImage(pos) {
+    let rogue_image = new Phaser.GameObjects.Sprite(this,
+      pos.x*CELL_DRAW_SIZE+CELL_DRAW_OFFSET,
+      pos.y*CELL_DRAW_SIZE+CELL_DRAW_OFFSET,
+      'rogue_test', 6);
+    //this.add.existing(this.player);
+    rogue_image.displayWidth *= 0.75;
+    rogue_image.displayHeight *= 0.75;
+    rogue_image.setDepth(99);
+    return rogue_image;
+
+    /*
+    let icon_offset = CELL_DRAW_OFFSET;
+    rogue_image = new Phaser.GameObjects.Image(this, pos.x*CELL_DRAW_SIZE+icon_offset, pos.y*CELL_DRAW_SIZE+2, 'rogue_test');
+    //healer_icon.setAlpha(0.5);
+    rogue_image.displayWidth = CELL_DRAW_SIZE/3;
+    rogue_image.displayHeight = CELL_DRAW_SIZE/3;
+    rogue_image.setDepth(99);
+    return rogue_image;*/
+  }
+
+  createCommanderIcon(pos) {
+    let icon_offset = CELL_DRAW_OFFSET;
+    let idling_icon = new Phaser.GameObjects.Image(this, pos.x*CELL_DRAW_SIZE+icon_offset, pos.y*CELL_DRAW_SIZE+CELL_DRAW_SIZE-2.5, 'commander_icon');
+    //let idling_icon = new Phaser.GameObjects.Image(this, pos.x*CELL_DRAW_SIZE+icon_offset, pos.y*CELL_DRAW_SIZE+2, 'commander_icon');
+    //idling_icon.setAlpha(0.5);
+    idling_icon.displayWidth = CELL_DRAW_SIZE * 0.85;
+    idling_icon.displayHeight = CELL_DRAW_SIZE * .2;
+
+    if (this.rotateCanvas) {
+      idling_icon.rotation = Math.PI;
+    }
+    //idling_icon.setDepth(5);
+    return idling_icon;
+  }
+
+  createHeroIcon(pos) {
+    let icon_offset = CELL_DRAW_OFFSET;
+    let idling_icon = new Phaser.GameObjects.Image(this, pos.x*CELL_DRAW_SIZE+icon_offset, pos.y*CELL_DRAW_SIZE+icon_offset, 'hero_icon');
+    //let idling_icon = new Phaser.GameObjects.Image(this, pos.x*CELL_DRAW_SIZE+icon_offset, pos.y*CELL_DRAW_SIZE+2, 'commander_icon');
+    //idling_icon.setAlpha(0.5);
+    idling_icon.setAlpha(0.4);
+    idling_icon.displayWidth = CELL_DRAW_SIZE * 1;
+    idling_icon.displayHeight = CELL_DRAW_SIZE * 1;
+    idling_icon.setDepth(5);
+    return idling_icon;
+  }
+
   createIdlingIcon(pos) {
     let icon_offset = CELL_DRAW_OFFSET;
     let idling_icon = new Phaser.GameObjects.Image(this, pos.x*CELL_DRAW_SIZE+icon_offset, pos.y*CELL_DRAW_SIZE+2, 'idling_icon');
@@ -138,6 +209,10 @@ class BattleScene extends Phaser.Scene {
     idling_icon.displayWidth = CELL_DRAW_SIZE/3;
     idling_icon.displayHeight = CELL_DRAW_SIZE/3;
     idling_icon.setDepth(99);
+
+    if (this.rotateCanvas) {
+      idling_icon.rotation = Math.PI;
+    }
     return idling_icon;
   }
 
@@ -148,6 +223,10 @@ class BattleScene extends Phaser.Scene {
     melee_icon.displayWidth = CELL_DRAW_SIZE/3;
     melee_icon.displayHeight = CELL_DRAW_SIZE/3;
     melee_icon.setDepth(99);
+
+    if (this.rotateCanvas) {
+      melee_icon.rotation = Math.PI;
+    }
     return melee_icon;
   }
 
@@ -158,6 +237,10 @@ class BattleScene extends Phaser.Scene {
     caster_icon.displayWidth = CELL_DRAW_SIZE/3;
     caster_icon.displayHeight = CELL_DRAW_SIZE/3;
     caster_icon.setDepth(99);
+
+    if (this.rotateCanvas) {
+      caster_icon.rotation = Math.PI;
+    }
     return caster_icon;
   }
 
@@ -178,6 +261,10 @@ class BattleScene extends Phaser.Scene {
     healer_icon.displayWidth = CELL_DRAW_SIZE/3;
     healer_icon.displayHeight = CELL_DRAW_SIZE/3;
     healer_icon.setDepth(99);
+
+    if (this.rotateCanvas) {
+      healer_icon.rotation = Math.PI;
+    }
     return healer_icon;
 
     // background style
@@ -192,12 +279,20 @@ class BattleScene extends Phaser.Scene {
   createFriendlyEntity(pos) {
     const entity = this.add.sprite(pos.x*CELL_DRAW_SIZE+CELL_DRAW_OFFSET, pos.y*CELL_DRAW_SIZE+CELL_DRAW_OFFSET,
       `dragonblue`, 6);
+    entity.setDepth(10);
+    if (this.rotateCanvas) {
+      entity.rotation = Math.PI;
+    }
     return entity;
   }
 
   createEnemyEntity(pos) {
     const entity = this.add.sprite(pos.x*CELL_DRAW_SIZE+CELL_DRAW_OFFSET, pos.y*CELL_DRAW_SIZE+CELL_DRAW_OFFSET,
       `dragonorange`, 6);
+    entity.setDepth(10);
+    if (this.rotateCanvas) {
+      entity.rotation = Math.PI;
+    }
     return entity;
   }
 
@@ -215,17 +310,27 @@ class BattleScene extends Phaser.Scene {
   updateMatchData(data) {
     this.cardsLeft = data.cardsLeft;
     this.hero = data.hero;
-    this.eventHistory = data.eventHistory;
-    this.player_index = data.index;
-    this.pos = data.pos;
     this.mana = data.mana;
     this.hp = data.hp;
+
+    this.enemyCardsLeft = data.enemyCardsLeft;
+    this.enemyHero = data.enemyHero;
+    this.enemyMana = data.enemyMana;
+    this.enemyHp = data.enemyHp;
+
+    this.eventHistory = data.eventHistory;
+    this.player_index = data.player_index;
+    this.pos = data.pos;
     this.board = data.board;
     this.turn = data.turn;
     this.myTurn = data.myTurn;
     this.otherPos = data.otherPos;
     this.hand = data.hand;
     this.skills = data.skills;
+    this.opponentSkills = data.opponentSkills;
+
+    //console.log(this.skills);
+    //console.log(this.opponentSkills);
   }
 
   updateHeroSprites() {
@@ -256,13 +361,47 @@ class BattleScene extends Phaser.Scene {
       // notify server that initial data was retrieved
       client.sendReadyForMatchMessage().then(res => {
         initMatchSelectionModes();
-        this.setSelectionMode('board');
+
+        // check if player one or two and if the canvas needs to be rotated
+        if (this.player_index === -1) { // set to 0 later if positions is adapted as well
+          this.rotateCanvas = true;
+          gameCanvas.classList.add('rotateCanvas');
+          this.player.rotation = Math.PI;
+          this.otherPlayer.rotation = Math.PI;
+
+
+          /*
+          const tableCells = this.gameTable.cells;
+          tableCells.forEach(cell => {
+            let {container} = cell;
+            //container.setRotation(Math.PI);
+            console.log(container.moreText);
+            Object.values(container.moreText).forEach((textObj, i) => {
+              //textObj.setRotation(Math.PI)
+            });
+          });*/
+
+
+        }
       });
 
+      this.setSelectionMode('board', true);
       showGameElements();
       this.createPlayerHand();
       this.updateHeroUi();
       initHeroSkills();
+
+
+      /*setTimeout(() => {
+        //console.log(this.gameTable);
+        const tableCells = this.gameTable.table.cells;
+        tableCells.forEach(cell => {
+          let {container} = cell;
+          Object.values(container.moreText).forEach((textObj, i) => {
+            textObj.setRotation(Math.PI)
+          });
+        });
+      }, 1000);*/
     });
 
 
@@ -304,10 +443,32 @@ class BattleScene extends Phaser.Scene {
         .fillStyle(0xffffff)
         .fillRect(2, 2, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
         .strokeRect(2, 2, CELL_DRAW_SIZE, CELL_DRAW_SIZE);
-      const txt = scene.add.text(5, 5, `${cell.colIndx}|${cell.rowIndx}`);
+      const txt = scene.add.text(5, 5, ``);
+      //const txt = scene.add.text(5, 5, `${cell.colIndx}|${cell.rowIndx}`);
+      let x = cell.colIndx * CELL_DRAW_SIZE;
+      let y = cell.rowIndx * CELL_DRAW_SIZE;
+      let moreText = {
+          atk: scene.add.text(x+5, y+2.5, ``),
+          hp: scene.add.text(x+38, y+2, ``),
+          healPower: scene.add.text(x+5, y+15, ``),
+          mana: scene.add.text(x+38, y+14, ``),
+          magicPower: scene.add.text(x+5, y+27, ``),
+          buff: scene.add.text(x+5, y+39, ``),
+          cc: scene.add.text(x+36, y+38, ``),
+        };
+
+
+      /*const moreText = {
+        atk: null,
+        hp: null,
+        healPower: null,
+        magicPower: null,
+        casts: null
+      };*/
+
       // TODO: add multiple text objects for better positioning and easier styling
       // game.scene.scenes[1].gameTable.table.cells[0].container.list[1].text
-      return new Cell(scene, 0, 0, [bg, txt]);
+      return new Cell(scene, 0, 0, [bg, txt], moreText);
     };
 
     const onCellVisible = function (cell) {
@@ -370,19 +531,29 @@ class BattleScene extends Phaser.Scene {
     else cellTooltipDetails[1].innerHTML = "";
 
     cellTooltipDetails[2].innerHTML = `Atk: ${content.atk} - HP: ${content.hp}`;
-    cellTooltipDetails[3].innerHTML = `Type: ${content.type}`;
 
-    cellTooltipDetails[4].innerHTML = `Can Move: ${content.canMove && content.allowedToMove}`;
-    cellTooltipDetails[5].innerHTML = `Can Fight: ${content.canFight && content.allowedToFight}`;
-    cellTooltipDetails[6].innerHTML = `Can Defend: ${content.canDefend}`;
+    cellTooltipDetails[3].innerHTML = `${(content.type !== 'hero') ? "Magic Power: " + content.magicPower : ""}`;
+    cellTooltipDetails[4].innerHTML = `${(content.type !== 'hero') ? "Heal Power: " + content.healPower : ""}`;
+
+    cellTooltipDetails[5].innerHTML = `${(content.type === 'hero') ? "Cards on Hand: " + content.cardsOnHand : (content.mana != null) ? "Mana for Casts: " + content.mana : ""}`;
+
+  //<br>${Number.isInteger(content.magicPower) ? "MagicPower" : }: ${content.magicPower}<br>HealPower: ${content.healPower}<br>Casts left:${content.mana}
+
+
+    cellTooltipDetails[6].innerHTML = `Type: ${content.type}`;
+
+    cellTooltipDetails[7].innerHTML = `Can Move: ${content.canMove && content.allowedToMove}`;
+    cellTooltipDetails[8].innerHTML = `Can Fight: ${content.canFight && content.allowedToFight}`;
+    cellTooltipDetails[9].innerHTML = `Can Defend: ${content.canDefend}`;
+    cellTooltipDetails[9].innerHTML = `Idling: ${content.idling}`;
 
     if (content.buffs.length) {
-      cellTooltipDetails[7].innerHTML = `Buffs:`;
+      cellTooltipDetails[10].innerHTML = `Buffs:`;
       content.buffs.forEach(buff => {
-        cellTooltipDetails[7].innerHTML += ` ${buff.name}<br>`
+        cellTooltipDetails[10].innerHTML += ` ${buff.name}<br>`
       })
     } else {
-      cellTooltipDetails[7].innerHTML = "";
+      cellTooltipDetails[10].innerHTML = "";
     }
 
 
@@ -432,16 +603,28 @@ class BattleScene extends Phaser.Scene {
 
   updateHeroUi() {
     heroClass.innerHTML = stringToUpperCase(this.hero);
-    //heroClass.innerHTML = this.hero[0].toUpperCase() + this.hero.slice(-this.hero.length+1);
     heroHp.innerHTML = this.hp;
     heroMana.innerHTML = this.mana;
     cardsLeft.innerHTML = this.cardsLeft;
+
+    enemyHeroClass.innerHTML = stringToUpperCase(this.enemyHero);
+    enemyHeroHp.innerHTML = this.enemyHp;
+    enemyHeroMana.innerHTML = this.enemyMana;
+    enemyCardsLeft.innerHTML = this.enemyCardsLeft;
+
+
   }
 
   updateHeroSkillBar() {
-    this.skills.forEach(skill => {
+    this.skills.forEach((skill) => {
       updateHeroSkill(skill);
+      updateHeroSkillIcon(skill);
     });
+    this.opponentSkills.forEach((skill) => {
+      updateHeroSkill(skill, true);
+      updateHeroSkillIcon(skill, true);
+    });
+
   }
   // ------------------------------------------------
 
@@ -449,14 +632,17 @@ class BattleScene extends Phaser.Scene {
 
   selectSkill(skillIndex) {
     if (!this.myTurn || !this.actionRequestData.length) return;
+    console.log(this.actionRequestData);
     let options = this.actionRequestData.filter(option => option.type === 'skill');
     if (!options.length) return;
 
     const skill = this.skills[skillIndex];
     const selectedOption = this.actionRequestData.find(option => option.data === skill.skillIndex);
 
+    /*console.log(this.skills);
+    console.log(selectedOption);*/
+
     if (selectedOption) {
-      console.log(selectedOption);
       client.sendActionResponse(selectedOption).then(res => {
         this.actionRequestData = [];
       });
@@ -465,7 +651,7 @@ class BattleScene extends Phaser.Scene {
       client.sendActionResponse({}).then(res => {
         this.actionRequestData = [];
       });
-      this.actionRequestData = [];
+      //this.actionRequestData = [];
     }
   }
 
@@ -488,7 +674,7 @@ class BattleScene extends Phaser.Scene {
       client.sendActionResponse({}).then(res => {
         this.actionRequestData = [];
       });
-      this.actionRequestData = [];
+      //this.actionRequestData = [];
     }
   }
 
@@ -513,16 +699,20 @@ class BattleScene extends Phaser.Scene {
       })
     } // else just send the selected position (for now simply notifies that the client has clicked "outside")
     else {
-      client.sendActionResponse(pos).then(res => {
-        //this.actionRequestData = [];
+      client.sendActionResponse({}).then(res => {
+        this.actionRequestData = [];
         this.updateHighlighting();
         // this.deselectedAllCells()
       })
     }
+    //this.actionRequestData = [];
   }
 
   saveActionRequestData(data) {
-    this.actionRequestData = data;
+    if (this.actionRequestData == null)
+      this.actionRequestData = data;
+    else
+      this.actionRequestData = this.actionRequestData.concat(data);
   }
 
   updateHighlighting() {

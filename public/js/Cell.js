@@ -1,16 +1,30 @@
 class Cell extends Phaser.GameObjects.Container {
-  constructor(scene, x, y, children, cell) {
+  constructor(scene, x, y, children, moreText) {
     super(scene, x, y, children);
     scene.add.existing(this);
     this.scene = scene;
     this.graphics = children[0];
     this.textObject = children[1];
+    this.moreText = moreText;
     this.defaultColor = 0x110022;
     this.attackColor = 0x990011;
     this.moveColor = 0x00ccc11;
     this.sprite = null;
-    this.image = null;
-    this.extraImage = null;
+    this.image = null; // for role
+    this.extraImage = null; // for idling
+    this.commanderImage = null;
+  }
+
+  setCommanderImage(image) {
+    this.commanderImage = image;
+    this.scene.add.existing(this.commanderImage);
+  }
+
+  clearCommanderImage() {
+    if (this.commanderImage) {
+      this.commanderImage.destroy();
+      this.commanderImage = null;
+    }
   }
 
   setExtraImage(image) {
@@ -50,32 +64,28 @@ class Cell extends Phaser.GameObjects.Container {
 
   setPosText(cellType) {
     if (cellType !== 'blocked') {
-      //const pos = {x: Math.trunc(this.x / CELL_DRAW_SIZE), y: Math.trunc(this.y / CELL_DRAW_SIZE)};
-      //this.textObject.setFontSize(15);
-      //this.textObject.setColor("#000000"); // comment-in to activate cell positions drawn
-      this.textObject.setText(``);
-      this.graphics.clear();
-      this.graphics.fillStyle(0xffffff)
-        .lineStyle(1, 0xcccccc)
-
-      //this.textObject.setText(`${pos.x}|${pos.y}`);
+      this.graphics.clear(); // 0xeee2D5
+      const col = (!(this.dataObject.pos.x % 2) === !(this.dataObject.pos.y % 2)) ? 0xD6D1C1 : 0xffffff;
+      this.graphics.fillStyle(col)
+        .lineStyle(1, 0xbbbbbb)
     }
     else {
-      //this.textObject.setFontSize(15);
-      //this.textObject.setColor("#ffffff");
       this.graphics.clear();
       this.graphics.fillStyle(0x000000)
-        .lineStyle(1, 0xcccccc)
-        .fillRect(2, 2, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
-        .strokeRect(2, 2, CELL_DRAW_SIZE, CELL_DRAW_SIZE);
-      this.textObject.setText(``);
-
-      //this.textObject.setColor(0x000000);
+        .lineStyle(1, 0xbbbbbb)
+        .fillRect(1, 1, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
+        .strokeRect(1, 1, CELL_DRAW_SIZE, CELL_DRAW_SIZE);
     }
+
+    Object.values(this.moreText).forEach((textObj, i) => {
+      textObj.setText(``);
+    });
+    this.textObject.setText(``);
 
   }
 
   setEntityText(entity, friendly) {
+    /*
     this.textObject.setFontSize(11);
     if (friendly) this.textObject.setColor("#223fff");
     else this.textObject.setColor("#ff0000");
@@ -107,6 +117,91 @@ class Cell extends Phaser.GameObjects.Container {
 
     this.textObject.setText(text);
     this.textObject.setDepth(100);
+*/
+    this.setMoreEntityText(entity);
+  }
+
+  setMoreEntityText(entity) {
+
+    //this.textObject.setFontSize(11);
+
+
+    /*
+    const moreText = {
+      atk: this.scene.add.text(this.x+5, this.y+5, `${entity.atk}`),
+      hp: this.scene.add.text(this.x+38, this.y+5, `${entity.hp}`),
+      healPower: this.scene.add.text(this.x+5, this.y+20, `${entity.hp}`),
+      casts: this.scene.add.text(this.x+38, this.y+20, `${entity.mana/10}`),
+      magicPower: this.scene.add.text(this.x+5, this.y+35, `${entity.hp}`),
+    };*/
+
+    /*
+    const moreText = {
+     atk: null,
+     hp: null,
+     healPower: null,
+     magicPower: null,
+     casts: null
+   };
+
+    this.moreText.atk = entity.atk;
+    this.moreText.hp = entity.hp;
+    this.moreText.healPower = entity.healPower;
+    this.moreText.magicPower = entity.magicPower;
+    this.moreText.healPower = entity.healPower;*/
+
+    const keys = Object.keys(this.moreText);
+    const colors = {
+      hp: "#ff0b00",
+      healPower: "#009809",
+      //atk: "#ffc31e",
+      atk: "#5c4d00",
+
+//      healPower: "#19be1f",
+      //atk: "#000000",
+      mana: "#0037ff",
+//      mana: "#0037ff",
+      magicPower: "#ff12e8",
+      buff: "#000000",
+      cc: "#000000",
+    };
+    //this.textObject.setText(text);
+
+    /*
+    if (entity.buffs.length) {
+      ccText += 'B'
+    }
+    if (entity.hasCC) {
+      ccText += ' CC'
+    }*/
+
+    entity.cc = !!(entity.hasCC) ? "CC" : " ";
+    entity.buff = !!(entity.buffs.length) ? "B" : " ";
+
+    Object.values(this.moreText).forEach((textObj, i) => {
+      const key = keys[i];
+      if (entity[key] === 0 && key !== 'mana') textObj.setText(``);
+      else textObj.setText(entity[key]);
+
+      textObj.setColor(colors[key]);
+      textObj.setFontSize(11);
+      textObj.setDepth(100);
+
+      if (this.scene.rotateCanvas)
+        textObj.rotation = Math.PI;
+
+      //textObj.setColor("#ff0000");
+    });
+
+
+
+    /*
+      atk: null,
+      hp: null,
+      healPower: null,
+      magicPower: null,
+      casts: null
+    */
   }
 
   select(initSelection) {
@@ -126,18 +221,22 @@ class Cell extends Phaser.GameObjects.Container {
 
     if (initSelection) {
       this.graphics.clear();
-      this.graphics.fillStyle(0xffa500)
-        .lineStyle(1, 0xcccccc)
-        .fillRect(2, 2, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
-        .strokeRect(2, 2, CELL_DRAW_SIZE, CELL_DRAW_SIZE);
+      this.graphics.fillStyle(0xffc31e)
+      //this.graphics.fillStyle(0xffa500)
+      //const col = (!(this.dataObject.pos.x % 2) === !(this.dataObject.pos.y % 2)) ? 0xD6D1C1 : 0xffffff;
+      //const col = 0xC2A1FF;
+        .lineStyle(1, 0xbbbbbb)
+        .fillRect(1, 1, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
+        .strokeRect(1, 1, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
+        //.setDepth(-1)
     }
 
     else {
       this.graphics.clear();
       this.graphics.fillStyle(0xaa22ff)
-        .lineStyle(1, 0xcccccc)
-        .fillRect(2, 2, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
-        .strokeRect(2, 2, CELL_DRAW_SIZE, CELL_DRAW_SIZE);
+        .lineStyle(1, 0xbbbbbb)
+        .fillRect(1, 1, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
+        .strokeRect(1, 1, CELL_DRAW_SIZE, CELL_DRAW_SIZE);
     }
 
 
@@ -157,16 +256,18 @@ class Cell extends Phaser.GameObjects.Container {
     if (this.dataObject.cellType === 'blocked') {
       this.graphics.clear();
       this.graphics.fillStyle(0x000000)
-        .lineStyle(1, 0xcccccc)
-        .fillRect(2, 2, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
-        .strokeRect(2, 2, CELL_DRAW_SIZE, CELL_DRAW_SIZE);
+        .lineStyle(1, 0xbbbbbb)
+        .fillRect(1, 1, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
+        .strokeRect(1, 1, CELL_DRAW_SIZE, CELL_DRAW_SIZE);
     }
     else {
       this.graphics.clear();
-      this.graphics.fillStyle(0xffffff)
-        .lineStyle(1, 0xcccccc)
-        .fillRect(2, 2, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
-        .strokeRect(2, 2, CELL_DRAW_SIZE, CELL_DRAW_SIZE);
+      //this.graphics.fillStyle(0xffffff)
+      const col = (!(this.dataObject.pos.x % 2) === !(this.dataObject.pos.y % 2)) ? 0xD6D1C1 : 0xffffff;
+      this.graphics.fillStyle(col)
+        .lineStyle(1, 0xbbbbbb)
+        .fillRect(1, 1, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
+        .strokeRect(1, 1, CELL_DRAW_SIZE, CELL_DRAW_SIZE);
     }
 
     //this.graphics.setAlpha(1);

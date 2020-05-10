@@ -37,6 +37,8 @@ class WorldScene extends Phaser.Scene {
   switchToBattleScene() {
     // TODO: think about how to display in match players to others outside the match
     this.scene.sleep();
+    startDuelMessage.classList.remove("hideTooltip");
+    setTimeout(() => startDuelMessage.classList.add("hideTooltip"), 1500);
     this.scene.launch('BattleScene'); // launch to prevent client data loss
   }
 }

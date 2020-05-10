@@ -1,7 +1,7 @@
 class GameClient { // rename api service or something
   constructor(game_ref) {
     this.player_id = null;
-    this.selectedHero = 'rogue';
+    this.selectedHero = 'warlock';
     this.socket = null;
     // TODO: game_ref really a scene ref?
     this.game_ref = game_ref; // only needed for socket msg defines atm

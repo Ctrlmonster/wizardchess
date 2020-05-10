@@ -13,7 +13,7 @@ const CELL_DRAW_OFFSET = CELL_DRAW_SIZE / 2;
 
 
 // localhost needs http/ws -> heroku needs https and wss
-const localServer = false;
+const localServer = true;
 let server_address, ws_address, ip, port;
 if (localServer) {
   ip = "localhost:";
@@ -26,8 +26,10 @@ if (localServer) {
   server_address = `https://${ip+port}/`;
   ws_address = `wss://${ip+port}/`;
 }
-
-
+const local_client = true;
+const client_address = (local_client) ?
+  `http://localhost:8000/` :
+  `https://ctrlmonster.github.io/wizardchess/`;
 
 const url = (path) => server_address + path;
 const ws_url = (path) => ws_address + path;

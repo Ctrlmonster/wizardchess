@@ -1,7 +1,8 @@
 const config = {
   type: Phaser.AUTO,
   // parent: 'phaser-example',
-  parent: 'gameContainer',
+  parent: 'canvasContainer',
+  //parent: 'gameContainer',
   width: WIDTH,
   height: HEIGHT,
   pixelArt: true,
