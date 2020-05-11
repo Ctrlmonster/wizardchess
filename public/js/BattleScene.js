@@ -13,6 +13,7 @@ class BattleScene extends Phaser.Scene {
     this.turn = null;
     this.myTurn = null;
     this.hand = [];
+    this.prevHand = [];
     // hero stats;
     this.hero = null;
     this.pos = null;
@@ -46,11 +47,12 @@ class BattleScene extends Phaser.Scene {
     this.load.plugin('rexgridtableplugin', 'public/lib/phaser/plugins/rexgridtableplugin.min.js', true);
   }
 
-  setSelectionMode(mode, initCall=false) {
-    console.log(`set mode: current ${this.selectionMode} | new ${this.selectionMode}`);
-
-    if ((mode === this.selectionMode || !this.myTurn)) //&& (initCall || (this.actionRequestData && this.actionRequestData.length)))
-      return;
+  setSelectionMode(mode, forceSend=false) {
+    // todo: this needs some reworking
+    if (!forceSend) {
+      if ((mode === this.selectionMode || !this.myTurn))// && (initCall || (this.actionRequestData && this.actionRequestData.length)))
+        return;
+    }
 
     this.selectionMode = mode;
     client.sendSelectionMode(mode).then(res => {
@@ -325,6 +327,7 @@ class BattleScene extends Phaser.Scene {
     this.pos = data.pos;
     this.board = data.board;
     this.turn = data.turn;
+    this.phase = data.phase;
     this.myTurn = data.myTurn;
     this.otherPos = data.otherPos;
     this.hand = data.hand;
@@ -527,7 +530,7 @@ class BattleScene extends Phaser.Scene {
 
     this.hoveredCell = cell;
 
-    cellTooltipDetails[0].innerHTML = `${cell.friendly? "<span style='color: #223fff'>Friendly</span>": "<span style='color: crimson'>Enemy</span>"}`;
+    cellTooltipDetails[0].innerHTML = `${cell.friendly? "<span style='color: #3E92FF'>Friendly</span>": "<span style='color: crimson'>Enemy</span>"}`;
 
     if (content.name) cellTooltipDetails[1].innerHTML = `<div style='border-bottom: 1px solid #333'>Name: ${content.name}</div>`;
     else cellTooltipDetails[1].innerHTML = "";
@@ -550,10 +553,14 @@ class BattleScene extends Phaser.Scene {
     cellTooltipDetails[9].innerHTML = `Idling: ${content.idling}`;
 
     if (content.buffs.length) {
-      cellTooltipDetails[10].innerHTML = `Buffs:`;
+      cellTooltipDetails[10].innerHTML = `Buffs:<br>`;
       content.buffs.forEach(buff => {
-        cellTooltipDetails[10].innerHTML += ` ${buff.name}<br>`
-      })
+        console.log(this.phase);
+        console.log(buff);
+        let {timer} = buff;
+        //cellTooltipDetails[10].innerHTML += ` ${buff.name} (${stringToUpperCase(timer.phase)} of ${buff.friendly ? "enemy's" : 'my'} Turn, in ${buff.timer.cyclesFromNow} Turns) <br>`
+        cellTooltipDetails[10].innerHTML += `* ${buff.name} <br>(${stringToUpperCase(timer.phase)} of ${buff.friendly ? "enemy's" : 'my'} Turn, in ${buff.timer.cyclesFromNow} Turns) <br>`
+      });
     } else {
       cellTooltipDetails[10].innerHTML = "";
     }
@@ -596,11 +603,21 @@ class BattleScene extends Phaser.Scene {
   createPlayerHand() {
     // clear the previous card elements
     let prevElems = document.querySelectorAll("div.cardStyle");
-    prevElems.forEach(elem => elem.remove());
+    //prevElems.forEach(elem => elem.remove());
+    this.prevHand.forEach((cardData, i) => {
+      if (this.hand.indexOf(cardData) === -1) {
+        prevElems[i].remove();
+      }
+    });
     // create new card elements
     this.hand.forEach((cardData, i) => {
-      createCardElem(cardData, i, this.selectCard)
+      if (cardData) {
+        if (this.prevHand.indexOf(cardData) === -1) {
+          createCardElem(cardData, i, this.selectCard)
+        }
+      }
     });
+    this.prevHand = this.hand;
   }
 
   updateHeroUi() {
@@ -614,7 +631,9 @@ class BattleScene extends Phaser.Scene {
     enemyHeroMana.innerHTML = this.enemyMana;
     enemyCardsLeft.innerHTML = this.enemyCardsLeft;
 
-
+    phaseOwnerElem.innerHTML = this.myTurn ? 'My' : "Enemy's";//this.phase.type; // not needed right now
+    turnNumberElem.innerHTML = (this.phase.address) ? this.phase.address[0]+1 : 0;
+    console.log(this.phase);
   }
 
   updateHeroSkillBar() {
@@ -642,17 +661,16 @@ class BattleScene extends Phaser.Scene {
     const skill = this.skills[skillIndex];
     const selectedOption = this.actionRequestData.find(option => option.data === skill.skillIndex);
 
-    /*console.log(this.skills);
-    console.log(selectedOption);*/
-
     if (selectedOption) {
       client.sendActionResponse(selectedOption).then(res => {
         this.actionRequestData = [];
+        this.setSelectionMode('skill', true);
       });
     }
     else {
       client.sendActionResponse({}).then(res => {
         this.actionRequestData = [];
+        this.setSelectionMode('skill', true);
       });
       this.actionRequestData = [];
     }
@@ -671,11 +689,13 @@ class BattleScene extends Phaser.Scene {
     if (selectedOption) {
       client.sendActionResponse(selectedOption).then(res => {
         this.actionRequestData = [];
+        this.setSelectionMode('hand', true);
       });
     }
     else {
       client.sendActionResponse({}).then(res => {
         this.actionRequestData = [];
+        this.setSelectionMode('hand', true);
       });
       this.actionRequestData = [];
     }
@@ -698,6 +718,7 @@ class BattleScene extends Phaser.Scene {
       client.sendActionResponse(selection).then(res => {
         this.actionRequestData = [];
         this.updateHighlighting();
+        this.setSelectionMode('board', true);
         // this.deselectedAllCells()
       })
     } // else just send the selected position (for now simply notifies that the client has clicked "outside")
@@ -705,6 +726,7 @@ class BattleScene extends Phaser.Scene {
       client.sendActionResponse({}).then(res => {
         this.actionRequestData = [];
         this.updateHighlighting();
+        this.setSelectionMode('board', true);
         // this.deselectedAllCells()
       })
     }

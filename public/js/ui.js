@@ -22,6 +22,11 @@ const enemySkillCdElems = document.querySelectorAll("#enemySkillsContainer .skil
 
 // ===========================================================================================
 let gameCanvas; // needs to wait for canvas creation by phaser
+
+const turnInfo = document.getElementById("turnInfo");
+const phaseOwnerElem = document.getElementById("phaseOwner");
+const turnNumberElem = document.getElementById("turnNumber");
+
 const heroHp = document.getElementById("heroHp");
 const heroClass = document.getElementById("heroClass");
 const heroMana = document.getElementById("heroMana");
@@ -32,12 +37,13 @@ const enemyHeroClass = document.getElementById("enemyHeroClass");
 const enemyHeroMana = document.getElementById("enemyHeroMana");
 const enemyCardsLeft = document.getElementById("enemyCardsLeft");
 
-
 const historyContainer = document.getElementById("historyContainer");
+const historyHeader = document.getElementById("historyHeader");
 const gameOverMessage = document.getElementById("gameOverMessage");
 const startDuelMessage = document.getElementById("startDuelMessage");
 const returnToLobbyButton = document.getElementById("returnToLobby");
 const lossOrWinDisplay = document.getElementById("lossOrWin");
+
 const introMessage = document.getElementById("introMessage");
 const heroSelect = document.getElementById("heroSelect");
 
@@ -50,9 +56,11 @@ function showGameElements() {
   enemySkills.forEach(skill => skill.classList.remove("hideTooltip"));
 
   historyContainer.classList.remove("hideTooltip");
+  historyHeader.classList.remove("hideTooltip");
   heroStatsContainer.classList.remove("hideTooltip");
   enemyStatsContainer.classList.remove("hideTooltip");
   endTurnButton.classList.remove("hideTooltip");
+  turnInfo.classList.remove("hideTooltip");
   introMessage.classList.add("hideTooltip");
 }
 
@@ -234,12 +242,27 @@ function createCardElem(cardData, handIndex, dataCallback) {
   dataElem.style.borderBottom = "1px solid black";
   cardContentElem.appendChild(dataElem);
 
+  // spell cards
   if (displayData.cardType === 'spell') {
     dataElem = document.createElement("DIV");
     dataElem.innerHTML = `${stringToUpperCase(displayData.cardType)}`;
     cardContentElem.appendChild(dataElem);
+
+    if (displayData.icon) {
+      let iconContainer = document.createElement("DIV");
+      iconContainer.classList.add("cardIconStyle");
+      let cardIcon = document.createElement("IMG");
+      const icon_path = client_address + `/public/${displayData.icon}`;
+      iconContainer.appendChild(cardIcon);
+      cardIcon.src = icon_path;
+      cardIcon.style.width = "11rem";
+      cardIcon.style.height = "11rem";
+      cardContentElem.appendChild(iconContainer);
+    }
   }
 
+  // -----------------------------------------------------------------
+  // monster cards
   if (displayData.cardType === "monster") {
     if (displayData.monsterType) {
       dataElem = document.createElement("DIV");
@@ -279,7 +302,6 @@ function createCardElem(cardData, handIndex, dataCallback) {
   }
 
 
-
   cardElem.addEventListener("click", () => {
     dataCallback(handIndex)
   });
@@ -307,13 +329,13 @@ function initMatchSelectionModes() {
   });*/
 
 
-  /*
-  canvasContainer.addEventListener('click', (evt) => {
+
+  gameContainer.addEventListener('click', (evt) => {
     if (!(evt.pageX > canvasRect.left && evt.pageX < canvasRect.right &&
         evt.pageY > canvasRect.top && evt.pageY < canvasRect.bottom)) {
       battleScene.selectCell({x: -1, y: -1}); // auto deselect if clicked outside of the board
     }
-  });*/
+  });
 
   cardContainer.addEventListener('mouseover', () => {
     battleScene.setSelectionMode('hand');
@@ -332,7 +354,7 @@ function createNewHistoryEntry(data) {
   let name = data.name;
   let turn = data.turn;
 
-  entry.innerHTML = `${friendly? "<span style='color: #223fff'>Myself</span>": "<span style='color: crimson'>Enemy</span>"} Turn Nr. <span>${turn}</span><br>`;
+  entry.innerHTML = `${friendly? "<span style='color: #3e92ff'>Myself</span>": "<span style='color: crimson'>Enemy</span>"} Turn Nr. <span>${turn}</span><br>`;
   entry.innerHTML += `${type}: ${name}`;
 
   historyContainer.appendChild(entry);

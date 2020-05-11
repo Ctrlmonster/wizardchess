@@ -73,11 +73,30 @@ button:hover {
     /*background: #383F51;*/
     position: absolute;
     right: 0;
-    /*top: 0;*/
+    top: 3rem;
     height: 650px;
     border-left: 2px solid #ccc;
     padding: 0 10px;
+    /*
     pointer-events: none;
+     */
+}
+
+#turnInfo {
+    position: absolute;
+    top: 750px;
+    right: 545px;
+    font-size: 2.5rem;
+}
+
+#historyHeader {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 18rem;
+    padding: 0 10px;
+    height: 3rem;
+    font-size: 2rem;
 }
 
 #historyContainer div {
@@ -96,16 +115,23 @@ button:hover {
 }
 
 #cellTooltip {
-    color: black;
     font-size: 2rem;
     position: absolute;
-    left: 35.5rem;
-    top: 8.5rem;
-    /*width: 18rem;*/
-    padding: 20px 15px;
+    left: 0rem;
+    top: 0rem;
+
     border: 4px solid #ccc;
     border-radius: 3px;
+    color: white;
+    background: rgba(0, 0, 0, 0.7);
+
+    /*width: 18rem;*/
+    padding: 20px 15px;
+    border-radius: 3px;
+    /*
     background: white;
+    border: 4px solid #ccc;
+*/
     z-index: 10;
     pointer-events: none;
 }
@@ -341,11 +367,19 @@ button:hover {
 }
 
 .spellCardStyle {
-    border: 1px solid #2eb7ff;
+    border: 3px solid #2eb7ff;
 }
 .minionCardStyle {
-    border: 1px solid #fffe27;
+    border: 3px solid #fffe27;
 }
+
+.cardIconStyle {
+    margin: 0 auto;
+    /*
+    border: 2px solid #333333;
+     */
+}
+
 .cardStyle {
     border-radius: 3px;
     background: #381e1c;
@@ -362,7 +396,7 @@ button:hover {
 
 .cardStyle:hover {
     background: #4c2926;
-    border: 4px solid #ffdc36;
+    border: 3px solid #ffdc36;
     /*box-sizing: border-box;*/
     box-shadow: 0 5px 110px 25px red, 1px 6px 22px 7px rgba(255, 255, 0, 1);
     cursor: pointer;
@@ -500,3 +534,6 @@ button:hover {
 
 
 /* ===================================================== */
+
+#turnNumber {}
+#phaseOwner {}
