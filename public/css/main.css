@@ -27,7 +27,7 @@ button:hover {
 }
 .endOfTurnButtonStyle {
     color: #666;
-    background-image: url("/public/assets/gui/Card_game_GUI/Parts/Line_Button_long_G.png");
+    background-image: url("https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Line_Button_long_G.png");
 }
 .endOfTurnButtonStyle:hover {
     cursor: default;
@@ -37,7 +37,7 @@ button:hover {
 #gameContainer {
     display: flex;
     flex-flow: row;
-    background-image: url("/public/assets/gui/Card_game_GUI/Parts/Desk_01.png");
+    background-image: url("https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Desk_01.png");
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
@@ -112,7 +112,10 @@ body {
      */
 
 
-    background-image: url("/public/assets/searched_images/bg_test2.webp");
+    /*
+    background-image: url("https://ctrlmonster.github.io/wizardchess/public/assets/searched_images/bg_test2.webp");
+     */
+    background-image: url("https://ctrlmonster.github.io/wizardchess/public/assets/Field-Background/flat-field-bg2.png");
 
     background-repeat: no-repeat;
     background-size: 100%;
@@ -143,7 +146,7 @@ body {
     height: 25vh;
     align-items: center;
 
-    background-image: url("/public/assets/gui/Card_game_GUI/Backgrounds/Background_05.png");
+    background-image: url("https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Backgrounds/Background_05.png");
     background-size: 100%;
 
     /*

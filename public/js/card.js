@@ -6,11 +6,11 @@ function createMonsterCard(cardData, handIndex, playCallback, scene) {
   cardElem.classList.add("cardElementSize");
 
   const basecard = document.createElement("IMG");
-  basecard.src = "/public/assets/gui/dragon_TCG-assets/base_card_03.png";
+  basecard.src = client_address + "/public/assets/gui/dragon_TCG-assets/base_card_03.png";
   basecard.style.position = 'absolute';
 
   const border_card = document.createElement("IMG");
-  border_card.src = "/public/assets/gui/dragon_TCG-assets/border_card01.png";
+  border_card.src = client_address + "/public/assets/gui/dragon_TCG-assets/border_card01.png";
   border_card.style.position = 'absolute';
 
   // ________________________________________________________________
