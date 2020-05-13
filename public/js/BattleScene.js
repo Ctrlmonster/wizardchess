@@ -14,6 +14,7 @@ class BattleScene extends Phaser.Scene {
     this.myTurn = null;
     this.hand = [];
     this.prevHand = [];
+    this.zoomedCard = null;
     // hero stats;
     this.hero = null;
     this.pos = null;
@@ -317,6 +318,9 @@ class BattleScene extends Phaser.Scene {
     this.mana = data.mana;
     this.hp = data.hp;
 
+    this.classIcon = data.classIcon;
+    this.otherClassIcon = data.otherClassIcon;
+
     this.enemyCardsLeft = data.enemyCardsLeft;
     this.enemyHero = data.enemyHero;
     this.enemyMana = data.enemyMana;
@@ -446,6 +450,7 @@ class BattleScene extends Phaser.Scene {
     const newCellObject = function (scene, cell) {
       const bg = scene.add.graphics(0, 0)
         .fillStyle(0xffffff)
+        .setAlpha(1)
         .fillRect(2, 2, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
         .strokeRect(2, 2, CELL_DRAW_SIZE, CELL_DRAW_SIZE);
       const txt = scene.add.text(5, 5, ``);
@@ -512,7 +517,7 @@ class BattleScene extends Phaser.Scene {
 
     // draw bound
     this.active_highlight = this.add.graphics();
-    this.active_highlight.lineStyle(3, 0x000000).strokeRectShape(this.gameTable.getBounds());
+    this.active_highlight.lineStyle(3, 0x000000).strokeRectShape(this.gameTable.getBounds()).setAlpha(1);
   }
 
   showCellContentTooltip(cell) {
@@ -602,18 +607,41 @@ class BattleScene extends Phaser.Scene {
 
   createPlayerHand() {
     // clear the previous card elements
-    let prevElems = document.querySelectorAll("div.cardStyle");
-    //prevElems.forEach(elem => elem.remove());
+    //let prevElems = document.querySelectorAll("div.cardStyle, div.cardElement");
+
+    /*
     this.prevHand.forEach((cardData, i) => {
       if (this.hand.indexOf(cardData) === -1) {
         prevElems[i].remove();
+         // below is how it should be done to avoid querySelector (as soon as spell card creation is updated)
       }
+    });*/
+
+    this.prevHand.forEach((cardData, i) => {
+      if (cardData.element)
+        cardData.element.remove()
     });
+
+
     // create new card elements
     this.hand.forEach((cardData, i) => {
       if (cardData) {
         if (this.prevHand.indexOf(cardData) === -1) {
-          createCardElem(cardData, i, this.selectCard)
+          if (cardData.cardType !== 'monster')
+            createSpellCard(cardData, i, this.selectCard, this);
+            //createCardElem(cardData, i, this.selectCard);
+          else
+            createMonsterCard(cardData, i, this.selectCard, this)
+        }
+        if (cardData.playable) {
+          switch(cardData.cardType) {
+            case 'monster':
+              cardData.element.classList.add('playableMinion');
+              break;
+            case 'spell':
+              cardData.element.classList.add('playableSpell');
+              break;
+          }
         }
       }
     });
@@ -621,7 +649,10 @@ class BattleScene extends Phaser.Scene {
   }
 
   updateHeroUi() {
-    heroClass.innerHTML = stringToUpperCase(this.hero);
+    //heroClass.innerHTML = stringToUpperCase(this.hero);
+    heroImage.src = this.classIcon;
+    enemyHeroImage.src = this.otherClassIcon;
+
     heroHp.innerHTML = this.hp;
     heroMana.innerHTML = this.mana;
     cardsLeft.innerHTML = this.cardsLeft;
@@ -633,7 +664,9 @@ class BattleScene extends Phaser.Scene {
 
     phaseOwnerElem.innerHTML = this.myTurn ? 'My' : "Enemy's";//this.phase.type; // not needed right now
     turnNumberElem.innerHTML = (this.phase.address) ? this.phase.address[0]+1 : 0;
-    console.log(this.phase);
+
+    if (this.myTurn)
+      endTurnButton.children[1].src = "public/assets/gui/Card_game_GUI/Parts/Button_Medium_On.png";
   }
 
   updateHeroSkillBar() {
@@ -678,7 +711,7 @@ class BattleScene extends Phaser.Scene {
 
 
 
-  selectCard(handIndex) {
+  selectCard(handIndex, zoomedCard) {
     if (!this.myTurn || !this.actionRequestData.length) return;
     let options = this.actionRequestData.filter(option => option.type === 'card');
     if (!options.length) return;
@@ -689,12 +722,14 @@ class BattleScene extends Phaser.Scene {
     if (selectedOption) {
       client.sendActionResponse(selectedOption).then(res => {
         this.actionRequestData = [];
+        zoomedCard.remove();
         this.setSelectionMode('hand', true);
       });
     }
     else {
       client.sendActionResponse({}).then(res => {
         this.actionRequestData = [];
+        zoomedCard.remove();
         this.setSelectionMode('hand', true);
       });
       this.actionRequestData = [];

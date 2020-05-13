@@ -6,6 +6,7 @@ const config = {
   width: WIDTH,
   height: HEIGHT,
   pixelArt: true,
+  transparent: true,
   zoom: 2,
   physics: {
     default: 'arcade',

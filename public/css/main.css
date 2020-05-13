@@ -27,6 +27,7 @@ button:hover {
 }
 .endOfTurnButtonStyle {
     color: #666;
+    background-image: url("/public/assets/gui/Card_game_GUI/Parts/Line_Button_long_G.png");
 }
 .endOfTurnButtonStyle:hover {
     cursor: default;
@@ -36,21 +37,130 @@ button:hover {
 #gameContainer {
     display: flex;
     flex-flow: row;
-    /*justify-content: space-between;*/
-    justify-content: space-around;
-    /*background: #f1ede7;*/
-    background: #ddd;
+    background-image: url("/public/assets/gui/Card_game_GUI/Parts/Desk_01.png");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    /*
     padding: 1rem;
+     */
+    box-sizing: border-box;
+    height: 75vh;
     /*background: #07123b;*/
 }
+
+
+.heroFrameContainer {
+    position: relative;
+    transform: scale(1);
+}
+.heroFrame {
+    position: absolute;
+    width: 24rem;
+    height: 12rem;
+}
+
+.heroClass {
+    position: absolute;
+    width: 14rem;
+    height: 14rem;
+    left: 4.8rem;
+    top: -1rem;
+}
+.heroFrameStat {
+    position: absolute;
+    width: 5.5rem;
+    height: 5.5rem;
+    top: -.5rem;
+}
+
+.heroFrameHP {
+    left: 0rem;
+}
+.heroFrameMana {
+    right: -23.5rem;
+}
+
+
+.heroFrameStat img {
+    width: 100%;
+}
+.heroFrameStat span {
+    position: absolute;
+    top: 1.8rem;
+    left: 1.6rem;
+    font-family: 'Bitter', Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
+    -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+}
+
+body {
+    max-width: 100vw;
+}
+
+#wrapper {
+    height: 100vh;
+/*
+    background-image: url("/public/assets/searched_images/woodtexture.jpg");
+ */
+
+    /*
+    background-image: url("/public/assets/searched_images/background_1.jpg");
+     */
+
+
+    background-image: url("/public/assets/searched_images/bg_test2.webp");
+
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
 #canvasContainer {
     /*z-index: 1000;*/
-    width: 33%;
+    width: 40vw;
+    display: flex;
+    align-items: center;
+}
+
+#canvasContainer canvas {
+    opacity: 1;
+    height: 55vh!important;
+    width: 55vh!important;
+}
+
+#cardContainerBorder {
+    position: absolute;
+    height: 15px;
+    width: 100%;
+    top: -10px;
 }
 
 #cardContainer {
+    position: relative;
+    height: 25vh;
+    align-items: center;
+
+    background-image: url("/public/assets/gui/Card_game_GUI/Backgrounds/Background_05.png");
+    background-size: 100%;
+
+    /*
     padding: 25px 15px 35px 15px;
-    background: #383F51;
+     */
+    /*background: #383F51;
+    background: #ddd;
+
+     */
+/*
+    background-image: url("/public/assets/searched_images/woodtexture.jpg");
+ */
+    /*
+    background-image: url("/public/assets/gui/Card_game_GUI/Backgrounds/Background_05.png");
+     */
+    background-repeat: no-repeat;
+    background-size: 100%;
     /*background: rgba(22, 22, 22, 0.71);*/
     display: flex;
     flex-flow: row wrap;
@@ -59,7 +169,9 @@ button:hover {
     /*justify-content: flex-start;*/
     /*max-height: 475px;*/
     /*max-width: 47%;*/
+    /*
     overflow-y: scroll;
+     */
 }
 
 #historyContainer {
@@ -182,8 +294,21 @@ button:hover {
     border-radius: 3px;
     font-size: 2rem;
     display: flex;
-    justify-content: flex-end;
-    margin-bottom: 2.3rem;
+    /* justify-content: flex-end; */
+    margin-bottom: 15rem;
+    margin-left: 6rem;
+}
+
+#enemyHeroStatsContainer {
+    padding-right: 2px;
+    border-radius: 3px;
+    font-size: 2rem;
+    display: flex;
+    /* justify-content: flex-end; */
+    margin-left: 6rem;
+    margin-bottom: 12rem;
+    margin-right: 26rem;
+    transform: scale(.75);
 }
 
 .rotateCanvas {
@@ -209,11 +334,38 @@ button:hover {
 
 }
 
+.deckSize {
+    /*position: absolute!important;
+    left: 3rem;
+    bottom: 22rem;
+
+     */
+    margin-left: 3rem;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+#cardsLeft {
+    z-index: 1;
+    position: absolute;
+    left: 6rem;
+    top: 9rem;
+}
+
+#heroAreas {
+    width: 45vw;
+    display: flex;
+    flex-flow: column-reverse;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
 #heroArea {
     display: flex;
     align-items: flex-end;
-    width: 33%;
-    justify-content: flex-end;
+    width: 100%;
+    justify-content: space-between;
     padding-right: 25px;
     box-sizing: border-box;
 }
@@ -221,14 +373,16 @@ button:hover {
     display: flex;
     flex-flow: column;
     justify-content: space-between;
-    align-items: flex-start;
-    width: 33%;
+    align-items: flex-end;
+    width: 100%;
+    padding-right: 3rem;
+    padding-top: 5rem;
 }
 
 .skillIcon {
     position: relative;
-    width: 7rem;
-    height: 7rem;
+    width: 5.5rem;
+    height: 5.5rem;
     pointer-events: none;
 }
 #enemyArea .skillIcon {
@@ -236,8 +390,8 @@ button:hover {
 
 .enemySkillIcon {
     position: relative;
-    width: 5rem;
-    height: 5rem;
+    width: 4.5rem;
+    height: 4.5rem;
     pointer-events: none;
 }
 
@@ -272,11 +426,19 @@ button:hover {
     color: darkorange;
 }
 
+.heroSkillbarBg {
+    position: absolute;
+    top: -14px;
+    left: -16px;
+    width: 103%;
+    height: 127%;
+}
 .heroSkillbar {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    margin: 0 auto;
+    margin: 15px auto;
+    position: relative;
 }
 
 .heroSkill {
@@ -312,7 +474,7 @@ button:hover {
     color: gold;*/
     /*background: #eca867;
     color: #220C10;*/
-    box-shadow: 0 0px 25px 7px #6314e6, 0px 0px 22px 7px rgb(151, 219, 255);
+    box-shadow: 0 0px 25px 7px #6314e6, 0px 0px 22px 7px rgb(151, 219, 255)!important;
     /*background: #fff;*/
 }
 
@@ -344,12 +506,50 @@ button:hover {
     padding: 2rem 0;
     position: relative;
 }*/
+#queue {
+    margin-top: 3rem;
+}
 
 #buttonContainer {
     display: flex;
+    flex-flow: column;
     justify-content: flex-end;
-    width: 100%;
+    width: 15vw;
+    align-items: center;
 }
+
+.mainButtonStyle {
+    margin-bottom: 2rem;
+}
+
+.mainButtonStyle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5.5rem;
+}
+
+.mainButtonStyle:hover {
+    cursor: pointer;
+}
+#endTurn:hover span {
+    color: darkorange!important;
+    pointer-events: none;
+}
+
+.mainButtonStyle img {
+    position: absolute;
+    width: 20rem;
+    height: auto;
+}
+
+.mainButtonStyle span {
+    margin: auto;
+    font-size: 2rem;
+    z-index: 1;
+    top: 2rem
+}
+
 
 
 #heroHp {
@@ -395,8 +595,6 @@ button:hover {
 }
 
 .cardStyle:hover {
-    background: #4c2926;
-    border: 3px solid #ffdc36;
     /*box-sizing: border-box;*/
     box-shadow: 0 5px 110px 25px red, 1px 6px 22px 7px rgba(255, 255, 0, 1);
     cursor: pointer;
@@ -443,12 +641,16 @@ button:hover {
 }
 
 .playableMinion {
+    /*
     border: 4px solid #fffe27;
-    box-shadow: 0 0 30px 10px #fffe27;
+     */
+    box-shadow: 0 0 30px 10px #fffe27!important;
 }
 
 .playableSpell {
+    /*
     border: 4px solid #2eb7ff;
+     */
     box-shadow: 0 0 30px 10px #2eb7ff;
 }
 
@@ -537,3 +739,174 @@ button:hover {
 
 #turnNumber {}
 #phaseOwner {}
+
+
+/* ===================================================== */
+
+/* new card styles */
+
+/* border_card and base_card 974 x 1425 -- width/height ratio: 0,683508772 */
+/* base cardname 855 x 181 */
+/* card image size: 774 x 793 */
+/* border_illustration size: 813 x 833 -- width/height ratio: 0,975990396 -- width rel to base_card: 0,834702259*/
+/* text_box 823 x478 or 857 x 508*/
+/* text_paper 816 x 493 */
+
+
+
+.cardElement {
+    width: 13.66rem;
+    height: 20rem;
+    position: relative;
+    transition: all 0.25s;
+    z-index: 10;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+.cardElement:hover {
+    /*box-sizing: border-box;*/
+    box-shadow: 0 5px 110px 25px red, 1px 6px 22px 7px rgba(255, 255, 0, 1)!important;
+    cursor: pointer;
+}
+
+.cardElementSize {
+    -webkit-transform: scale(0.75);
+    -moz-transform: scale(0.75);
+    -ms-transform: scale(0.75);
+    -o-transform: scale(0.75);
+    transform: scale(0.75);
+}
+
+.cardImageContainer {
+    /*
+    width: 11.40rem;
+     */
+    width: 11.4rem;
+    height: 11.13rem;
+    margin: 1rem auto 1rem;
+    position: relative;
+}
+.cardImageContainer img.cardImageBorder {
+    /*width: 11.82rem;
+    height: 11.62rem;
+    position: absolute;
+    top: -1rem;
+    left: -.2rem;*/
+    width: 12.8rem;
+    height: 11.62rem;
+    position: absolute;
+    top: -.85rem;
+    left: -.8rem;
+
+}
+
+
+
+.cardImageContainer img.cardImage  {
+    /*width: 11.40rem;
+    height: 11.13rem;*/
+   /* width: 11.18rem;
+    height: 11.38rem;
+    object-fit: cover;
+    box-sizing: border-box;
+    border-radius: 5px;
+    top: -.7rem
+
+    */
+
+    width: 12.05rem;
+    /* height: 11.38rem; */
+    object-fit: cover;
+    box-sizing: border-box;
+    /*
+    border-radius: 5px;
+     */
+    top: -.3rem;
+    left: -.3rem;
+}
+
+.cardTextBox {
+    /*
+    opacity: 0.85;
+     */
+}
+
+.cardElement img {
+    width: 100%;
+    height: auto;
+}
+
+img.dragonTailStyle {
+    position: absolute;
+    bottom: -.25rem;
+    right: 1.5rem;
+    width: 14rem;
+
+    transform: scaleX(-1) rotate(20deg);
+
+}
+
+img.smallWingStyle {
+    -webkit-transform: scaleX(-1) rotate(-10deg);
+    transform: scaleX(-1) rotate(-10deg);
+    width: 11rem;
+    position: absolute;
+    top: -1.3rem;
+    right: -5.6rem;
+}
+img.smallWingStyleLeft {
+    -webkit-transform: scaleX(1);
+    transform: scaleX(1);
+    left: -5.5rem;
+}
+
+.zoomCard {
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+
+    position: absolute;
+    left: 9rem;
+    top: 10rem;
+
+    -webkit-transform: scale(1.25);
+    -moz-transform: scale(1.25);
+    -ms-transform: scale(1.25);
+    -o-transform: scale(1.25);
+    transform: scale(1.25);
+    transition: all 0.25s;
+
+
+}
+
+.selectedCard {
+    box-shadow: 0 5px 110px 25px red, 1px 6px 22px 7px rgba(255, 255, 0, 1);
+}
+
+/*.cardElement:hover {
+    -webkit-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    -o-transform: scale(1.5);
+    transform: scale(1.5);
+    position: absolute;
+    bottom: 0;
+}*/
+/*
+.cardElement:hover .cardElement:before {
+    border: 1px solid red;
+    background: #000;
+    position: relative;
+    height: 20rem;
+}*/
+
+
+
+.cardNumber {
+    font-family: 'Bitter', Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+}
+
+
+

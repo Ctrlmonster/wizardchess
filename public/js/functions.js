@@ -106,7 +106,9 @@ function createLeaveButton(game_ref) {
 
 function createEndTurnButton(game_ref) {
   endTurnButton = document.getElementById('endTurn');
-  endTurnButton.addEventListener('click', () => {
+  endTurnButton.addEventListener('click', function() {
+    console.log(this.children);
+    this.children[1].src = "public/assets/gui/Card_game_GUI/Parts/Button_Medium_Off.png"
     game_ref.actionRequestData = null; // clear previous turns ar data (just for belows highlighting fn)
     game_ref.updateHighlighting(); // remove highlighting
     endTurnButton.classList.add("endOfTurnButtonStyle");

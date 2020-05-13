@@ -67,11 +67,13 @@ class Cell extends Phaser.GameObjects.Container {
       this.graphics.clear(); // 0xeee2D5
       const col = (!(this.dataObject.pos.x % 2) === !(this.dataObject.pos.y % 2)) ? 0xD6D1C1 : 0xffffff;
       this.graphics.fillStyle(col)
+        .setAlpha(1)
         .lineStyle(1, 0xbbbbbb)
     }
     else {
       this.graphics.clear();
       this.graphics.fillStyle(0x000000)
+        .setAlpha(1)
         .lineStyle(1, 0xbbbbbb)
         .fillRect(1, 1, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
         .strokeRect(1, 1, CELL_DRAW_SIZE, CELL_DRAW_SIZE);
@@ -216,12 +218,13 @@ class Cell extends Phaser.GameObjects.Container {
         .strokeRect(2, 2, CELL_DRAW_SIZE, CELL_DRAW_SIZE);
       this.graphics.setAlpha(1);
     }
-    else this.graphics.setAlpha(0);
+    else this.graphics.setAlpha(1);
     */
 
     if (initSelection) {
       this.graphics.clear();
       this.graphics.fillStyle(0xffc31e)
+        .setAlpha(1)
       //this.graphics.fillStyle(0xffa500)
       //const col = (!(this.dataObject.pos.x % 2) === !(this.dataObject.pos.y % 2)) ? 0xD6D1C1 : 0xffffff;
       //const col = 0xC2A1FF;
@@ -234,13 +237,14 @@ class Cell extends Phaser.GameObjects.Container {
     else {
       this.graphics.clear();
       this.graphics.fillStyle(0xaa22ff)
+        .setAlpha(1)
         .lineStyle(1, 0xbbbbbb)
         .fillRect(1, 1, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
         .strokeRect(1, 1, CELL_DRAW_SIZE, CELL_DRAW_SIZE);
     }
 
 
-    //this.graphics.setAlpha(0);
+    //this.graphics.setAlpha(1);
   }
 
   deselect() {
@@ -256,6 +260,7 @@ class Cell extends Phaser.GameObjects.Container {
     if (this.dataObject.cellType === 'blocked') {
       this.graphics.clear();
       this.graphics.fillStyle(0x000000)
+        .setAlpha(1)
         .lineStyle(1, 0xbbbbbb)
         .fillRect(1, 1, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
         .strokeRect(1, 1, CELL_DRAW_SIZE, CELL_DRAW_SIZE);
@@ -265,6 +270,7 @@ class Cell extends Phaser.GameObjects.Container {
       //this.graphics.fillStyle(0xffffff)
       const col = (!(this.dataObject.pos.x % 2) === !(this.dataObject.pos.y % 2)) ? 0xD6D1C1 : 0xffffff;
       this.graphics.fillStyle(col)
+        .setAlpha(1)
         .lineStyle(1, 0xbbbbbb)
         .fillRect(1, 1, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
         .strokeRect(1, 1, CELL_DRAW_SIZE, CELL_DRAW_SIZE);

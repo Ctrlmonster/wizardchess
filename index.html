@@ -4,10 +4,11 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="public/css/main.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins|Bitter">
 </head>
 
 <body>
+<div id="wrapper">
 
 <div id="gameOverMessage" class="hideTooltip">
     Match over. <span id="lossOrWin"></span><br>
@@ -20,18 +21,36 @@
 
 
 <div id="gameContainer">
+    <div id="heroAreas">
+
+
+
     <div id="heroArea">
+
+            <!--<div>Hero: <span id="heroClass">Class</span></div>-->
+        <div class="deckSize cardElement hideTooltip" >
+            <img src="public/assets/gui/dragon_TCG-assets/card%20back.png">
+            <span class="cardNumber" id="cardsLeft">Z</span>
+        </div>
+
         <div>
             <div id="heroStatsContainer" class="hideTooltip">
-                <div>
-                    <div>Hero: <span id="heroClass">Class</span></div>
-                    <div>HP: <span id="heroHp">X</span></div>
-                    <div>Mana: <span id="heroMana">Y</span></div>
-                    <div>Cards left: <span id="cardsLeft">Z</span></div>
+                <div class="heroFrameContainer">
+                    <img class="heroFrame" src="public/assets/gui/Card_game_GUI/Parts/Desk_Hero_Backframe.png">
+                    <img id="heroImage" class="heroClass" src="public/assets/badges/RPG_Class_Badges/Badge_png/Badge_assassin.PNG">
+                    <div class="heroFrameHP heroFrameStat" >
+                        <span id="heroHp">HP</span>
+                        <img src="public/assets/gui/dragon_TCG-assets/energy_red_gimp.png">
+                    </div>
+                    <div class="heroFrameMana heroFrameStat" >
+                        <span id="heroMana">Mana</span>
+                        <img src="public/assets/gui/dragon_TCG-assets/energy_blue.png">
+                    </div>
                 </div>
             </div>
 
             <div id="heroSkillsContainer" class="heroSkillbar">
+                <img class="heroSkillbarBg" src="/public/assets/gui/Card_game_GUI/Parts/Line_Button_long.png">
                 <div class="heroSkill hideTooltip" data-buttonIndex="1">
                     <img class="skillIcon" id="skillIcon0" src="public/assets/skill_icons/Basic_Spells/Normal/01_fire_arrow.png">
                     <div class="skillCd"> </div>
@@ -98,109 +117,119 @@
     </div>
 
 
+        <!-- enemy hero area -->
+
+        <div id="enemyArea">
+            <div>
+
+                <div id="enemyStatsContainer" class="hideTooltip">
+                    <div>Hero: <span id="enemyHeroClass">Class</span></div>
+                    <div>Cards left: <span id="enemyCardsLeft">Z</span></div>
+                </div>
+
+                <div id="enemySkillsContainer" class="heroSkillbar">
+                    <div class="heroSkill hideTooltip" data-buttonIndex="1">
+                        <img class="enemySkillIcon" src="public/assets/skill_icons/Basic_Spells/Normal/01_fire_arrow.png">
+                        <div class="skillCd"> </div>
+                        <div class="heroSkillTooltip hideTooltip">
+                            <div class="mainSkillInfo">
+                                Skill 1
+                            </div>
+                            <div class="skillDesc">
+                                Skill 1
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="heroSkill hideTooltip" data-buttonIndex="2">
+                        <img class="enemySkillIcon" src="public/assets/skill_icons/Basic_Spells/Normal/01_fire_arrow.png">
+                        <div class="skillCd"> </div>
+                        <div class="heroSkillTooltip hideTooltip">
+                            <div class="mainSkillInfo">
+                                Skill 1
+                            </div>
+                            <div class="skillDesc">
+                                Skill 1
+                            </div>
+                        </div>
+                    </div>
+                    <div class="heroSkill hideTooltip" data-buttonIndex="3">
+                        <img class="enemySkillIcon" src="public/assets/skill_icons/Basic_Spells/Normal/01_fire_arrow.png">
+                        <div class="skillCd"> </div>
+                        <div class="heroSkillTooltip hideTooltip">
+                            <div class="mainSkillInfo">
+                                Skill 1
+                            </div>
+                            <div class="skillDesc">
+                                Skill 1
+                            </div>
+                        </div>
+                    </div>
+                    <div class="heroSkill hideTooltip" data-buttonIndex="4">
+                        <img class="enemySkillIcon" src="public/assets/skill_icons/Basic_Spells/Normal/01_fire_arrow.png">
+                        <div class="skillCd"> </div>
+                        <div class="heroSkillTooltip hideTooltip">
+                            <div class="mainSkillInfo">
+                                Skill 1
+                            </div>
+                            <div class="skillDesc">
+                                Skill 1
+                            </div>
+                        </div>
+                    </div>
+                    <div class="heroSkill hideTooltip">
+                        <img class="enemySkillIcon" src="public/assets/skill_icons/Basic_Spells/Normal/01_fire_arrow.png">
+                        <div class="skillCd"> </div>
+                        <div class="heroSkillTooltip hideTooltip">
+                            <div class="mainSkillInfo">
+                                Skill 1
+                            </div>
+                            <div class="skillDesc">
+                                Skill 1
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="enemyHeroStatsContainer"  class="hideTooltip">
+                    <div class="heroFrameContainer">
+                        <img class="heroFrame" src="public/assets/gui/Card_game_GUI/Parts/Desk_Hero_Backframe.png">
+                        <img id="enemyHeroImage" class="heroClass" src="public/assets/badges/RPG_Class_Badges/Badge_png/Badge_mage.png">
+                        <div class="heroFrameHP heroFrameStat" >
+                            <span id="enemyHeroHp">HP</span>
+                            <img src="public/assets/gui/dragon_TCG-assets/energy_red_gimp.png">
+                        </div>
+                        <div class="heroFrameMana heroFrameStat" >
+                            <span id="enemyHeroMana">Mana</span>
+                            <img src="public/assets/gui/dragon_TCG-assets/energy_blue.png">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="historyHeader" class="hideTooltip">
+                History
+            </div>
+            <div id="historyContainer" class="scrollbar hideTooltip">
+            </div>
+
+            <div id="turnInfo" class="hideTooltip">
+                <span id="phaseOwner">MY/ENEMY</span> Turn Nr <span id="turnNumber">TURNNUMBER</span>
+            </div>
+
+        </div>
+
+    </div>
+
+
 
     <div id="canvasContainer"></div>
 
 
 
 
-    <div id="enemyArea">
-        <div>
-            <div id="enemySkillsContainer" class="heroSkillbar">
-                <div class="heroSkill hideTooltip" data-buttonIndex="1">
-                    <img class="enemySkillIcon" src="public/assets/skill_icons/Basic_Spells/Normal/01_fire_arrow.png">
-                    <div class="skillCd"> </div>
-                    <div class="heroSkillTooltip hideTooltip">
-                        <div class="mainSkillInfo">
-                            Skill 1
-                        </div>
-                        <div class="skillDesc">
-                            Skill 1
-                        </div>
-                    </div>
-                </div>
 
-                <div class="heroSkill hideTooltip" data-buttonIndex="2">
-                    <img class="enemySkillIcon" src="public/assets/skill_icons/Basic_Spells/Normal/01_fire_arrow.png">
-                    <div class="skillCd"> </div>
-                    <div class="heroSkillTooltip hideTooltip">
-                        <div class="mainSkillInfo">
-                            Skill 1
-                        </div>
-                        <div class="skillDesc">
-                            Skill 1
-                        </div>
-                    </div>
-                </div>
-                <div class="heroSkill hideTooltip" data-buttonIndex="3">
-                    <img class="enemySkillIcon" src="public/assets/skill_icons/Basic_Spells/Normal/01_fire_arrow.png">
-                    <div class="skillCd"> </div>
-                    <div class="heroSkillTooltip hideTooltip">
-                        <div class="mainSkillInfo">
-                            Skill 1
-                        </div>
-                        <div class="skillDesc">
-                            Skill 1
-                        </div>
-                    </div>
-                </div>
-                <div class="heroSkill hideTooltip" data-buttonIndex="4">
-                    <img class="enemySkillIcon" src="public/assets/skill_icons/Basic_Spells/Normal/01_fire_arrow.png">
-                    <div class="skillCd"> </div>
-                    <div class="heroSkillTooltip hideTooltip">
-                        <div class="mainSkillInfo">
-                            Skill 1
-                        </div>
-                        <div class="skillDesc">
-                            Skill 1
-                        </div>
-                    </div>
-                </div>
-                <div class="heroSkill hideTooltip">
-                    <img class="enemySkillIcon" src="public/assets/skill_icons/Basic_Spells/Normal/01_fire_arrow.png">
-                    <div class="skillCd"> </div>
-                    <div class="heroSkillTooltip hideTooltip">
-                        <div class="mainSkillInfo">
-                            Skill 1
-                        </div>
-                        <div class="skillDesc">
-                            Skill 1
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="enemyStatsContainer" class="hideTooltip">
-                <div>Hero: <span id="enemyHeroClass">Class</span></div>
-                <div>HP: <span id="enemyHeroHp">X</span></div>
-                <div>Mana: <span id="enemyHeroMana">Y</span></div>
-                <div>Cards left: <span id="enemyCardsLeft">Z</span></div>
-            </div>
-        </div>
-
-        <div id="historyHeader" class="hideTooltip">
-            History
-        </div>
-        <div id="historyContainer" class="scrollbar hideTooltip">
-        </div>
-
-        <div id="turnInfo" class="hideTooltip">
-            <span id="phaseOwner">MY/ENEMY</span> Turn Nr <span id="turnNumber">TURNNUMBER</span>
-        </div>
-
-        <div id="buttonContainer">
-            <select id="heroSelect" class="select-css">
-                <option value="warlock">Warlock</option>
-                <option value="rogue">Rogue</option>
-                <option value="wizard">Wizard</option>
-            </select>
-            <button id="queue" style="width:300px;height:100px">
-                Join Queue
-            </button>
-            <button id="endTurn" style="width:300px;height:100px" class="hideTooltip">
-                End Turn
-            </button>
-        </div>
-    </div>
 
 
     <div id="cellTooltip" class="hideTooltip">
@@ -216,6 +245,23 @@
         <div> </div>
         <div> </div>
         <div> </div>
+    </div>
+
+    <div id="buttonContainer">
+        <select id="heroSelect" class="select-css">
+            <option value="warlock">Warlock</option>
+            <option value="rogue">Rogue</option>
+            <option value="wizard">Wizard</option>
+        </select>
+        <div id="queue" class="mainButtonStyle">
+            <span class="cardNumber">Join Queue</span>
+            <img src="public/assets/gui/Card_game_GUI/Parts/Button_Medium_On.png">
+        </div>
+        <div id="endTurn" class="hideTooltip mainButtonStyle">
+            <span class="cardNumber">End Turn</span>
+            <img src="public/assets/gui/Card_game_GUI/Parts/Button_Medium_On.png">
+            <!--<img src="public/assets/gui/GUI_Parts/Gui_parts/button_ready_on.png">-->
+        </div>
     </div>
 </div>
 
@@ -260,11 +306,12 @@
 
 </div>
 
-<div id="cardContainer" class="scrollbar">
-    <div id="introMessage">Use Strg +/- to adjust the Browsers Zoom Level until the darker area fills ~40% of your Window.</div>
+<div id="cardContainer" class="">
+    <img src="public/assets/gui/Card_game_GUI/Parts/frame_hori.png" id="cardContainerBorder" />
+    <!--<div id="introMessage">Use Strg +/- to adjust the Browsers Zoom Level until the darker area fills ~40% of your Window.</div>-->
 </div>
 
-
+</div>
 
 <!-- libs -->
 <!--<script src="lib/phaser.min.js"></script>-->
@@ -278,6 +325,7 @@
 
 <!-- ui -->
 <script src="public/js/ui.js"></script>
+<script src="public/js/card.js"></script>
 <!-- own scripts -->
 <script src="public/js/constants.js"></script>
 <script src="public/js/GameClient.js"></script>
