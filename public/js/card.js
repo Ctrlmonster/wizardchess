@@ -16,14 +16,14 @@ function createMonsterCard(cardData, handIndex, playCallback, scene) {
   // ________________________________________________________________
 
   const card_image = document.createElement("IMG");
-  const icon_path = client_address + `/public/${displayData.icon}`;
+  const icon_path = client_address  + `/public/${displayData.icon}`;
   card_image.src = icon_path;
   //card_image.src = `/public/assets/character_images/FantasyCardsPack_png/FantasyCardsPack_${num}.png`;
   card_image.style.position = "absolute";
   card_image.classList.add("cardImage");
 
   const border_illustration = document.createElement("IMG");
-  border_illustration.src = "/public/assets/gui/dragon_TCG-assets/my_card_border_gold.png";
+  border_illustration.src = client_address + "/public/assets/gui/dragon_TCG-assets/my_card_border_gold.png";
   //border_illustration.src = "/public/assets/gui/dragon_TCG-assets/border_illustration01.png";
   border_illustration.style.position = 'absolute';
   border_illustration.classList.add("cardImageBorder");
@@ -32,7 +32,7 @@ function createMonsterCard(cardData, handIndex, playCallback, scene) {
   imageContainer.classList.add("cardImageContainer");
 
   const dragon_wing_left = document.createElement("IMG");
-  dragon_wing_left.src = "/public/assets/gui/dragon_TCG-assets/dragon_wing_03.png";
+  dragon_wing_left.src = client_address + "/public/assets/gui/dragon_TCG-assets/dragon_wing_03.png";
   dragon_wing_left.style.position = 'absolute';
   dragon_wing_left.style.width = '90%';
   dragon_wing_left.style.left = "-6.5rem";
@@ -40,7 +40,7 @@ function createMonsterCard(cardData, handIndex, playCallback, scene) {
   imageContainer.appendChild(dragon_wing_left);
 
   const dragon_head_right = document.createElement("IMG");
-  dragon_head_right.src = "/public/assets/gui/dragon_TCG-assets/dragon_head_03.png";
+  dragon_head_right.src = client_address + "/public/assets/gui/dragon_TCG-assets/dragon_head_03.png";
   dragon_head_right.style.position = 'absolute';
   dragon_head_right.style.width = '75%';
   dragon_head_right.style.right = "-4.5rem";
@@ -64,7 +64,7 @@ function createMonsterCard(cardData, handIndex, playCallback, scene) {
   text_box.style.position = 'absolute';
 */
   const text_box = document.createElement("IMG");
-  text_box.src = "/public/assets/gui/dragon_TCG-assets/text_box_04.png";
+  text_box.src = client_address + "/public/assets/gui/dragon_TCG-assets/text_box_04.png";
   text_box.style.width = "108%";
   text_box.style.right = "-.5rem";
   text_box.style.position = 'absolute';
@@ -110,11 +110,11 @@ function createMonsterCard(cardData, handIndex, playCallback, scene) {
 //  cardElem.appendChild(textContainer);
 
   const border_cardname = document.createElement("IMG");
-  border_cardname.src = "/public/assets/gui/dragon_TCG-assets/border_cardname01.png";
+  border_cardname.src = client_address + "/public/assets/gui/dragon_TCG-assets/border_cardname01.png";
   border_cardname.style.position = 'absolute';
 
   const base_cardname = document.createElement("IMG");
-  base_cardname.src = "/public/assets/gui/dragon_TCG-assets/base_cardname.png";
+  base_cardname.src = client_address + "/public/assets/gui/dragon_TCG-assets/base_cardname.png";
   base_cardname.style.position = 'absolute';
 
   const cardname_container = document.createElement("DIV");
@@ -137,7 +137,7 @@ function createMonsterCard(cardData, handIndex, playCallback, scene) {
 
 
   const sword1 = document.createElement("IMG");
-  sword1.src = "/public/assets/gui/dragon_TCG-assets/sword_03.png";
+  sword1.src = client_address + "/public/assets/gui/dragon_TCG-assets/sword_03.png";
   sword1.style.position = 'absolute';
   sword1.style.bottom = '-1.1rem';
   sword1.style.left = '-.1rem';
@@ -147,7 +147,7 @@ function createMonsterCard(cardData, handIndex, playCallback, scene) {
   cardElem.appendChild(sword1);
 
   const sword2 = document.createElement("IMG");
-  sword2.src = "/public/assets/gui/dragon_TCG-assets/sword_03.png";
+  sword2.src = client_address + "/public/assets/gui/dragon_TCG-assets/sword_03.png";
   sword2.style.position = 'absolute';
   sword2.style.bottom = '-1.0rem';
   sword2.style.left = '.85rem';
@@ -166,7 +166,7 @@ function createMonsterCard(cardData, handIndex, playCallback, scene) {
   cardElem.appendChild(dragon_tail);*/
 
   const dmgBox = document.createElement("IMG");
-  dmgBox.src = "/public/assets/gui/dragon_TCG-assets/boxatk03.png";
+  dmgBox.src = client_address + "/public/assets/gui/dragon_TCG-assets/boxatk03.png";
   dmgBox.style.position = 'absolute';
   //dmgBox.style.height = '4.5rem';
   dmgBox.style.width = '4rem';
@@ -186,7 +186,7 @@ function createMonsterCard(cardData, handIndex, playCallback, scene) {
   cardElem.appendChild(dmgNumber);
 
   const hpBox = document.createElement("IMG");
-  hpBox.src = "/public/assets/gui/dragon_TCG-assets/shield_03.png";
+  hpBox.src = client_address + "/public/assets/gui/dragon_TCG-assets/shield_03.png";
   hpBox.style.position = 'absolute';
   //dmgBox.style.height = '4.5rem';
   hpBox.style.width = '3.6rem';
@@ -207,7 +207,7 @@ function createMonsterCard(cardData, handIndex, playCallback, scene) {
 
 
   const mana_gem = document.createElement("IMG");
-  mana_gem.src = "/public/assets/gui/dragon_TCG-assets/energy_yellow.png";
+  mana_gem.src = client_address + "/public/assets/gui/dragon_TCG-assets/energy_yellow.png";
   //mana_gem.src = "/public/assets/gui/dragon_TCG-assets/energy_orange.png";
   mana_gem.style.position = 'absolute';
   mana_gem.style.top = '-1.5rem';
@@ -251,7 +251,7 @@ function createMonsterCard(cardData, handIndex, playCallback, scene) {
   cardname_container.appendChild(cardName);
 
   const cardname_decoration_right = document.createElement("IMG");
-  cardname_decoration_right.src = "/public/assets/gui/dragon_TCG-assets/02decoration_03.png";
+  cardname_decoration_right.src = client_address + "/public/assets/gui/dragon_TCG-assets/02decoration_03.png";
   cardname_decoration_right.style.position = 'absolute';
   cardname_decoration_right.style.left = '-1.25rem';
   cardname_decoration_right.style.top = '-1.1rem';
@@ -259,7 +259,7 @@ function createMonsterCard(cardData, handIndex, playCallback, scene) {
   cardname_container.appendChild(cardname_decoration_right);
 
   const cardname_decoration_left = document.createElement("IMG");
-  cardname_decoration_left.src = "/public/assets/gui/dragon_TCG-assets/02decoration_03.png";
+  cardname_decoration_left.src = client_address + "/public/assets/gui/dragon_TCG-assets/02decoration_03.png";
   cardname_decoration_left.style.position = 'absolute';
   cardname_decoration_left.style.right = '-1.25rem';
   cardname_decoration_left.style.top = '-1.1rem';
@@ -323,11 +323,11 @@ function createSpellCard(cardData, handIndex, playCallback) {
   cardElem.classList.add("cardElementSize");
 
   const basecard = document.createElement("IMG");
-  basecard.src = "/public/assets/gui/dragon_TCG-assets/base_card_03.png";
+  basecard.src = client_address + "/public/assets/gui/dragon_TCG-assets/base_card_03.png";
   basecard.style.position = 'absolute';
 
   const border_card = document.createElement("IMG");
-  border_card.src = "/public/assets/gui/dragon_TCG-assets/border_card01.png";
+  border_card.src = client_address + "/public/assets/gui/dragon_TCG-assets/border_card01.png";
   border_card.style.position = 'absolute';
 
   // ________________________________________________________________
@@ -342,7 +342,7 @@ function createSpellCard(cardData, handIndex, playCallback) {
   card_image.classList.add("cardImage");
 
   const border_illustration = document.createElement("IMG");
-  border_illustration.src = "/public/assets/gui/dragon_TCG-assets/my_card_border_gold.png";
+  border_illustration.src = client_address + "/public/assets/gui/dragon_TCG-assets/my_card_border_gold.png";
   //border_illustration.src = "/public/assets/gui/dragon_TCG-assets/border_illustration01.png";
   border_illustration.style.position = 'absolute';
   border_illustration.classList.add("cardImageBorder");
@@ -351,7 +351,7 @@ function createSpellCard(cardData, handIndex, playCallback) {
   imageContainer.classList.add("cardImageContainer");
 
   const dragon_wing_left = document.createElement("IMG");
-  dragon_wing_left.src = "/public/assets/gui/dragon_TCG-assets/dragon_wing_03.png";
+  dragon_wing_left.src = client_address + "/public/assets/gui/dragon_TCG-assets/dragon_wing_03.png";
   dragon_wing_left.style.position = 'absolute';
   dragon_wing_left.style.width = '90%';
   dragon_wing_left.style.left = "-6.5rem";
@@ -359,7 +359,7 @@ function createSpellCard(cardData, handIndex, playCallback) {
   //imageContainer.appendChild(dragon_wing_left);
 
   const small_wing_right = document.createElement("IMG");
-  small_wing_right.src = "/public/assets/gui/dragon_TCG-assets/01decoration_03.png";
+  small_wing_right.src = client_address + "/public/assets/gui/dragon_TCG-assets/01decoration_03.png";
   small_wing_right.classList.add("smallWingStyle");
   cardElem.appendChild(small_wing_right);
 
@@ -370,13 +370,13 @@ function createSpellCard(cardData, handIndex, playCallback) {
   cardElem.appendChild(small_wing_left);*/
 
   const dragon_tail = document.createElement("IMG");
-  dragon_tail.src = "/public/assets/gui/dragon_TCG-assets/dragon_tail_03.png";
+  dragon_tail.src = client_address + "/public/assets/gui/dragon_TCG-assets/dragon_tail_03.png";
   dragon_tail.classList.add("dragonTailStyle");
   cardElem.appendChild(dragon_tail);
 
 
   const dragon_head_right = document.createElement("IMG");
-  dragon_head_right.src = "/public/assets/gui/dragon_TCG-assets/dragon_head_03.png";
+  dragon_head_right.src = client_address + "/public/assets/gui/dragon_TCG-assets/dragon_head_03.png";
   dragon_head_right.style.position = 'absolute';
   dragon_head_right.style.width = '75%';
   dragon_head_right.style.right = "-4.5rem";
@@ -388,11 +388,11 @@ function createSpellCard(cardData, handIndex, playCallback) {
   imageContainer.appendChild(border_illustration);
 
   const border_cardname = document.createElement("IMG");
-  border_cardname.src = "/public/assets/gui/dragon_TCG-assets/border_cardname01.png";
+  border_cardname.src = client_address + "/public/assets/gui/dragon_TCG-assets/border_cardname01.png";
   border_cardname.style.position = 'absolute';
 
   const base_cardname = document.createElement("IMG");
-  base_cardname.src = "/public/assets/gui/dragon_TCG-assets/base_cardname.png";
+  base_cardname.src = client_address + "/public/assets/gui/dragon_TCG-assets/base_cardname.png";
   base_cardname.style.position = 'absolute';
 
   const cardname_container = document.createElement("DIV");
@@ -416,7 +416,7 @@ function createSpellCard(cardData, handIndex, playCallback) {
   //cardElem.appendChild(dragon_tail);*/
 
   const text_box = document.createElement("IMG");
-  text_box.src = "/public/assets/gui/dragon_TCG-assets/text_paper.png";
+  text_box.src = client_address + "/public/assets/gui/dragon_TCG-assets/text_paper.png";
   /*text_box.style.width = "90%";
   text_box.style.left = ".55rem";
   text_box.style.marginTop = "-.9rem";
@@ -479,7 +479,7 @@ function createSpellCard(cardData, handIndex, playCallback) {
 
 
   const dmgBox = document.createElement("IMG");
-  dmgBox.src = "/public/assets/gui/dragon_TCG-assets/boxatk03.png";
+  dmgBox.src = client_address + "/public/assets/gui/dragon_TCG-assets/boxatk03.png";
   dmgBox.style.position = 'absolute';
   //dmgBox.style.height = '4.5rem';
   dmgBox.style.width = '4rem';
@@ -524,7 +524,7 @@ function createSpellCard(cardData, handIndex, playCallback) {
 */
 
   const mana_gem = document.createElement("IMG");
-  mana_gem.src = "/public/assets/gui/dragon_TCG-assets/energy_blue.png";
+  mana_gem.src = client_address + "/public/assets/gui/dragon_TCG-assets/energy_blue.png";
   mana_gem.style.position = 'absolute';
   mana_gem.style.top = '-1.5rem';
   mana_gem.style.left = '-1.4rem';
@@ -567,7 +567,7 @@ function createSpellCard(cardData, handIndex, playCallback) {
   cardname_container.appendChild(cardName);
 
   const cardname_decoration_right = document.createElement("IMG");
-  cardname_decoration_right.src = "/public/assets/gui/dragon_TCG-assets/02decoration_03.png";
+  cardname_decoration_right.src = client_address + "/public/assets/gui/dragon_TCG-assets/02decoration_03.png";
   cardname_decoration_right.style.position = 'absolute';
   cardname_decoration_right.style.left = '-1.25rem';
   cardname_decoration_right.style.top = '-1.1rem';
@@ -575,7 +575,7 @@ function createSpellCard(cardData, handIndex, playCallback) {
   cardname_container.appendChild(cardname_decoration_right);
 
   const cardname_decoration_left = document.createElement("IMG");
-  cardname_decoration_left.src = "/public/assets/gui/dragon_TCG-assets/02decoration_03.png";
+  cardname_decoration_left.src = client_address + "/public/assets/gui/dragon_TCG-assets/02decoration_03.png";
   cardname_decoration_left.style.position = 'absolute';
   cardname_decoration_left.style.right = '-1.25rem';
   cardname_decoration_left.style.top = '-1.1rem';
