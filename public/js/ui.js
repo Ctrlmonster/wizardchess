@@ -76,6 +76,9 @@ function showGameElements() {
   heroImage.classList.remove("hideTooltip");
   enemyHeroImage.classList.remove("hideTooltip");
   //introMessage.classList.add("hideTooltip");
+
+
+  gameContainer.style.backgroundImage = 'url(\"https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Desk_01.png\")';
 }
 
 
@@ -328,7 +331,6 @@ function initMatchSelectionModes() {
   let battleScene = game.scene.getScene('BattleScene');
 
   gameCanvas = document.querySelector("canvas");
-  const canvasRect = gameCanvas.getBoundingClientRect();
 
   canvasContainer.addEventListener('mouseover', () => {
     battleScene.setSelectionMode('board');
@@ -343,6 +345,7 @@ function initMatchSelectionModes() {
   const wrapper = document.getElementById("wrapper");
 
   gameContainer.addEventListener('click', (evt) => {
+    const canvasRect = gameCanvas.getBoundingClientRect();
     if (!(evt.pageX > canvasRect.left && evt.pageX < canvasRect.right &&
         evt.pageY > canvasRect.top && evt.pageY < canvasRect.bottom)) {
       battleScene.selectCell({x: -1, y: -1}); // auto deselect if clicked outside of the board
@@ -351,6 +354,7 @@ function initMatchSelectionModes() {
 
 
   wrapper.addEventListener('mouseover', (evt) => {
+    const canvasRect = gameCanvas.getBoundingClientRect();
     if (!(evt.pageX > canvasRect.left && evt.pageX < canvasRect.right &&
       evt.pageY > canvasRect.top && evt.pageY < canvasRect.bottom)) {
       battleScene.showCellContentTooltip({content:null});

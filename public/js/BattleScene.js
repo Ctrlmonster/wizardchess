@@ -14,7 +14,7 @@ class BattleScene extends Phaser.Scene {
     this.myTurn = null;
     this.hand = [];
     this.prevHand = [];
-    this.zoomedCard = null;
+    //this.zoomedCard = null;
     // hero stats;
     this.hero = null;
     this.pos = null;
@@ -523,6 +523,8 @@ class BattleScene extends Phaser.Scene {
   showCellContentTooltip(cell) {
     //cellTooltipDetails.forEach(cell => cell.innerHTML = ""); // start with a reset
 
+
+
     if (this.hoveredCell === cell) return;
     else {
       this.hoveredCell = null;
@@ -560,11 +562,21 @@ class BattleScene extends Phaser.Scene {
     if (content.buffs.length) {
       cellTooltipDetails[10].innerHTML = `Buffs:<br>`;
       content.buffs.forEach(buff => {
-        console.log(this.phase);
-        console.log(buff);
         let {timer} = buff;
-        //cellTooltipDetails[10].innerHTML += ` ${buff.name} (${stringToUpperCase(timer.phase)} of ${buff.friendly ? "enemy's" : 'my'} Turn, in ${buff.timer.cyclesFromNow} Turns) <br>`
-        cellTooltipDetails[10].innerHTML += `* ${buff.name} <br>(${stringToUpperCase(timer.phase)} of ${buff.friendly ? "enemy's" : 'my'} Turn, in ${buff.timer.cyclesFromNow} Turns) <br>`
+        if (buff.endPhase) {
+
+          // if buff.friendly dann kann endphase type geglaubt werden, sonst umgedreht
+          let phaseOwner;
+          if (buff.friendly) {
+            phaseOwner = (buff.timer.phaseOwner === 'hostile') ? 'Enemy' : 'My';
+          } else {
+            phaseOwner = (buff.timer.phaseOwner === 'hostile') ? 'My' : 'Enemy';
+          }
+
+          let msg = `Buff ends: ${buff.endPhase.type} of ${phaseOwner} Turn Nr. ${buff.endPhase.address[0]+1}`;
+          cellTooltipDetails[10].innerHTML += `* ${buff.name} <br>${msg}<br>`
+        }
+        else cellTooltipDetails[10].innerHTML += `* ${buff.name}<br>`
       });
     } else {
       cellTooltipDetails[10].innerHTML = "";
@@ -629,7 +641,6 @@ class BattleScene extends Phaser.Scene {
         if (this.prevHand.indexOf(cardData) === -1) {
           if (cardData.cardType !== 'monster')
             createSpellCard(cardData, i, this.selectCard, this);
-            //createCardElem(cardData, i, this.selectCard);
           else
             createMonsterCard(cardData, i, this.selectCard, this)
         }
@@ -711,7 +722,7 @@ class BattleScene extends Phaser.Scene {
 
 
 
-  selectCard(handIndex, zoomedCard) {
+  selectCard(handIndex) {
     if (!this.myTurn || !this.actionRequestData.length) return;
     let options = this.actionRequestData.filter(option => option.type === 'card');
     if (!options.length) return;
@@ -722,14 +733,17 @@ class BattleScene extends Phaser.Scene {
     if (selectedOption) {
       client.sendActionResponse(selectedOption).then(res => {
         this.actionRequestData = [];
-        zoomedCard.remove();
+        //zoomedCard.remove();
+        //this.setSelectionMode('board', true);
         this.setSelectionMode('hand', true);
+
+        // card.element.classList.add("selectedCard"); // TODO:
       });
     }
     else {
       client.sendActionResponse({}).then(res => {
         this.actionRequestData = [];
-        zoomedCard.remove();
+        //zoomedCard.remove();
         this.setSelectionMode('hand', true);
       });
       this.actionRequestData = [];
@@ -740,11 +754,16 @@ class BattleScene extends Phaser.Scene {
   // TODO: to implement n > 1 ar's, send n and only send the response here if the as many options have been selected
   // select an action request option (for type cell)
   selectCell(pos) {
+
     // early returns to stop players spamming the server
-    if (!this.myTurn || !this.actionRequestData.length) return;
+    if (!this.myTurn || (this.actionRequestData == null || !this.actionRequestData.length)) {
+      return;
+    }
     // get the relevant options and return if all available options are of a different type
     let options = this.actionRequestData.filter(option => option.type === 'cell');
-    if (!options.length) return;
+    if (!options.length)  {
+      return;
+    }
 
     // check if the player clicked on one of the options
     let selection = options.find((option) => (option.data.x === pos.x) && (option.data.y === pos.y));
