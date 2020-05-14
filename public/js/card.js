@@ -516,7 +516,7 @@ function createMonsterCard(cardData, handIndex, playCallback, scene) {
   if (displayData.commanderMinion) {
     const commanderIcon = document.createElement("IMG");
     commanderIcon.draggable = false;
-    commanderIcon.src = "/public/assets/gui/dragon_TCG-assets/sword_03.png";
+    commanderIcon.src = client_address + "/public/assets/gui/dragon_TCG-assets/sword_03.png";
     commanderIcon.style.position = 'absolute';
     //dmgBox.style.height = '4.5rem';
     commanderIcon.style.width = 'auto';
@@ -529,7 +529,7 @@ function createMonsterCard(cardData, handIndex, playCallback, scene) {
   if (displayData.monsterType === 'tank') {
     const roleIcon = document.createElement("IMG");
     roleIcon.draggable = false;
-    roleIcon.src = "/public/assets/gui/dragon_TCG-assets/shield_03.png";
+    roleIcon.src = client_address + "/public/assets/gui/dragon_TCG-assets/shield_03.png";
     roleIcon.style.position = 'absolute';
     //dmgBox.style.height = '4.5rem';
     roleIcon.style.width = '2rem';
