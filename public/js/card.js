@@ -624,6 +624,8 @@ function createMonsterCard(cardData, handIndex, playCallback, scene) {
   cardElem.addEventListener("click", () => {
     let zoomedCard = document.getElementById("zoomCard");
     heroAreas.removeChild(zoomedCard);
+    zoomedCard.remove();
+
     playCallback(handIndex);
   });
 
