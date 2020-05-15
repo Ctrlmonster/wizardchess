@@ -172,7 +172,7 @@ body {
     position: absolute;
     height: 15px;
     width: 100%;
-    top: -10px;
+    top: -7px;
 }
 
 #nextTurn {
@@ -187,6 +187,7 @@ body {
     padding-top: 3rem;
     background-image: url("https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Backgrounds/planke.png");
     background-size: 100%;
+    background-position-y: -11rem;
 
     /*
     padding: 25px 15px 35px 15px;
