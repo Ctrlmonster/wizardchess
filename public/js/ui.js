@@ -78,7 +78,7 @@ function showGameElements() {
   //introMessage.classList.add("hideTooltip");
 
 
-  gameContainer.style.backgroundImage = 'url(\"https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Desk_01.png\")';
+  //gameContainer.style.backgroundImage = 'url(\"https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Desk_01.png\")';
 }
 
 

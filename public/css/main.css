@@ -57,9 +57,9 @@ button:hover {
 #gameContainer {
     display: flex;
     flex-flow: row;
-    /*
-    background-image: url("https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Desk_01.png");
-     */
+
+    background-image: url("https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Desk_gimp.png");
+
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
