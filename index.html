@@ -28,7 +28,7 @@
     <div id="heroArea">
 
             <!--<div>Hero: <span id="heroClass">Class</span></div>-->
-        <div class="deckSize cardElement hideTooltip" >
+        <div class="cardElementSize deckSize cardElement hideTooltip" >
             <img draggable="false" src="https://ctrlmonster.github.io/wizardchess/public/assets/gui/dragon_TCG-assets/card%20back.png">
             <span class="cardNumber" id="cardsLeft">Z</span>
         </div>
@@ -209,13 +209,14 @@
             </div>
 
             <div id="historyHeader" class="hideTooltip cardNumber">
-                History
+
             </div>
             <div id="historyContainer" class="scrollbar hideTooltip">
             </div>
 
             <div id="turnInfo" class="hideTooltip cardNumber">
-                <span id="phaseOwner">MY/ENEMY</span> Turn Nr <span id="turnNumber">TURNNUMBER</span>
+                <div><span id="phaseOwner">MY/ENEMY</span> Turn Nr <span id="turnNumber">TURNNUMBER</span></div>
+                <div id="nextTurn">(Next Turn: <span id="nextPhaseOwner">MY/ENEMY</span> Turn Nr <span id="nextTurnNumber">TURNNUMBER</span>)</div>
             </div>
 
         </div>
