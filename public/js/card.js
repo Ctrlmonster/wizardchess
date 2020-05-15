@@ -614,7 +614,7 @@ function createMonsterCard(cardData, handIndex, playCallback, scene) {
     //if (zoomedCard != null && heroAreas.contains(zoomedCard)) {
       //zoomedCard.remove();
       let zoomedCard = document.getElementById("zoomCard");
-      heroAreas.removeChild(zoomedCard);
+      //heroAreas.removeChild(zoomedCard);
       zoomedCard.remove();
       //zoomedCard = null;
     //}
@@ -623,10 +623,9 @@ function createMonsterCard(cardData, handIndex, playCallback, scene) {
   // play card event
   cardElem.addEventListener("click", () => {
     let zoomedCard = document.getElementById("zoomCard");
-    heroAreas.removeChild(zoomedCard);
-    zoomedCard.remove();
-
+    //heroAreas.removeChild(zoomedCard);
     playCallback(handIndex);
+    zoomedCard.remove();
   });
 
   // =========================================

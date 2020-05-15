@@ -365,7 +365,7 @@ class BattleScene extends Phaser.Scene {
       this.updateTableData();
 
       this.initPlayers();
-      this.showActiveHighlight();
+      //this.showActiveHighlight();
 
       // notify server that initial data was retrieved
       client.sendReadyForMatchMessage().then(res => {
@@ -457,6 +457,8 @@ class BattleScene extends Phaser.Scene {
       //const txt = scene.add.text(5, 5, `${cell.colIndx}|${cell.rowIndx}`);
       let x = cell.colIndx * CELL_DRAW_SIZE;
       let y = cell.rowIndx * CELL_DRAW_SIZE;
+
+
       let moreText = {
           atk: scene.add.text(x+5, y+2.5, ``),
           hp: scene.add.text(x+38, y+2, ``),
@@ -475,10 +477,22 @@ class BattleScene extends Phaser.Scene {
         magicPower: null,
         casts: null
       };*/
+      let rotX = (cell.colIndx+1) * CELL_DRAW_SIZE;
+      let rotY = (cell.rowIndx+1) * CELL_DRAW_SIZE;
+      const posObj = (x,y) => ({x,y});
+      const rotPos = {
+        atk: posObj(rotX-5, rotY-2.5),
+        hp: posObj(rotX-38, rotY-2),
+        healPower: posObj(rotX-5, rotY-15),
+        mana: posObj(rotX-38, rotY-14),
+        magicPower: posObj(rotX-5, rotY-27),
+        buff: posObj(rotX-5, rotY-39),
+        cc: posObj(rotX-36, rotY-38)
+      };
 
       // TODO: add multiple text objects for better positioning and easier styling
       // game.scene.scenes[1].gameTable.table.cells[0].container.list[1].text
-      return new Cell(scene, 0, 0, [bg, txt], moreText);
+      return new Cell(scene, 0, 0, [bg, txt], moreText, rotPos);
     };
 
     const onCellVisible = function (cell) {
@@ -516,8 +530,8 @@ class BattleScene extends Phaser.Scene {
 
 
     // draw bound
-    this.active_highlight = this.add.graphics();
-    this.active_highlight.lineStyle(3, 0x000000).strokeRectShape(this.gameTable.getBounds()).setAlpha(1);
+  //  this.active_highlight = this.add.graphics();
+//    this.active_highlight.lineStyle(3, 0x000000).strokeRectShape(this.gameTable.getBounds()).setAlpha(1);
   }
 
   showCellContentTooltip(cell) {

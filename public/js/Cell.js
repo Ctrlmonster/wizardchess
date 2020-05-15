@@ -1,5 +1,5 @@
 class Cell extends Phaser.GameObjects.Container {
-  constructor(scene, x, y, children, moreText) {
+  constructor(scene, x, y, children, moreText, normPos) {
     super(scene, x, y, children);
     scene.add.existing(this);
     this.scene = scene;
@@ -13,6 +13,7 @@ class Cell extends Phaser.GameObjects.Container {
     this.image = null; // for role
     this.extraImage = null; // for idling
     this.commanderImage = null;
+    this.normPos = normPos;
   }
 
   setCommanderImage(image) {
@@ -67,13 +68,13 @@ class Cell extends Phaser.GameObjects.Container {
       this.graphics.clear(); // 0xeee2D5
       const col = (!(this.dataObject.pos.x % 2) === !(this.dataObject.pos.y % 2)) ? 0xD6D1C1 : 0xffffff;
       this.graphics.fillStyle(col)
-        .setAlpha(1)
+        .setAlpha(0.75)
         .lineStyle(1, 0xbbbbbb)
     }
     else {
       this.graphics.clear();
       this.graphics.fillStyle(0x000000)
-        .setAlpha(1)
+        .setAlpha(0.9)
         .lineStyle(1, 0xbbbbbb)
         .fillRect(1, 1, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
         .strokeRect(1, 1, CELL_DRAW_SIZE, CELL_DRAW_SIZE);
@@ -189,8 +190,18 @@ class Cell extends Phaser.GameObjects.Container {
       textObj.setFontSize(11);
       textObj.setDepth(100);
 
-      if (this.scene.rotateCanvas)
+      if (this.scene.rotateCanvas) {
         textObj.rotation = Math.PI;
+        //console.log(this.normPos);
+        //console.log(key);
+        //console.log(this.normPos);
+        textObj.x = this.normPos[key].x;
+        textObj.y = this.normPos[key].y;
+        //console.log(textObj.x);
+        //console.log("----------------");
+
+      }
+
 
       //textObj.setColor("#ff0000");
     });
@@ -224,7 +235,7 @@ class Cell extends Phaser.GameObjects.Container {
     if (initSelection) {
       this.graphics.clear();
       this.graphics.fillStyle(0xffc31e)
-        .setAlpha(1)
+        .setAlpha(0.9)
       //this.graphics.fillStyle(0xffa500)
       //const col = (!(this.dataObject.pos.x % 2) === !(this.dataObject.pos.y % 2)) ? 0xD6D1C1 : 0xffffff;
       //const col = 0xC2A1FF;
@@ -237,7 +248,7 @@ class Cell extends Phaser.GameObjects.Container {
     else {
       this.graphics.clear();
       this.graphics.fillStyle(0xaa22ff)
-        .setAlpha(1)
+        .setAlpha(0.9)
         .lineStyle(1, 0xbbbbbb)
         .fillRect(1, 1, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
         .strokeRect(1, 1, CELL_DRAW_SIZE, CELL_DRAW_SIZE);
@@ -260,7 +271,7 @@ class Cell extends Phaser.GameObjects.Container {
     if (this.dataObject.cellType === 'blocked') {
       this.graphics.clear();
       this.graphics.fillStyle(0x000000)
-        .setAlpha(1)
+        .setAlpha(0.9)
         .lineStyle(1, 0xbbbbbb)
         .fillRect(1, 1, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
         .strokeRect(1, 1, CELL_DRAW_SIZE, CELL_DRAW_SIZE);
@@ -270,7 +281,7 @@ class Cell extends Phaser.GameObjects.Container {
       //this.graphics.fillStyle(0xffffff)
       const col = (!(this.dataObject.pos.x % 2) === !(this.dataObject.pos.y % 2)) ? 0xD6D1C1 : 0xffffff;
       this.graphics.fillStyle(col)
-        .setAlpha(1)
+        .setAlpha(0.75)
         .lineStyle(1, 0xbbbbbb)
         .fillRect(1, 1, CELL_DRAW_SIZE, CELL_DRAW_SIZE)
         .strokeRect(1, 1, CELL_DRAW_SIZE, CELL_DRAW_SIZE);

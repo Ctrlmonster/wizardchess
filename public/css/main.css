@@ -8,7 +8,6 @@
 body {
     margin: 0;
     padding: 0;
-    background: #383F51;
     /*background: #383F51;*/
     /*background: #F2D0A4;*/
     font-family: 'Poppin', Arial, Helvetica, sans-serif;
@@ -57,64 +56,61 @@ button:hover {
 #gameContainer {
     display: flex;
     flex-flow: row;
-
-    background-image: url("https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Desk_gimp.png");
-
+    background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Desk_gimp.png);
     background-position: center;
-    background-size: contain;
+    background-position-x: 55rem;
     background-repeat: no-repeat;
-    /*
-    padding: 1rem;
-     */
+
+    /* padding: 1rem; */
     box-sizing: border-box;
     height: 75vh;
-    /*background: #07123b;*/
-}
+
+  }
 
 
-.heroFrameContainer {
-    position: relative;
-    transform: scale(1);
-}
-.heroFrame {
-    position: absolute;
-    width: 24rem;
-    height: 12rem;
-}
+  .heroFrameContainer {
+      position: relative;
+      transform: scale(1);
+  }
+  .heroFrame {
+      position: absolute;
+      width: 24rem;
+      height: 12rem;
+  }
 
-.heroClass {
-    position: absolute;
-    width: 14rem;
-    height: 14rem;
-    left: 4.8rem;
-    top: -1rem;
-}
-.heroFrameStat {
-    position: absolute;
-    width: 5.5rem;
-    height: 5.5rem;
-    top: -.5rem;
-}
+  .heroClass {
+      position: absolute;
+      width: 14rem;
+      height: 14rem;
+      left: 4.8rem;
+      top: -1rem;
+  }
+  .heroFrameStat {
+      position: absolute;
+      width: 5.5rem;
+      height: 5.5rem;
+      top: -.5rem;
+  }
 
-.heroFrameHP {
-    left: 0rem;
-}
-.heroFrameMana {
-    right: -23.5rem;
-}
+  .heroFrameHP {
+      left: 0rem;
+  }
+  .heroFrameMana {
+      right: -23.5rem;
+  }
 
 
-.heroFrameStat img {
-    width: 100%;
-}
-.heroFrameStat span {
-    position: absolute;
-    top: 1.8rem;
-    left: 1.6rem;
-    font-family: 'Bitter', Arial, Helvetica, sans-serif;
-    font-weight: 700;
-    font-size: 2rem;
-    -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+  .heroFrameStat img {
+      width: 100%;
+  }
+  .heroFrameStat span {
+      position: absolute;
+      top: 1.8rem;
+      left: 1.6rem;
+      font-family: 'Bitter', Arial, Helvetica, sans-serif;
+      font-weight: 700;
+      font-size: 2rem;
+      -webkit-text-fill-color: white; /* Will override color (regardless of order) */
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: black;
 }
@@ -144,16 +140,17 @@ body {
 }
 
 #canvasContainer {
-    /*z-index: 1000;*/
-    width: 40vw;
+    z-index: 1000;
+    width: 47vw;
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 #canvasContainer canvas {
-    opacity: 0.75;
-    height: 61vh!important;
-    width: 62vh!important;
+    opacity: 1;
+    height: 67vh!important;
+    width: 67vh!important;
 }
 
 #cardContainerBorder {
@@ -381,12 +378,11 @@ body {
 }
 
 #heroAreas {
-    width: 45vw;
+    width: 37vw;
     display: flex;
     flex-flow: column-reverse;
     align-items: center;
     justify-content: space-between;
-
 }
 
 #heroArea {
@@ -543,7 +539,7 @@ body {
     flex-flow: column;
     justify-content: flex-end;
     width: 15vw;
-    align-items: center;
+    align-items: flex-end;
 }
 
 .mainButtonStyle {
