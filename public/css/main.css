@@ -151,9 +151,9 @@ body {
 }
 
 #canvasContainer canvas {
-    opacity: 1;
-    height: 55vh!important;
-    width: 55vh!important;
+    opacity: 0.75;
+    height: 61vh!important;
+    width: 62vh!important;
 }
 
 #cardContainerBorder {
