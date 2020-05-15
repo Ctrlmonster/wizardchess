@@ -35,7 +35,9 @@ let gameCanvas; // needs to wait for canvas creation by phaser
 
 const turnInfo = document.getElementById("turnInfo");
 const phaseOwnerElem = document.getElementById("phaseOwner");
+const nextPhaseOwnerElem = document.getElementById("nextPhaseOwner");
 const turnNumberElem = document.getElementById("turnNumber");
+const nextTurnNumberElem = document.getElementById("nextTurnNumber");
 
 const heroHp = document.getElementById("heroHp");
 //const heroClass = document.getElementById("heroClass");
@@ -357,7 +359,7 @@ function initMatchSelectionModes() {
     const canvasRect = gameCanvas.getBoundingClientRect();
     if (!(evt.pageX > canvasRect.left && evt.pageX < canvasRect.right &&
       evt.pageY > canvasRect.top && evt.pageY < canvasRect.bottom)) {
-      battleScene.showCellContentTooltip({content:null});
+      battleScene.showCellContentTooltip({content:null}, true);
     }
   });
 

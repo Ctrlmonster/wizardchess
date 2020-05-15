@@ -14,7 +14,7 @@ class BattleScene extends Phaser.Scene {
     this.myTurn = null;
     this.hand = [];
     this.prevHand = [];
-    //this.zoomedCard = null;
+    this.zoomedCard = null;
     // hero stats;
     this.hero = null;
     this.pos = null;
@@ -331,6 +331,7 @@ class BattleScene extends Phaser.Scene {
     this.pos = data.pos;
     this.board = data.board;
     this.turn = data.turn;
+    this.nextTurn = data.nextTurn;
     this.phase = data.phase;
     this.myTurn = data.myTurn;
     this.otherPos = data.otherPos;
@@ -534,19 +535,22 @@ class BattleScene extends Phaser.Scene {
 //    this.active_highlight.lineStyle(3, 0x000000).strokeRectShape(this.gameTable.getBounds()).setAlpha(1);
   }
 
-  showCellContentTooltip(cell) {
+  showCellContentTooltip(cell, keepZoomedCard=false) {
     //cellTooltipDetails.forEach(cell => cell.innerHTML = ""); // start with a reset
-
 
 
     if (this.hoveredCell === cell) return;
     else {
       this.hoveredCell = null;
       cellTooltip.classList.add("hideTooltip");
+      if (!keepZoomedCard) this.removeZoomedCard();
     }
 
     const {content} = cell;
-    if (content == null || (!content.visible && !cell.friendly)) return;
+    if (content == null || (!content.visible && !cell.friendly)) {
+      return;
+    }
+
 
 
     this.hoveredCell = cell;
@@ -597,22 +601,24 @@ class BattleScene extends Phaser.Scene {
     }
 
 
-
     cellTooltip.classList.remove("hideTooltip");
-    // friendly / hostile
-    // type
-    // atk
-    // hp
-
-    // show below probably if they're affected or exist in the case of cast
-    // canMove && allowedToMove
-    // canFight && allowedToMove
-    // allowedToCast
+    if (content.type === 'hero') return;
 
 
-    // effect
-    // buffs?
-
+    // create a zoomed card highlight for minions
+    const dataForZoomedCard = {
+      mana: content.manaCost,
+      hp: content.maxHp,
+      healPower: content.healPower,
+      magicPower: content.magicPower,
+      atk : content.atk,
+      monsterType : content.monsterType,
+      commanderMinion: content.commander,
+      info: content.info,
+      icon: content.icon,
+      name: content.name
+    };
+    createMonsterCard(dataForZoomedCard, null, null, true, this);
   }
 
 
@@ -631,23 +637,29 @@ class BattleScene extends Phaser.Scene {
 
   // ------------------------------------------------
 
+  updateZoomedCard(zoomedCardElem) {
+    if (!zoomedCardElem.isSameNode(this.zoomedCard)) {
+      if (this.zoomedCard != null) {
+        this.zoomedCard.remove(); // remove the old element
+      }
+      this.zoomedCard = zoomedCardElem;
+      this.zoomedCard.setAttribute("id", "zoomCard");
+      heroAreas.appendChild(this.zoomedCard);
+    }
+  }
+  removeZoomedCard() {
+    if (this.zoomedCard != null) {
+      this.zoomedCard.remove();
+      this.zoomedCard = null;
+    }
+  }
+
   createPlayerHand() {
     // clear the previous card elements
-    //let prevElems = document.querySelectorAll("div.cardStyle, div.cardElement");
-
-    /*
-    this.prevHand.forEach((cardData, i) => {
-      if (this.hand.indexOf(cardData) === -1) {
-        prevElems[i].remove();
-         // below is how it should be done to avoid querySelector (as soon as spell card creation is updated)
-      }
-    });*/
-
     this.prevHand.forEach((cardData, i) => {
       if (cardData.element)
         cardData.element.remove()
     });
-
 
     // create new card elements
     this.hand.forEach((cardData, i) => {
@@ -656,7 +668,7 @@ class BattleScene extends Phaser.Scene {
           if (cardData.cardType !== 'monster')
             createSpellCard(cardData, i, this.selectCard, this);
           else
-            createMonsterCard(cardData, i, this.selectCard, this)
+            createMonsterCard(cardData, i, this.selectCard, false, this)
         }
         if (cardData.playable) {
           switch(cardData.cardType) {
@@ -689,6 +701,10 @@ class BattleScene extends Phaser.Scene {
 
     phaseOwnerElem.innerHTML = this.myTurn ? 'My' : "Enemy's";//this.phase.type; // not needed right now
     turnNumberElem.innerHTML = (this.phase.address) ? this.phase.address[0]+1 : 0;
+    //turnNumberElem.innerHTML = this.turn;
+
+    nextPhaseOwnerElem.innerHTML = this.myTurn ? "Enemy's" : "My";//this.phase.type; // not needed right now
+    nextTurnNumberElem.innerHTML = this.nextTurn;
 
     if (this.myTurn)
       endTurnButton.children[1].src = "public/assets/gui/Card_game_GUI/Parts/Button_Medium_On.png";
@@ -750,7 +766,7 @@ class BattleScene extends Phaser.Scene {
         //zoomedCard.remove();
         //this.setSelectionMode('board', true);
         this.setSelectionMode('hand', true);
-
+        this.removeZoomedCard();
         // card.element.classList.add("selectedCard"); // TODO:
       });
     }

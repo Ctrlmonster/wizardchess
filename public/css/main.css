@@ -56,14 +56,15 @@ button:hover {
 #gameContainer {
     display: flex;
     flex-flow: row;
+    /*
     background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Desk_gimp.png);
     background-position: center;
     background-position-x: 55rem;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat;*/
 
     /* padding: 1rem; */
     box-sizing: border-box;
-    height: 75vh;
+    height: 70vh;
 
   }
 
@@ -141,16 +142,30 @@ body {
 
 #canvasContainer {
     z-index: 1000;
+    /*
     width: 47vw;
+     */
     display: flex;
     align-items: center;
     justify-content: center;
+    background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Desk_gimp.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 66vh!important;
+    width: 75vh!important;
 }
 
 #canvasContainer canvas {
     opacity: 1;
+    height: 75%!important;
+    width: 75%!important;
+    /*
     height: 67vh!important;
+     */
+    /*
     width: 67vh!important;
+     */
+    border-radius: 25px;
 }
 
 #cardContainerBorder {
@@ -160,12 +175,17 @@ body {
     top: -10px;
 }
 
+#nextTurn {
+    font-size: 1.2rem;
+}
+
 #cardContainer {
     position: relative;
-    height: 25vh;
+    height: 30vh;
     align-items: center;
-
-    background-image: url("https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Backgrounds/Background_05.png");
+    box-sizing: border-box;
+    padding-top: 3rem;
+    background-image: url("https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Backgrounds/planke.png");
     background-size: 100%;
 
     /*
@@ -199,7 +219,6 @@ body {
 #historyContainer {
     width: 18rem;
     /*position: relative;*/
-    background: rgba(0, 0, 0, 0.2);
     font-size: 2rem;
     /*background: #000;*/
     /*background: #000;*/
@@ -207,7 +226,7 @@ body {
     /*background: #383F51;*/
     position: absolute;
     right: 0;
-    top: 3rem;
+    top: 6rem;
     height: 650px;
     padding: 0 10px;
     /*
@@ -217,9 +236,11 @@ body {
 
 #turnInfo {
     position: absolute;
-    top: 750px;
-    right: 3vw;
+    right: 2rem;
+    top: .5rem;
+    height: 3rem;
     font-size: 1.8rem;
+
 }
 
 #historyHeader {
@@ -251,12 +272,13 @@ body {
 }
 
 #cellTooltip {
-    font-size: 2rem;
+    font-size: 1.8rem;
     position: absolute;
-    left: 0rem;
+    left: 75vw;
     top: 0rem;
+    z-index: 10000000!important;
 
-    border: 4px solid #ccc;
+    border: 4px solid darkorange;
     border-radius: 3px;
     color: white;
     background: rgba(0, 0, 0, 0.7);
@@ -268,7 +290,7 @@ body {
     background: white;
     border: 4px solid #ccc;
 */
-    z-index: 10;
+
     pointer-events: none;
 }
 
@@ -319,8 +341,9 @@ body {
     font-size: 2rem;
     display: flex;
     /* justify-content: flex-end; */
-    margin-bottom: 15rem;
-    margin-left: 6rem;
+    margin-bottom: 13rem;
+    margin-left: 5rem;
+    transform: scale(.9);
 }
 
 #enemyHeroStatsContainer {
@@ -332,7 +355,7 @@ body {
     margin-left: 6rem;
     margin-bottom: 12rem;
     margin-right: 26rem;
-    transform: scale(.75);
+    transform: scale(.65);
 }
 
 .rotateCanvas {
@@ -353,6 +376,7 @@ body {
 
 #heroSkillsContainer {
     margin-bottom: 3rem;
+
 
 }
 #enemySkillsContainer {
@@ -463,6 +487,7 @@ body {
     justify-content: space-evenly;
     margin: 15px auto;
     position: relative;
+    transform: scale(0.9);
 }
 
 .heroSkill {
@@ -819,11 +844,11 @@ body {
 }
 
 .cardElementSize {
-    -webkit-transform: scale(0.75);
-    -moz-transform: scale(0.75);
-    -ms-transform: scale(0.75);
-    -o-transform: scale(0.75);
-    transform: scale(0.75);
+    -webkit-transform: scale(0.8);
+    -moz-transform: scale(0.8);
+    -ms-transform: scale(0.8);
+    -o-transform: scale(0.8);
+    transform: scale(0.8);
 }
 
 .cardImageContainer {
@@ -913,14 +938,14 @@ img.smallWingStyleLeft {
     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 
     position: absolute;
-    left: 9rem;
-    top: 10rem;
+    left: 8.2rem;
+    top: 9.7rem;
 
-    -webkit-transform: scale(1.25);
-    -moz-transform: scale(1.25);
-    -ms-transform: scale(1.25);
-    -o-transform: scale(1.25);
-    transform: scale(1.25);
+    -webkit-transform: scale(1.22);
+    -moz-transform: scale(1.22);
+    -ms-transform: scale(1.22);
+    -o-transform: scale(1.22);
+    transform: scale(1.22);
     transition: all 0.25s;
 
 
@@ -954,7 +979,7 @@ img.smallWingStyleLeft {
     font-weight: 700;
     font-size: 1.5rem;
     -webkit-text-fill-color: white; /* Will override color (regardless of order) */
-    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-width: 0.75px;
     -webkit-text-stroke-color: black;
 }
 

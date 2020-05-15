@@ -1,4 +1,4 @@
-function createMonsterCard(cardData, handIndex, playCallback, scene) {
+function createMonsterCard(cardData, handIndex, playCallback, zoomedCardOnly=false, scene=null) {
   let displayData = Object.assign({}, cardData);
 
   const cardElem = document.createElement('DIV');
@@ -97,14 +97,15 @@ function createMonsterCard(cardData, handIndex, playCallback, scene) {
   textContainer.style.position = 'absolute';
 
   const textElem = document.createElement("DIV");
-  textElem.innerHTML = `${stringToUpperCase(displayData.monsterType)}<br>`+ (displayData.info != null) ? displayData.info : '';
+  textElem.innerHTML = `<div>`+ (displayData.info != null) ? displayData.info : '' + `</div>`;
   textElem.style.position = 'absolute';
   //textElem.style.border = "1px solid red";
   textElem.style.width = "100%";//textContainer.style.width;
-  textElem.style.height = "85%";
-  textElem.style.padding = "15px";
+  textElem.style.height = "7rem";
+  textElem.style.padding = "10px 20px 0px 35px";
   textElem.style.display = "flex";
   textElem.style.justifyContent = "center";
+  textElem.style.alignItems = "center";
   textElem.style.fontFamily = "Bitter";
   textElem.style.fontSize = "0.5vw";
   textElem.style.boxSizing = "border-box";
@@ -601,36 +602,34 @@ function createMonsterCard(cardData, handIndex, playCallback, scene) {
   }*/
 
   //let zoomedCard = null;
-  cardElem.addEventListener("mouseover", function () {
-    //if (zoomedCard == null && !heroAreas.contains(zoomedCard)) {
+
+  if (!zoomedCardOnly) {
+    cardElem.addEventListener("mouseover", function () {
       let zoomedCard = cardElem.cloneNode(true);
-      zoomedCard.setAttribute("id", "zoomCard");
-      //zoomedCard.classList.add("zoomCard");
-      heroAreas.appendChild(zoomedCard);
-    //}
-  });
+      scene.updateZoomedCard(zoomedCard);
+    });
 
-  cardElem.addEventListener("mouseout", function () {
-    //if (zoomedCard != null && heroAreas.contains(zoomedCard)) {
-      //zoomedCard.remove();
-      let zoomedCard = document.getElementById("zoomCard");
-      //heroAreas.removeChild(zoomedCard);
-      zoomedCard.remove();
-      //zoomedCard = null;
-    //}
-  });
+    cardElem.addEventListener("mouseout", function () {
+      scene.removeZoomedCard();
+    });
 
-  // play card event
-  cardElem.addEventListener("click", () => {
-    let zoomedCard = document.getElementById("zoomCard");
-    //heroAreas.removeChild(zoomedCard);
-    playCallback(handIndex);
-    zoomedCard.remove();
-  });
+    // play card event
+    cardElem.addEventListener("click", () => {
+      playCallback(handIndex);
+    });
 
-  // =========================================
-  cardContainer.appendChild(cardElem);
-  cardData.element = cardElem;
+    // =========================================
+    cardContainer.appendChild(cardElem);
+    cardData.element = cardElem;
+  }
+
+  // ----------------------------------------------------
+  // zoomed card only (cell monster hover)
+  else {
+    let zoomedCard = cardElem.cloneNode(true);
+    scene.updateZoomedCard(zoomedCard);
+    cardElem.remove(); // delete the unnecessary elem
+  }
 }
 
 
@@ -643,7 +642,7 @@ function createMonsterCard(cardData, handIndex, playCallback, scene) {
 // spell cards
 
 
-function createSpellCard(cardData, handIndex, playCallback) {
+function createSpellCard(cardData, handIndex, playCallback, scene) {
   let displayData = Object.assign({}, cardData);
 
   const cardElem = document.createElement('DIV');
@@ -775,10 +774,11 @@ function createSpellCard(cardData, handIndex, playCallback) {
   textElem.style.position = 'absolute';
   //textElem.style.border = "1px solid red";
   textElem.style.width = "100%";//textContainer.style.width;
-  textElem.style.height = "85%";
+  textElem.style.height = "7rem";
   textElem.style.padding = "15px";
   textElem.style.display = "flex";
   textElem.style.justifyContent = "center";
+  textElem.style.alignItems = "center";
   textElem.style.fontFamily = "Bitter";
   textElem.style.fontSize = "0.5vw";
   textElem.style.boxSizing = "border-box";
