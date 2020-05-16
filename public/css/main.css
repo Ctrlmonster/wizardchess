@@ -468,6 +468,7 @@ body {
     position: absolute;
     left: 0;
     bottom: -10px;
+    z-index: 100000000!important
     /*width: 10rem;
     height: 10rem;*/
     /*color: rgba(0, 0, 0, 0);*/
