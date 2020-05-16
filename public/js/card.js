@@ -555,15 +555,16 @@ function createMonsterCard(cardData, handIndex, playCallback, zoomedCardOnly=fal
   cardName.style.position = 'absolute';
   cardName.style.left = ".15rem";
 
-  let calculatedSize = (Math.log(name.length ** 2) / 3) * (10 / name.length);
-  const maxSize = 1.5;
+  let calculatedSize = (Math.log(name.length ** 2) / 3) * (9 / name.length);
+  const maxSize = 1.3;
   let size = calculatedSize > maxSize ? maxSize : calculatedSize;
-  cardName.style.top = `${.5 * (1 + 1.5 - size)}rem`;
+  cardName.style.top = `${.5 * (1 + maxSize - size)}rem`;
   cardName.style.fontSize = `${size}rem`;
 
   // calc the font size based number of characters
 
-  cardName.classList.add("cardNumber");
+  cardName.classList.add("cardName");
+  //cardName.classList.add("cardNumber");
   cardname_container.appendChild(cardName);
 
   const cardname_decoration_right = document.createElement("IMG");
@@ -897,15 +898,15 @@ function createSpellCard(cardData, handIndex, playCallback, scene) {
   cardName.style.position = 'absolute';
   cardName.style.left = ".15rem";
 
-  let calculatedSize = (Math.log(name.length ** 2) / 3) * (10 / name.length);
-  const maxSize = 1.5;
+  let calculatedSize = (Math.log(name.length ** 2) / 3) * (9 / name.length);
+  const maxSize = 1.3;
   let size = calculatedSize > maxSize ? maxSize : calculatedSize;
-  cardName.style.top = `${.5 * (1 + 1.5 - size)}rem`;
+  cardName.style.top = `${.5 * (1 + maxSize - size)}rem`;
   cardName.style.fontSize = `${size}rem`;
 
   // calc the font size based number of characters
 
-  cardName.classList.add("cardNumber");
+  cardName.classList.add("cardName");
   cardname_container.appendChild(cardName);
 
   const cardname_decoration_right = document.createElement("IMG");
@@ -937,45 +938,21 @@ function createSpellCard(cardData, handIndex, playCallback, scene) {
   // tooltips
 
 
-  /*
-  if (displayData.special) {
-    let infoElem = document.createElement("DIV");
-    infoElem.innerHTML = displayData.info;
-    infoElem.classList.add("hideTooltip");
-    cardElem.classList.add("hasTooltip");
-    cardElem.appendChild(infoElem);
-  }*/
-
-  //const placeHolderElement = document.createElement("DIV");
-
   cardElem.addEventListener("mouseover", function () {
-    //if (zoomedCard == null && !heroAreas.contains(zoomedCard)) {
     let zoomedCard = cardElem.cloneNode(true);
-    zoomedCard.setAttribute("id", "zoomCard");
-    //zoomedCard.classList.add("zoomCard");
-    heroAreas.appendChild(zoomedCard);
-    //}
+    scene.updateZoomedCard(zoomedCard);
   });
 
   cardElem.addEventListener("mouseout", function () {
-    //if (zoomedCard != null && heroAreas.contains(zoomedCard)) {
-    //zoomedCard.remove();
-    let zoomedCard = document.getElementById("zoomCard");
-    heroAreas.removeChild(zoomedCard);
-    zoomedCard.remove();
-    //zoomedCard = null;
-    //}
+    scene.removeZoomedCard();
   });
 
   // play card event
   cardElem.addEventListener("click", () => {
-    let zoomedCard = document.getElementById("zoomCard");
-    heroAreas.removeChild(zoomedCard);
     playCallback(handIndex);
   });
 
-  // ========================================
-
+  // =========================================
   cardContainer.appendChild(cardElem);
   cardData.element = cardElem;
 }

@@ -64,7 +64,7 @@ button:hover {
 
     /* padding: 1rem; */
     box-sizing: border-box;
-    height: 70vh;
+    height: 66vh;
 
   }
 
@@ -94,10 +94,10 @@ button:hover {
   }
 
   .heroFrameHP {
-      left: 0rem;
+      right: -23.5rem;
   }
   .heroFrameMana {
-      right: -23.5rem;
+      left: 0rem;
   }
 
 
@@ -181,13 +181,19 @@ body {
 
 #cardContainer {
     position: relative;
-    height: 30vh;
+    height: 34vh;
     align-items: center;
     box-sizing: border-box;
     padding-top: 3rem;
+    /*
     background-image: url("https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Backgrounds/planke.png");
+
+     */
+    background-image: url("/public/assets/gui/Card_game_GUI/Backgrounds/Background_05.png");
     background-size: 100%;
+    /*
     background-position-y: -11rem;
+     */
 
     /*
     padding: 25px 15px 35px 15px;
@@ -353,7 +359,7 @@ body {
     font-size: 2rem;
     display: flex;
     /* justify-content: flex-end; */
-    margin-left: 6rem;
+    margin-left: 9rem;
     margin-bottom: 12rem;
     margin-right: 26rem;
     transform: scale(.65);
@@ -449,7 +455,7 @@ body {
 }
 .skillCd {
     color: darkorange;
-    font-size: 6.5rem;
+    font-size: 4.5rem;
     position: absolute;
 }
 
@@ -524,7 +530,12 @@ body {
     color: gold;*/
     /*background: #eca867;
     color: #220C10;*/
+    /*
     box-shadow: 0 0px 25px 7px #6314e6, 0px 0px 22px 7px rgb(151, 219, 255)!important;
+     */
+    border: 5px solid #9d0dff;
+    box-shadow: 0 0px 10px 14px #6314e6
+
     /*background: #fff;*/
 }
 
@@ -845,11 +856,11 @@ body {
 }
 
 .cardElementSize {
-    -webkit-transform: scale(0.8);
-    -moz-transform: scale(0.8);
-    -ms-transform: scale(0.8);
-    -o-transform: scale(0.8);
-    transform: scale(0.8);
+    -webkit-transform: scale(0.75);
+    -moz-transform: scale(0.75);
+    -ms-transform: scale(0.75);
+    -o-transform: scale(0.75);
+    transform: scale(0.75);
 }
 
 .cardImageContainer {
@@ -980,9 +991,16 @@ img.smallWingStyleLeft {
     font-weight: 700;
     font-size: 1.5rem;
     -webkit-text-fill-color: white; /* Will override color (regardless of order) */
-    -webkit-text-stroke-width: 0.75px;
+    -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: black;
 }
 
-
+.cardName {
+    font-family: 'Bitter', Arial, Helvetica, sans-serif;
+    font-weight: normal!important;
+    font-size: 1.5rem;
+    -webkit-text-fill-color: #000000!important;; /* Will override color (regardless of order) */
+    -webkit-text-stroke-width: 0.5px;
+    -webkit-text-stroke-color: #43404c;
+}
 
