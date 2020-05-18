@@ -294,6 +294,7 @@ class BattleScene extends Phaser.Scene {
   }
 
   createMeleeImage(pos) {
+    /*
     const monsterImage = document.createElement("IMG");
     monsterImage.src = "public/assets/searched_images/cosmic_dragon.jpg";
     monsterImage.style.position = 'absolute';
@@ -304,15 +305,15 @@ class BattleScene extends Phaser.Scene {
     monsterImage.style.zIndex = String(1000000000000000000000000000);
     canvasContainer.appendChild(monsterImage);
     //document.body.appendChild(monsterImage);
-
+*/
 
     let icon_offset = CELL_DRAW_OFFSET;
-    let melee_icon = new Phaser.GameObjects.Image(this, pos.x*CELL_DRAW_SIZE+icon_offset, pos.y*CELL_DRAW_SIZE+icon_offset, 'monster_test');
-    //let melee_icon = new Phaser.GameObjects.Image(this, pos.x*CELL_DRAW_SIZE+icon_offset, pos.y*CELL_DRAW_SIZE+icon_offset*1.8, 'melee_icon');
+    //let melee_icon = new Phaser.GameObjects.Image(this, pos.x*CELL_DRAW_SIZE+icon_offset, pos.y*CELL_DRAW_SIZE+icon_offset, 'monster_test');
+    let melee_icon = new Phaser.GameObjects.Image(this, pos.x*CELL_DRAW_SIZE+icon_offset, pos.y*CELL_DRAW_SIZE+icon_offset*1.8, 'melee_icon');
     //healer_icon.setAlpha(0.5);
-    melee_icon.setScale(0.03);
-//    melee_icon.displayWidth = CELL_DRAW_SIZE;
-//    melee_icon.displayHeight = CELL_DRAW_SIZE;
+//    melee_icon.setScale(0.03);
+    melee_icon.displayWidth = CELL_DRAW_SIZE;
+    melee_icon.displayHeight = CELL_DRAW_SIZE;
     melee_icon.setDepth(99);
 
     if (this.rotateCanvas) {
