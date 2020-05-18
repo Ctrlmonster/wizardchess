@@ -312,8 +312,8 @@ class BattleScene extends Phaser.Scene {
     let melee_icon = new Phaser.GameObjects.Image(this, pos.x*CELL_DRAW_SIZE+icon_offset, pos.y*CELL_DRAW_SIZE+icon_offset*1.8, 'melee_icon');
     //healer_icon.setAlpha(0.5);
 //    melee_icon.setScale(0.03);
-    melee_icon.displayWidth = CELL_DRAW_SIZE;
-    melee_icon.displayHeight = CELL_DRAW_SIZE;
+    melee_icon.displayWidth = CELL_DRAW_SIZE/3;
+    melee_icon.displayHeight = CELL_DRAW_SIZE/3;
     melee_icon.setDepth(99);
 
     if (this.rotateCanvas) {

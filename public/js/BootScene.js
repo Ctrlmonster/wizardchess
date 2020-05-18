@@ -14,8 +14,8 @@ const BootScene = new Phaser.Class({
 
     //this.load.image('healer_icon', 'public/assets/icons/healer.jpg');
     this.load.image('healer_icon', 'public/assets/icons/healer_icon4.png');
-    this.load.image('monster_test', 'public/assets/searched_images/cosmic_dragon.jpg');
-    //this.load.image('melee_icon', 'public/assets/icons/dd.png');
+    //this.load.image('monster_test', 'public/assets/searched_images/cosmic_dragon.jpg');
+    this.load.image('melee_icon', 'public/assets/icons/dd.png');
     this.load.image('caster_icon', 'public/assets/icons/caster_icon.png');
     this.load.image('tank_icon', 'public/assets/icons/tank_icon2.png');
     this.load.image('idling_icon', 'public/assets/icons/idling_icon4.png');
