@@ -4,7 +4,12 @@ class BattleScene extends Phaser.Scene {
     this.gridCells = null;
     this.gameTable = null;
 
+    // ------------------------------------
+    this.htmlTable = null;
+
     this.selectionMode = null; // hand | board | skill
+    this.mouseX = 0;
+    this.mouseY = 0;
     // -----------------------------------
     // player stats
     this.rotateCanvas = null;
@@ -64,6 +69,73 @@ class BattleScene extends Phaser.Scene {
     });
   }
 
+
+  createHTMLGameTable() {
+    const table = document.createElement("TABLE");
+    table.setAttribute("id", "htmlGameTable");
+
+    for (let y = 0; y < GRID_NUM_ROWS; y++) {
+      const row = document.createElement("TR");
+      for (let x = 0; x < GRID_NUM_COLS; x++) {
+
+        const cellContainer = document.createElement("TD");
+        const cell = document.createElement("DIV");
+        const [wrapper, contentImage] = this.createCellElement();
+
+        cell.setAttribute("id", `${x}${y}`);
+        cell.classList.add("gameTableCell");
+
+        cell.appendChild(wrapper);
+        cellContainer.appendChild(cell);
+        row.appendChild(cellContainer);
+
+        // create a link to the elem for the data object
+        this.board[x][y].htmlElem = {
+          cell,
+          wrapper,
+          contentImage,
+        };
+      }
+      table.appendChild(row);
+    }
+
+    this.htmlTable = table;
+    document.body.appendChild(this.htmlTable);
+  }
+
+  createCellElement() {
+    const wrapper = document.createElement("DIV");
+    wrapper.style.width = '100%';
+    wrapper.style.height = '100%';
+
+    const contentImage = document.createElement("IMG");
+    //contentImage.src = "//:0";
+    //contentImage.src = "http://probablyprogramming.com/wp-content/uploads/2009/03/handtinytrans.gif";
+    const contentBorder = document.createElement("IMG");
+    contentBorder.src = "/public/assets/gui/dragon_TCG-assets/border_card01.png";
+
+    wrapper.appendChild(contentImage);
+    wrapper.appendChild(contentBorder);
+
+    return [wrapper, contentImage];
+  }
+
+  updateHTMLGameTable() {
+    for (let x = 0; x < this.board.length; x++) {
+      for (let y = 0; y < this.board[x].length; y++) {
+        const cellData = this.board[x][y];
+        if (cellData.content == null) {
+          //cellData.htmlElem.cell.classList.add("hideCellContent");
+          cellData.htmlElem.contentImage.src = "//:0";
+          //cellData.htmlElem.cellImage.src = "http://probablyprogramming.com/wp-content/uploads/2009/03/handtinytrans.gif";
+        }
+        else {
+          //cellData.htmlElem.cell.classList.remove("hideCellContent");
+          cellData.htmlElem.contentImage.src = `public/${cellData.content.icon}`;
+        }
+      }
+    }
+  }
 
 
 
@@ -222,11 +294,25 @@ class BattleScene extends Phaser.Scene {
   }
 
   createMeleeImage(pos) {
+    const monsterImage = document.createElement("IMG");
+    monsterImage.src = "public/assets/searched_images/cosmic_dragon.jpg";
+    monsterImage.style.position = 'absolute';
+    monsterImage.style.top = String(pos.y*CELL_DRAW_SIZE)+"px";
+    monsterImage.style.left = String(pos.x*CELL_DRAW_SIZE)+"px";
+    monsterImage.style.height = String(CELL_DRAW_SIZE*2)+"px";
+    monsterImage.style.width = String(CELL_DRAW_SIZE*2)+"px";
+    monsterImage.style.zIndex = String(1000000000000000000000000000);
+    canvasContainer.appendChild(monsterImage);
+    //document.body.appendChild(monsterImage);
+
+
     let icon_offset = CELL_DRAW_OFFSET;
-    let melee_icon = new Phaser.GameObjects.Image(this, pos.x*CELL_DRAW_SIZE+icon_offset, pos.y*CELL_DRAW_SIZE+icon_offset*1.8, 'melee_icon');
+    let melee_icon = new Phaser.GameObjects.Image(this, pos.x*CELL_DRAW_SIZE+icon_offset, pos.y*CELL_DRAW_SIZE+icon_offset, 'monster_test');
+    //let melee_icon = new Phaser.GameObjects.Image(this, pos.x*CELL_DRAW_SIZE+icon_offset, pos.y*CELL_DRAW_SIZE+icon_offset*1.8, 'melee_icon');
     //healer_icon.setAlpha(0.5);
-    melee_icon.displayWidth = CELL_DRAW_SIZE/3;
-    melee_icon.displayHeight = CELL_DRAW_SIZE/3;
+    melee_icon.setScale(0.03);
+//    melee_icon.displayWidth = CELL_DRAW_SIZE;
+//    melee_icon.displayHeight = CELL_DRAW_SIZE;
     melee_icon.setDepth(99);
 
     if (this.rotateCanvas) {
@@ -687,8 +773,8 @@ class BattleScene extends Phaser.Scene {
 
   updateHeroUi() {
     //heroClass.innerHTML = stringToUpperCase(this.hero);
-    heroImage.src = this.classIcon;
-    enemyHeroImage.src = this.otherClassIcon;
+    heroImage.src = `${client_address}/public/${this.classIcon}`;
+    enemyHeroImage.src = `${client_address}/public/${this.otherClassIcon}`;
 
     heroHp.innerHTML = this.hp;
     heroMana.innerHTML = this.mana;
@@ -725,29 +811,67 @@ class BattleScene extends Phaser.Scene {
 
   // selection functions: answering action requests
 
-  selectSkill(skillIndex) {
+  selectSkill(skillIndex, selectByClick=true) {
     if (!this.myTurn || !this.actionRequestData.length) return;
 
-    console.log(this.actionRequestData);
     let options = this.actionRequestData.filter(option => option.type === 'skill');
     if (!options.length) return;
 
     const skill = this.skills[skillIndex];
+    console.log(skillIndex);
+    if (!skill) return; // avoid the possibility of selecting e.g. a 'skill 6' that doesn't exist
+
     const selectedOption = this.actionRequestData.find(option => option.data === skill.skillIndex);
 
     if (selectedOption) {
       client.sendActionResponse(selectedOption).then(res => {
         this.actionRequestData = [];
-        this.setSelectionMode('skill', true);
+        if (selectByClick) this.setSelectionMode('skill', true);
+        else this.setSelectionMode('board', true);
       });
     }
     else {
       client.sendActionResponse({}).then(res => {
         this.actionRequestData = [];
-        this.setSelectionMode('skill', true);
+        if (selectByClick) this.setSelectionMode('skill', true);
+        else this.setSelectionMode('board', true);
       });
       this.actionRequestData = [];
     }
+  }
+
+  selectSkillWithKeybind(skillIndex) {
+    if (!this.myTurn) return;
+
+
+    //if (this.selectionMode !== 'skill') {
+
+      client.sendSelectionMode('skill').then(res => {
+        if (res.data === 'done')
+          endTurnButton.classList.add("highlightButton");
+        else
+          endTurnButton.classList.remove("highlightButton");
+
+        this.selectionMode = res.data;
+
+        if (this.selectionMode === 'skill') {
+          client.getActionRequest().then(res => {
+              this.saveActionRequestData(res.data); // TODO: look at this field again
+              //this.updateHighlighting();
+              this.selectSkill(skillIndex, false)
+            })
+        }
+      });
+
+    //}
+
+    /*
+    else {
+      this.selectSkill(skillIndex)
+    }
+    */
+
+
   }
 
 

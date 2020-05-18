@@ -10,8 +10,6 @@ const heroAreas = document.getElementById("heroAreas");
 const heroImage = document.querySelector("#heroImage");
 const enemyHeroImage = document.querySelector("#enemyHeroImage");
 
-console.log(heroImage);
-console.log(enemyHeroImage);
 const decks = document.querySelectorAll(".deckSize");
 const heroStatsContainer = document.getElementById("heroStatsContainer");
 const enemyStatsContainer = document.getElementById("enemyHeroStatsContainer");
@@ -176,6 +174,53 @@ function initHeroSkills() {
 
   heroArea.addEventListener('mouseover', () => {
     battleScene.setSelectionMode('skill');
+  });
+
+  // always remember where the user moved the mouse the last time
+  window.addEventListener('mousemove', (evt) => {
+    battleScene.mouseX = evt.pageX;
+    battleScene.mouseY = evt.pageY;
+  });
+
+  window.addEventListener('keyup', (evt) => {
+    let validSkillIndices = [1,2,3,4,5];
+    // select skills
+    if (validSkillIndices.indexOf(parseInt(evt.key)) !== -1)
+      battleScene.selectSkillWithKeybind(parseInt(evt.key)-1);
+
+
+    else {
+      if (evt.key === 'Escape') {
+        client.sendActionResponse({}).then(res => {
+          battleScene.actionRequestData = [];
+          // check where the mouse is to decide which selection mode to return to
+          const canvasRect = gameCanvas.getBoundingClientRect();
+          if (!(battleScene.mouseX > canvasRect.left && battleScene.mouseX < canvasRect.right &&
+            battleScene.mouseY > canvasRect.top && battleScene.mouseY < canvasRect.bottom)) {
+            battleScene.actionRequestData = [];
+            battleScene.setSelectionMode('hand', true); // return to hand mode (skills can be faster via keybind) if mouse was of-canvas
+          }
+          else {
+            battleScene.actionRequestData = [];
+            battleScene.setSelectionMode('board', true); // return to board mode if the mouse is on the canvas
+          }
+        });
+        battleScene.actionRequestData = [];
+      }
+
+      else if(evt.key === ' ') {
+        console.log("confirm");
+        if (battleScene.actionRequestData.length === 1) { // instant confirmation if only one item could be selected
+            client.sendActionResponse(battleScene.actionRequestData[0]).then(res => {
+              battleScene.actionRequestData = [];
+              battleScene.setSelectionMode('board', true); // re-enter board mode -> selection always happens on the board
+              battleScene.removeZoomedCard();
+            });
+            battleScene.actionRequestData = [];
+        }
+      }
+    }
+
   })
 
   /*

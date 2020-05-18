@@ -153,12 +153,13 @@ body {
     background-size: cover;
     height: 66vh!important;
     width: 75vh!important;
+    position: relative;
 }
 
 #canvasContainer canvas {
     opacity: 1;
-    height: 75%!important;
-    width: 75%!important;
+    height: 100%!important;
+    width: 100%!important;
     /*
     height: 67vh!important;
      */
@@ -1005,3 +1006,39 @@ img.smallWingStyleLeft {
     -webkit-text-stroke-color: #43404c;
 }
 
+
+
+/* =============================================================================== */
+/* =============================================================================== */
+/* =============================================================================== */
+
+
+/* new html game table */
+
+table, tr, td {
+    border-collapse: collapse;
+    border-spacing: 0;
+    padding: 0;
+    margin: 0;
+}
+
+#htmlGameTable {
+
+}
+
+.gameTableCell {
+    width: 7.5rem;
+    height: 7.5rem;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.gameTableCell img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+.hideCellContent {
+    display: none;
+}
