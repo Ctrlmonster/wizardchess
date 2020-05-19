@@ -96,7 +96,7 @@ class Game {
         });
 
         const cell = document.createElement("DIV");
-        const {wrapper, blockedIcon, deBuffIcon, ccIcon, tankIcon, commanderIcon, contentImage, hpNumber, atkNumber, magicPowerNumber, healPowerNumber, monsterManaNumber} = this.createCellElement();
+        const {wrapper, blockedIcon, deBuffIcon, idlingIcon, ccIcon, tankIcon, commanderIcon, contentImage, hpNumber, atkNumber, magicPowerNumber, healPowerNumber, monsterManaNumber} = this.createCellElement();
 
 
         cell.setAttribute("id", `${pos.x}${pos.y}`);
@@ -121,7 +121,8 @@ class Game {
           commanderIcon,
           blockedIcon,
           ccIcon,
-          deBuffIcon
+          deBuffIcon,
+          idlingIcon
         };
       }
       table.appendChild(row);
@@ -203,6 +204,12 @@ class Game {
     commanderIcon.classList.add("cellCommanderIcon");
     commanderIcon.classList.add("hideCellContent");
 
+    const idlingIcon = document.createElement("IMG");
+    idlingIcon.draggable = false;
+    idlingIcon.src = `${client_address}public/assets/icons/idling_icon4.png`;
+    idlingIcon.classList.add("cellIdlingIcon");
+    idlingIcon.classList.add("hideCellContent");
+
     const ccIcon = document.createElement("DIV");
     ccIcon.classList.add("cellCCIcon");
     ccIcon.classList.add("hideCellContent");
@@ -218,6 +225,7 @@ class Game {
     // ----------------------------------------
     wrapper.appendChild(contentImage);
     wrapper.appendChild(commanderIcon);
+    wrapper.appendChild(idlingIcon);
     wrapper.appendChild(tankIcon);
     wrapper.appendChild(ccIcon);
     wrapper.appendChild(deBuffIcon);
@@ -225,7 +233,7 @@ class Game {
     //wrapper.appendChild(contentBorder);
 
 
-    return {wrapper, blockedIcon, deBuffIcon, ccIcon, tankIcon, commanderIcon, contentImage, hpNumber, atkNumber, magicPowerNumber, healPowerNumber, monsterManaNumber};
+    return {wrapper, blockedIcon,idlingIcon, deBuffIcon, ccIcon, tankIcon, commanderIcon, contentImage, hpNumber, atkNumber, magicPowerNumber, healPowerNumber, monsterManaNumber};
   }
 
   updateHTMLGameTable() {
@@ -250,7 +258,8 @@ class Game {
           commanderIcon,
           blockedIcon,
           ccIcon,
-          deBuffIcon
+          deBuffIcon,
+          idlingIcon
         } = this.tableData[x][y];
 
         // -----------------------------------------------------
@@ -267,6 +276,7 @@ class Game {
         commanderIcon.classList.add("hideCellContent");
         ccIcon.classList.add("hideCellContent");
         deBuffIcon.classList.add("hideCellContent");
+        idlingIcon.classList.add("hideCellContent");
 
         wrapper.classList.remove("friendlyCell");
         wrapper.classList.remove("enemyCell");
@@ -307,7 +317,9 @@ class Game {
         else {
           const {idling, buffs, hasCC, hp, maxHp, atk, baseAtk, magicPower, baseMagicPower, healPower, baseHealPower, mana, maxMana} = cellData.content;
 
-          console.log(cellData);
+          if (idling) {
+            idlingIcon.classList.remove("hideCellContent");
+          }
 
           // cc icon
           if (hasCC) {

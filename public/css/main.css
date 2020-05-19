@@ -1097,6 +1097,14 @@ table, tr, td {
     height: 24%;
 }
 
+.cellIdlingIcon {
+    position: absolute;
+    top: -12px;
+    margin: 0 auto;
+    width: 17.5%;
+    height: 17.5%;
+}
+
 .cellCCIcon {
     position: absolute;
     right: 0;
