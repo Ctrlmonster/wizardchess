@@ -86,13 +86,14 @@ const initCamera = (game_ref) => {
 // =============================================================================
 
 // Own functions
-let client, queueButton, leaveButton, endTurnButton;
+let queueButton, leaveButton, endTurnButton;
 let otherPlayersMap = new Map();
 
 function createQueueButton(game_ref) {
   queueButton = document.getElementById("queue");
   queueButton.addEventListener('click', () => client.joinQueue(game_ref)
     .then(res => {
+      console.log("queue now");
       // console.log(res.data);
     }));
 }
@@ -179,14 +180,13 @@ function updateOtherPlayers(game_ref, otherPlayers) {
 
 function getDataAndUpdateOtherPlayers(game_ref) {
   client.requestOtherPlayerData()
-    .then(res => updateOtherPlayers(game_ref, res.data));
+    .then(/*updateOtherPlayers(game_ref, res.data)*/);
 }
 
 function login(game_ref) {
   client.requestLogin()
     .then(res => { // get player id and position from the url
       const {id, pos} = res.data;
-      createPlayer(game_ref, pos);
       createQueueButton(game_ref);
 
       // init the client-url connection

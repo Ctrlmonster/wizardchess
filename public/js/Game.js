@@ -1,6 +1,5 @@
-class BattleScene extends Phaser.Scene {
-  constructor(config={key: 'BattleScene'}) {
-    super(config);
+class Game {
+  constructor() {
     this.gridCells = null;
     this.gameTable = null;
 
@@ -52,7 +51,7 @@ class BattleScene extends Phaser.Scene {
 
   preload() {
     //this.load.plugin('rexgridtableplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexgridtableplugin.min.js', true);
-    this.load.plugin('rexgridtableplugin', 'public/lib/phaser/plugins/rexgridtableplugin.min.js', true);
+    //this.load.plugin('rexgridtableplugin', 'public/lib/phaser/plugins/rexgridtableplugin.min.js', true);
   }
 
   setSelectionMode(mode, forceSend=false) {
@@ -82,23 +81,25 @@ class BattleScene extends Phaser.Scene {
     for (let y = 0; y < GRID_NUM_ROWS; y++) {
       const row = document.createElement("TR");
       for (let x = 0; x < GRID_NUM_COLS; x++) {
+        // rotate the board for each player to start at the bottom
+        let pos = (this.player_index === 1) ? {x, y}: {x:GRID_NUM_ROWS-x-1, y:GRID_NUM_COLS-y-1};
 
         const cellContainer = document.createElement("TD");
 
         cellContainer.addEventListener('mouseover', () => {
-          this.showCellContentTooltip(this.board[x][y])
+          this.showCellContentTooltip(this.board[pos.x][pos.y])
         });
 
         cellContainer.addEventListener('click', () => {
-          console.log(`clicked ${x}| ${y}`);
-          this.selectCell({x, y})
+          console.log(`clicked ${pos.x}| ${pos.y}`);
+          this.selectCell({x:pos.x, y:pos.y})
         });
 
         const cell = document.createElement("DIV");
-        const {wrapper, blockedIcon, tankIcon, commanderIcon, contentImage, hpNumber, atkNumber, magicPowerNumber, healPowerNumber, monsterManaNumber} = this.createCellElement();
+        const {wrapper, blockedIcon, deBuffIcon, ccIcon, tankIcon, commanderIcon, contentImage, hpNumber, atkNumber, magicPowerNumber, healPowerNumber, monsterManaNumber} = this.createCellElement();
 
 
-        cell.setAttribute("id", `${x}${y}`);
+        cell.setAttribute("id", `${pos.x}${pos.y}`);
         cell.classList.add("gameTableCell");
         //cell.classList.add(`${(x % 2 === y % 2) ? "darkerCell" : "brighterCell"}`); // create checkers pattern
 
@@ -107,7 +108,7 @@ class BattleScene extends Phaser.Scene {
         row.appendChild(cellContainer);
 
         // create a link to the elem for the data object
-        this.tableData[x][y] = {
+        this.tableData[pos.x][pos.y] = {
           cell,
           wrapper,
           contentImage,
@@ -118,7 +119,9 @@ class BattleScene extends Phaser.Scene {
           monsterManaNumber,
           tankIcon,
           commanderIcon,
-          blockedIcon
+          blockedIcon,
+          ccIcon,
+          deBuffIcon
         };
       }
       table.appendChild(row);
@@ -200,6 +203,14 @@ class BattleScene extends Phaser.Scene {
     commanderIcon.classList.add("cellCommanderIcon");
     commanderIcon.classList.add("hideCellContent");
 
+    const ccIcon = document.createElement("DIV");
+    ccIcon.classList.add("cellCCIcon");
+    ccIcon.classList.add("hideCellContent");
+
+    const deBuffIcon = document.createElement("DIV");
+    deBuffIcon.classList.add("cellDebuffIcon");
+    deBuffIcon.classList.add("hideCellContent");
+
     const blockedIcon = document.createElement("DIV");
     blockedIcon.classList.add("cellBlockedImage");
     blockedIcon.classList.add("hideCellContent");
@@ -208,11 +219,13 @@ class BattleScene extends Phaser.Scene {
     wrapper.appendChild(contentImage);
     wrapper.appendChild(commanderIcon);
     wrapper.appendChild(tankIcon);
+    wrapper.appendChild(ccIcon);
+    wrapper.appendChild(deBuffIcon);
     wrapper.appendChild(blockedIcon);
     //wrapper.appendChild(contentBorder);
 
 
-    return {wrapper, blockedIcon, tankIcon, commanderIcon, contentImage, hpNumber, atkNumber, magicPowerNumber, healPowerNumber, monsterManaNumber};
+    return {wrapper, blockedIcon, deBuffIcon, ccIcon, tankIcon, commanderIcon, contentImage, hpNumber, atkNumber, magicPowerNumber, healPowerNumber, monsterManaNumber};
   }
 
   updateHTMLGameTable() {
@@ -235,7 +248,9 @@ class BattleScene extends Phaser.Scene {
           monsterManaNumber,
           tankIcon,
           commanderIcon,
-          blockedIcon
+          blockedIcon,
+          ccIcon,
+          deBuffIcon
         } = this.tableData[x][y];
 
         // -----------------------------------------------------
@@ -243,7 +258,6 @@ class BattleScene extends Phaser.Scene {
         wrapper.classList.remove("finalSelection");
         wrapper.classList.remove("initSelection");
 
-        //contentImage.classList.add("hideCellContent");
         hpNumber.classList.add("hideCellContent");
         atkNumber.classList.add("hideCellContent");
         magicPowerNumber.classList.add("hideCellContent");
@@ -251,9 +265,14 @@ class BattleScene extends Phaser.Scene {
         monsterManaNumber.classList.add("hideCellContent");
         tankIcon.classList.add("hideCellContent");
         commanderIcon.classList.add("hideCellContent");
+        ccIcon.classList.add("hideCellContent");
+        deBuffIcon.classList.add("hideCellContent");
 
         wrapper.classList.remove("friendlyCell");
         wrapper.classList.remove("enemyCell");
+
+        contentImage.classList.remove("cellContentImageBackground");
+        contentImage.classList.remove("cellContentImageBorder");
 
         cell.classList.remove("darkerCell");
         cell.classList.remove("brighterCell");
@@ -286,16 +305,18 @@ class BattleScene extends Phaser.Scene {
 
 
         else {
-          const {hp, maxHp, atk, baseAtk, magicPower, baseMagicPower, healPower, baseHealPower, mana, maxMana} = cellData.content;
+          const {idling, buffs, hasCC, hp, maxHp, atk, baseAtk, magicPower, baseMagicPower, healPower, baseHealPower, mana, maxMana} = cellData.content;
 
+          console.log(cellData);
 
-/*
-          const canMove = cellData.content.canMove && cellData.content.allowedToMove;
-          const canFight = cellData.content.canFight && cellData.content.allowedToFight;
-
-          if (canMove || canFight) wrapper.classList.add("initSelection");
-*/
-
+          // cc icon
+          if (hasCC) {
+            ccIcon.classList.remove("hideCellContent");
+          }
+          // debuff icon
+          if (buffs.some(buff => buff.debuff && buff.ccType == null)) {
+            deBuffIcon.classList.remove("hideCellContent");
+          }
 
           // friend/enemy highlighting
           wrapper.classList.remove("hideCellContent");
@@ -303,6 +324,12 @@ class BattleScene extends Phaser.Scene {
 
           // minion img
           contentImage.src = `public/${cellData.content.icon}`;
+          if (cellData.content.type === 'hero')
+            contentImage.classList.add("cellContentImageBackground");
+          if (!cellData.content.commander)
+            contentImage.classList.add("cellContentImageBorder");
+
+
 
           // minion hp
           hpNumber.innerHTML = hp;
@@ -421,9 +448,9 @@ class BattleScene extends Phaser.Scene {
 
           if (cell.content.commander) {
             if (container.commanderImage == null)
-              /*if (cell.content.type === 'hero')
-                container.setCommanderImage(this.createHeroIcon({x,y}));
-              else*/
+            /*if (cell.content.type === 'hero')
+              container.setCommanderImage(this.createHeroIcon({x,y}));
+            else*/
               if (cell.content.type !== 'hero')
                 container.setCommanderImage(this.createCommanderIcon({x,y}));
           }
@@ -439,26 +466,26 @@ class BattleScene extends Phaser.Scene {
           if (cell.content.type === "monster") {
             // check for monster types
             if (cell.content.monsterType) {
-                switch (cell.content.monsterType) {
-                  case "healer":
-                    if (container.image == null) // check if an image already exists
-                      container.setImage(this.createHealerImage({x,y}));
-                    break;
-                  case "melee":
-                    if (container.image == null) // check if an image already exists
-                      //container.setImage(this.createRogueImage({x,y}));
-                      container.setImage(this.createMeleeImage({x,y}));
-                    break;
-                  case "caster":
-                    if (container.image == null) // check if an image already exists
-                      container.setImage(this.createCasterImage({x,y}));
-                    break;
-                  case "tank":
-                    if (container.image == null) // check if an image already exists
-                      container.setImage(this.createTankImage({x,y}));
-                    break;
-                }
+              switch (cell.content.monsterType) {
+                case "healer":
+                  if (container.image == null) // check if an image already exists
+                    container.setImage(this.createHealerImage({x,y}));
+                  break;
+                case "melee":
+                  if (container.image == null) // check if an image already exists
+                  //container.setImage(this.createRogueImage({x,y}));
+                    container.setImage(this.createMeleeImage({x,y}));
+                  break;
+                case "caster":
+                  if (container.image == null) // check if an image already exists
+                    container.setImage(this.createCasterImage({x,y}));
+                  break;
+                case "tank":
+                  if (container.image == null) // check if an image already exists
+                    container.setImage(this.createTankImage({x,y}));
+                  break;
               }
+            }
 
             if (cell.friendly) {
               container.setSprite(this.createFriendlyEntity({x, y}))
@@ -699,18 +726,11 @@ class BattleScene extends Phaser.Scene {
 
 
   create() {
-    //this.initTable(); // replaced soon
-    this.createHTMLGameTable();
-
-
     // get initial match data
     client.getMatchData().then(res => {
       this.updateMatchData(res.data);
-      //this.updateTableData();
 
-
-      //this.initPlayers();
-      //this.showActiveHighlight();
+      this.createHTMLGameTable();
 
       // notify server that initial data was retrieved
       client.sendReadyForMatchMessage().then(res => {
@@ -722,20 +742,6 @@ class BattleScene extends Phaser.Scene {
           gameCanvas.classList.add('rotateCanvas');
           this.player.rotation = Math.PI;
           this.otherPlayer.rotation = Math.PI;
-
-
-          /*
-          const tableCells = this.gameTable.cells;
-          tableCells.forEach(cell => {
-            let {container} = cell;
-            //container.setRotation(Math.PI);
-            console.log(container.moreText);
-            Object.values(container.moreText).forEach((textObj, i) => {
-              //textObj.setRotation(Math.PI)
-            });
-          });*/
-
-
         }
       });
 
@@ -744,26 +750,11 @@ class BattleScene extends Phaser.Scene {
       this.createPlayerHand();
       this.updateHeroUi();
       initHeroSkills();
-
-
-      /*setTimeout(() => {
-        //console.log(this.gameTable);
-        const tableCells = this.gameTable.table.cells;
-        tableCells.forEach(cell => {
-          let {container} = cell;
-          Object.values(container.moreText).forEach((textObj, i) => {
-            textObj.setRotation(Math.PI)
-          });
-        });
-      }, 1000);*/
     });
 
 
     // ==================================00
-    //createLeaveButton(this);
     createEndTurnButton(this);
-    //this.cameras.main.setBackgroundColor(0xffaa00);
-    this.scene.launch("MyUIScene");
 
     document.getElementById("queue").classList.add("hideTooltip");
     document.getElementById("heroSelect").classList.add("hideTooltip");
@@ -805,14 +796,14 @@ class BattleScene extends Phaser.Scene {
 
 
       let moreText = {
-          atk: scene.add.text(x+5, y+2.5, ``),
-          hp: scene.add.text(x+38, y+2, ``),
-          healPower: scene.add.text(x+5, y+15, ``),
-          mana: scene.add.text(x+38, y+14, ``),
-          magicPower: scene.add.text(x+5, y+27, ``),
-          buff: scene.add.text(x+5, y+39, ``),
-          cc: scene.add.text(x+36, y+38, ``),
-        };
+        atk: scene.add.text(x+5, y+2.5, ``),
+        hp: scene.add.text(x+38, y+2, ``),
+        healPower: scene.add.text(x+5, y+15, ``),
+        mana: scene.add.text(x+38, y+14, ``),
+        magicPower: scene.add.text(x+5, y+27, ``),
+        buff: scene.add.text(x+5, y+39, ``),
+        cc: scene.add.text(x+36, y+38, ``),
+      };
 
 
       /*const moreText = {
@@ -875,7 +866,7 @@ class BattleScene extends Phaser.Scene {
 
 
     // draw bound
-  //  this.active_highlight = this.add.graphics();
+    //  this.active_highlight = this.add.graphics();
 //    this.active_highlight.lineStyle(3, 0x000000).strokeRectShape(this.gameTable.getBounds()).setAlpha(1);
   }
 
@@ -911,7 +902,7 @@ class BattleScene extends Phaser.Scene {
 
     cellTooltipDetails[5].innerHTML = `${(content.type === 'hero') ? "Cards on Hand: " + content.cardsOnHand : (content.mana != null) ? "Mana for Casts: " + content.mana : ""}`;
 
-  //<br>${Number.isInteger(content.magicPower) ? "MagicPower" : }: ${content.magicPower}<br>HealPower: ${content.healPower}<br>Casts left:${content.mana}
+    //<br>${Number.isInteger(content.magicPower) ? "MagicPower" : }: ${content.magicPower}<br>HealPower: ${content.healPower}<br>Casts left:${content.mana}
 
 
     cellTooltipDetails[6].innerHTML = `Type: ${content.type}`;
@@ -950,12 +941,13 @@ class BattleScene extends Phaser.Scene {
 
 
     // create a zoomed card highlight for minions
+    console.log(content);
     const dataForZoomedCard = {
       mana: content.manaCost,
       hp: content.maxHp,
       healPower: content.healPower,
       magicPower: content.magicPower,
-      atk : content.atk,
+      atk : content.baseAtk,
       monsterType : content.monsterType,
       commanderMinion: content.commander,
       info: content.info,
@@ -969,7 +961,7 @@ class BattleScene extends Phaser.Scene {
   showActiveHighlight() {
     if (this.myTurn) {
       this.active_highlight
-        //.lineStyle(3, 0xffaa00)
+      //.lineStyle(3, 0xffaa00)
         .strokeRectShape(this.gameTable.getBounds());
     } else {
       this.active_highlight
@@ -1104,22 +1096,22 @@ class BattleScene extends Phaser.Scene {
 
     //if (this.selectionMode !== 'skill') {
 
-      client.sendSelectionMode('skill').then(res => {
-        if (res.data === 'done')
-          endTurnButton.classList.add("highlightButton");
-        else
-          endTurnButton.classList.remove("highlightButton");
+    client.sendSelectionMode('skill').then(res => {
+      if (res.data === 'done')
+        endTurnButton.classList.add("highlightButton");
+      else
+        endTurnButton.classList.remove("highlightButton");
 
-        this.selectionMode = res.data;
+      this.selectionMode = res.data;
 
-        if (this.selectionMode === 'skill') {
-          client.getActionRequest().then(res => {
-              this.saveActionRequestData(res.data); // TODO: look at this field again
-              //this.updateHighlighting();
-              this.selectSkill(skillIndex, false)
-            })
-        }
-      });
+      if (this.selectionMode === 'skill') {
+        client.getActionRequest().then(res => {
+          this.saveActionRequestData(res.data); // TODO: look at this field again
+          //this.updateHighlighting();
+          this.selectSkill(skillIndex, false)
+        })
+      }
+    });
 
     //}
 
@@ -1330,8 +1322,8 @@ class BattleScene extends Phaser.Scene {
 
 
   switchToWorldScene() {
-    this.scene.stop();
-    this.scene.wake('WorldScene');
+    /*this.scene.stop();
+    this.scene.wake('WorldScene');*/
   }
 
 

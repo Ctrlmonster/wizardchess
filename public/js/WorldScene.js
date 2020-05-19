@@ -11,7 +11,7 @@ class WorldScene extends Phaser.Scene {
   }
 
   create() {
-    client = new GameClient(this);
+    client = new GameClientCopy(this);
     initPlayer(this);
     login(this);
 

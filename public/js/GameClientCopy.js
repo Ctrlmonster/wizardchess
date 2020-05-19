@@ -1,11 +1,10 @@
-class GameClient { // rename api service or something
+class GameClientCopy { // rename api service or something
   constructor(game_ref) {
     this.player_id = null;
     this.selectedHero = 'warlock';
     this.socket = null;
     // TODO: game_ref really a scene ref?
     this.game_ref = game_ref; // only needed for socket msg defines atm
-    this.game = game_ref;
 
     this.sendIdleMessage = this.sendIdleMessage.bind(this);
     this.sendIdleMessage();
@@ -18,21 +17,6 @@ class GameClient { // rename api service or something
     }).then(() => { // send the message again in 10 seconds
       setTimeout(this.sendIdleMessage, 10000);
     })
-  }
-
-  login(game_ref) {
-    this.requestLogin()
-      .then(res => { // get player id and position from the url
-        const {id, pos} = res.data;
-        //createPlayer(game_ref, pos);
-        createQueueButton(game_ref);
-
-        // init the client-url connection
-        this.setPlayerId(id);
-        this.initSocketConnection(game_ref);
-        // init fetch for other players
-        getDataAndUpdateOtherPlayers(game_ref);
-      });
   }
 
 
@@ -51,13 +35,12 @@ class GameClient { // rename api service or something
         case "game_over":
           console.log("game is over");
           this.getMatchData().then(res => {
-            console.log(res);
             let gameResult;
-            if (res.data.hp <= 0 && res.data.enemyHp <= 0)
+            if (res.data.hp <= 0 && res.data.otherHp <= 0)
               gameResult = "It ended in a Draw.";
-            if (res.data.hp <= 0 && res.data.enemyHp > 0)
+            if (res.data.hp <= 0 && res.data.otherHp > 0)
               gameResult = "You lost.";
-            if (res.data.hp > 0 && res.data.enemyHp <= 0)
+            if (res.data.hp > 0 && res.data.otherHp <= 0)
               gameResult = "You won!";
 
             lossOrWinDisplay.innerHTML = gameResult;
@@ -68,10 +51,10 @@ class GameClient { // rename api service or something
         // event approach
         case "action_request":
           this.getActionRequest().then(res => {
-            //let battleScene = this.game_ref.scene.get('BattleScene');
-            this.game.saveActionRequestData(res.data); // TODO: look at this field again
+            let battleScene = this.game_ref.scene.get('BattleScene');
+            battleScene.saveActionRequestData(res.data); // TODO: look at this field again
             //battleScene.highlightCells(res.data);
-            this.game.updateHighlighting();
+            battleScene.updateHighlighting();
           });
           break;
 
@@ -80,39 +63,36 @@ class GameClient { // rename api service or something
           this.getMatchData().then(res => {
             // TODO: update sprite and client table
             // TODO: needs func to update table from grid
-            //let battleS = this.game_ref.scene.get('BattleScene');
+            let battleS = this.game_ref.scene.get('BattleScene');
             // update the data
-            this.game.updateHistory(res.data.eventHistory);
-            this.game.updateMatchData(res.data);
-            //this.game.updateTableData(); // update the local grid
-            this.game.createPlayerHand(); // create player hand from the new cards
+            battleS.updateHistory(res.data.eventHistory);
+            battleS.updateMatchData(res.data);
+            //battleS.updateTableData(); // update the local grid
+            battleS.createPlayerHand(); // create player hand from the new cards
             // UPDATE SKILL BAR
-            this.game.updateHeroSkillBar();
-            this.game.updateHeroUi(); // update hero hp/mana display
+            battleS.updateHeroSkillBar();
+            battleS.updateHeroUi(); // update hero hp/mana display
 
             //battleS.updateHeroSprites(); // update player and opponent sprite positions
 
 
-            this.game.updateHTMLGameTable();
-            this.game.updateHighlighting(); // update highlighting
+            battleS.updateHTMLGameTable();
+            battleS.updateHighlighting(); // update highlighting
           });
           break;
 
 
         // ======================================000
         case "new_data":
-          getDataAndUpdateOtherPlayers(this.game);
+          getDataAndUpdateOtherPlayers(this.game_ref);
           break;
         case "new_match":
-          this.game.create();
-          //this.game_ref.switchToBattleScene();
+          this.game_ref.switchToBattleScene();
           break;
         case "exit_battle":
-          /*
           console.log("exit battle!");
           let battle = this.game_ref.scene.get('BattleScene');
           battle.switchToWorldScene(); // TODO: candidate for second client
-          */
           break;
 
         default: // TODO: temp used for deletion of players (ids are send directly)
@@ -171,6 +151,7 @@ class GameClient { // rename api service or something
   sendReadyForMatchMessage() {
     return axios.post(url('sendReadyForMatchMessage'), {
       id: this.player_id,
+      pos
     })
   }
 

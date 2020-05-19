@@ -141,19 +141,28 @@ body {
 }
 
 #canvasContainer {
-    z-index: 1000;
+
+    /*z-index: 1000;
+
+     */
     /*
     width: 47vw;
      */
+    /*
     display: flex;
     align-items: center;
     justify-content: center;
+    */
+    /*
     background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Desk_gimp.png);
     background-repeat: no-repeat;
     background-size: cover;
+    */
+    /*
     height: 66vh!important;
     width: 75vh!important;
     position: relative;
+    */
 }
 
 #canvasContainer canvas {
@@ -318,12 +327,23 @@ body {
 
 #gameOverMessage {
     position: absolute;
-    left: 40%;
-    top: 20%;
+    /* margin: 0 auto; */
+    left: 30vw;
+    top: 25vh;
     padding: 25px 50px;
     border: 3px solid #ccc;
     font-size: 2.5rem;
-    background: #ddd;
+    background: #ffb800;
+    display: flex;
+    background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/winning_decorations.png);
+    -webkit-background-size: cover;
+    background-size: cover;
+    z-index: 100;
+    height: 35vh;
+    width: 40vw;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
 }
 
 #startDuelMessage {
@@ -992,18 +1012,26 @@ img.smallWingStyleLeft {
     font-family: 'Bitter', Arial, Helvetica, sans-serif;
     font-weight: 700;
     font-size: 1.5rem;
-    -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+    /*-webkit-text-fill-color: white;
     -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: black;
+    -webkit-text-stroke-color: black;*/
+    color: white;
+    text-shadow: -1px -1px 0 #000, 0 -1px 0 #000, 1px -1px 0 #000, 1px 0 0 #000, 1px 1px 0 #000, 0 1px 0 #000, -1px 1px 0 #000, -1px 0 0 #000;
 }
 
 .cardName {
     font-family: 'Bitter', Arial, Helvetica, sans-serif;
     font-weight: normal!important;
     font-size: 1.5rem;
-    -webkit-text-fill-color: #000000!important;; /* Will override color (regardless of order) */
+  /*
+    color: white;
+    text-shadow: -1px -1px 0 #000, 0 -1px 0 #000, 1px -1px 0 #000, 1px 0 0 #000, 1px 1px 0 #000, 0 1px 0 #000, -1px 1px 0 #000, -1px 0 0 #000;
+*/
+
+    -webkit-text-fill-color: #000000!important;
     -webkit-text-stroke-width: 0.5px;
     -webkit-text-stroke-color: #43404c;
+
 }
 
 
@@ -1022,23 +1050,267 @@ table, tr, td {
     margin: 0;
 }
 
-#htmlGameTable {
 
+#htmlGameTable {
+    background: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Desk_gimp_quad.png) 100% no-repeat;
+    background-size: cover;
 }
 
 .gameTableCell {
-    width: 7.5rem;
-    height: 7.5rem;
-    border: 1px solid black;
-    border-collapse: collapse;
+    width: 8.25vh;
+    height: 8.25vh;
 }
 
-.gameTableCell img {
-    object-fit: cover;
+.cellImageWrapper {
+    position: relative;
     width: 100%;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    transition: all 0.15s;
+    transition-timing-function: ease-out;
 }
 
+.cellBorderImage {
+    position: absolute;
+    left: -4px;
+    top: -4px;
+    width: 108%;
+    height: 118%;
+}
+
+
+.cellTankIcon {
+    position: absolute;
+    bottom: 0;
+    margin: 0 auto;
+    width: 25%;
+    height: 25%;
+}
+
+.cellCommanderIcon {
+    position: absolute;
+    bottom: 0;
+    margin: 0 auto;
+    width: 5%;
+    height: 24%;
+}
+
+.cellCCIcon {
+    position: absolute;
+    right: 0;
+    margin: auto 0;
+    width: 17.5%;
+    height: 17.5%;
+    border-radius: 90px;
+    background: url('https://ctrlmonster.github.io/wizardchess/public/assets/icons/PNG/37.png') 100% no-repeat;
+    background-size: cover;
+}
+
+.cellDebuffIcon {
+    position: absolute;
+    left: 0;
+    margin: auto 0;
+    width: 17.5%;
+    height: 17.5%;
+    border-radius: 90px;
+    background: url('https://ctrlmonster.github.io/wizardchess/public/assets/icons/PNG/11.png') 100% no-repeat;
+    background-size: cover;
+}
+
+.cellContentImage {
+    object-fit: cover;
+    width: 83%;
+    height: 95%;
+    border-radius: 90px;
+}
+
+.cellContentImageBackground {
+    background: linear-gradient(0deg, black, #b5b5b5);
+}
+
+.cellContentImageBorder {
+    border: 2px solid silver;
+}
+
+
+
+.cellMonsterStat {
+    background-size: 100%;
+    font-size: 1.35rem;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30%;
+    height: 30%;
+    position: absolute;
+    color: white;
+    text-shadow: -1px -1px 0 #000, 0 -1px 0 #000, 1px -1px 0 #000, 1px 0 0 #000, 1px 1px 0 #000, 0 1px 0 #000, -1px 1px 0 #000, -1px 0 0 #000;
+}
+
+
+
+.cellMonsterHP {
+    bottom: 0;
+    right: 0;
+    background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/dragon_TCG-assets/energy_red_gimp.png);
+}
+
+.cellMonsterAtk {
+    left: 0;
+    bottom: 0;
+    background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/dragon_TCG-assets/energy_yellow.png);
+}
+
+.cellMonsterMana {
+    right: 0;
+    top: 0;
+    background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/dragon_TCG-assets/energy_blue.png);
+}
+
+.cellMonsterMagicPower {
+    background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/dragon_TCG-assets/energy_violet_gimp.png);
+}
+
+.cellMonsterHealPower {
+    background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/dragon_TCG-assets/energy_green.png);
+}
+
+.cellStatPosBotLeft {
+    bottom: 0;
+    left: 0;
+}
+
+.cellStatPosTopLeft {
+    top: 0;
+    left: 0;
+}
+
+
+
+
+
+/*
+.darkerCell .cellContentImage {
+    border: 2px solid #999;
+}
+.brighterCell .cellContentImage {
+    border: 2px solid #666;
+}*/
+
 .hideCellContent {
-    display: none;
+    opacity: 0!important;
+    /*TODO: check if display none is better*/
+}
+
+.darkerCell {
+    background: rgba(154, 154, 154, 0.5);
+}
+
+.brighterCell {
+    background: rgba(255,255,255,.5);
+}
+
+.enemyCell {
+    background: rgba(224, 17, 17, 0.4);
+}
+
+.friendlyCell {
+    background: rgba(17, 49, 224, 0.5);
+}
+
+.enemyCell:hover {
+    box-shadow: 2px 3px 6px 3px rgba(99, 0, 3, 0.82);
+    /*
+    background: rgba(224, 17, 17, 0.7);
+     */
+}
+
+.friendlyCell:hover {
+    box-shadow: 2px 3px 6px 3px rgba(7, 25, 156, 0.85);
+    /*
+    background: rgba(17, 49, 224, 0.8);
+     */
+}
+.friendlyCell .cellContentImage {
+    box-shadow: 0 0 8px 5px rgba(178, 189, 212, 0.43);
+}
+.enemyCell .cellContentImage {
+    box-shadow: 0 0 8px 5px rgba(255, 199, 199, .3);
+}
+.friendlyCell .cellContentImage {
+    box-shadow: 0 0 8px 5px rgba(178, 189, 212, 0.43);
+}
+.commanderCell .cellContentImage {
+    border: 1px solid gold;
+    box-shadow: 0 0 5px 2px rgba(255, 224, 0, .45);
+}
+
+.initSelection {
+    /*box-shadow: 0 0 10px 5px rgba(17, 49, 224, 1);
+     */
+
+    /*box-shadow: 0 0 20px 8px rgba(17, 49, 224, 1);
+
+     */
+
+    /*background: rgba(95, 255, 0, 0.6);
+
+     */
+    /*box-shadow: 0 0 6px 3px rgba(34, 208, 6, 0.8);
+
+     */
+}
+
+.initSelection .cellContentImage {
+    box-shadow: 0 0 7px 5px rgb(50, 222, 22);
+}
+
+.initSelection:hover {
+    cursor: pointer;
+    /*background: rgba(95, 255, 0, 0.75);*/
+    /*
+    box-shadow: 0 0 6px 3px rgba(34, 208, 6, 1);
+     */
+}
+
+.finalSelection {
+    background: rgba(148, 41, 241, 0.75);
+    box-shadow: 0 0 3px 0px rgba(95, 1, 224, 0.9);
+}
+.finalSelection:hover {
+    cursor: pointer;
+    box-shadow: 2px 3px 6px 3px rgba(95, 1, 224, 0.8);
+}
+
+.cellBlockedImage {
+    background: rgba(0, 0, 0, .82);
+    width: 100%;
+    height: 100%;
+    position: absolute
+}
+
+.partialHp {
+    color: rgb(255, 0, 0)
+}
+.partialMana {
+    color: #2eb7ff
+}
+.buffedStat {
+    color: #52ff00;
+}
+
+
+.spellAffectedCell {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 3px solid #cb32d2;
+}
+
+
+.fontStroke {
+    text-shadow: -1px -1px 0 #000, 0 -1px 0 #000, 1px -1px 0 #000, 1px 0 0 #000, 1px 1px 0 #000, 0 1px 0 #000, -1px 1px 0 #000, -1px 0 0 #000;
 }

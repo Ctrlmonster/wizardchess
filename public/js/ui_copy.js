@@ -155,68 +155,68 @@ ${skillData.mana} Mana</div>
 
 
 function initHeroSkills() {
-  //let battleScene = game.scene.getScene('BattleScene');
+  let battleScene = game.scene.getScene('BattleScene');
   heroSkills.forEach((skillElem, i) => {
     skillElem.addEventListener('click', () => {
       console.log(`selected skill index ${i}`);
-      game.selectSkill(i);
+      battleScene.selectSkill(i);
     });
   });
 
-  game.skills.forEach((skill) => {
+  battleScene.skills.forEach((skill) => {
     initHeroSkillTooltips(skill)
   });
-  game.opponentSkills.forEach((skill) => {
+  battleScene.opponentSkills.forEach((skill) => {
     initHeroSkillTooltips(skill, true)
   });
 
 
 
   heroArea.addEventListener('mouseover', () => {
-    game.setSelectionMode('skill');
+    battleScene.setSelectionMode('skill');
   });
 
   // always remember where the user moved the mouse the last time
   window.addEventListener('mousemove', (evt) => {
-    game.mouseX = evt.pageX;
-    game.mouseY = evt.pageY;
+    battleScene.mouseX = evt.pageX;
+    battleScene.mouseY = evt.pageY;
   });
 
   window.addEventListener('keyup', (evt) => {
     let validSkillIndices = [1,2,3,4,5];
     // select skills
     if (validSkillIndices.indexOf(parseInt(evt.key)) !== -1)
-      game.selectSkillWithKeybind(parseInt(evt.key)-1);
+      battleScene.selectSkillWithKeybind(parseInt(evt.key)-1);
 
 
     else {
       if (evt.key === 'Escape') {
         client.sendActionResponse({}).then(res => {
-          game.actionRequestData = [];
+          battleScene.actionRequestData = [];
           // check where the mouse is to decide which selection mode to return to
           const canvasRect = gameCanvas.getBoundingClientRect();
-          if (!(game.mouseX > canvasRect.left && game.mouseX < canvasRect.right &&
-            game.mouseY > canvasRect.top && game.mouseY < canvasRect.bottom)) {
-            game.actionRequestData = [];
-            game.setSelectionMode('hand', true); // return to hand mode (skills can be faster via keybind) if mouse was of-canvas
+          if (!(battleScene.mouseX > canvasRect.left && battleScene.mouseX < canvasRect.right &&
+            battleScene.mouseY > canvasRect.top && battleScene.mouseY < canvasRect.bottom)) {
+            battleScene.actionRequestData = [];
+            battleScene.setSelectionMode('hand', true); // return to hand mode (skills can be faster via keybind) if mouse was of-canvas
           }
           else {
-            game.actionRequestData = [];
-            game.setSelectionMode('board', true); // return to board mode if the mouse is on the canvas
+            battleScene.actionRequestData = [];
+            battleScene.setSelectionMode('board', true); // return to board mode if the mouse is on the canvas
           }
         });
-        game.actionRequestData = [];
+        battleScene.actionRequestData = [];
       }
 
       else if(evt.key === ' ') {
         console.log("confirm");
-        if (game.actionRequestData.length === 1) { // instant confirmation if only one item could be selected
-          client.sendActionResponse(game.actionRequestData[0]).then(res => {
-            game.actionRequestData = [];
-            game.setSelectionMode('board', true); // re-enter board mode -> selection always happens on the board
-            game.removeZoomedCard();
-          });
-          game.actionRequestData = [];
+        if (battleScene.actionRequestData.length === 1) { // instant confirmation if only one item could be selected
+            client.sendActionResponse(battleScene.actionRequestData[0]).then(res => {
+              battleScene.actionRequestData = [];
+              battleScene.setSelectionMode('board', true); // re-enter board mode -> selection always happens on the board
+              battleScene.removeZoomedCard();
+            });
+            battleScene.actionRequestData = [];
         }
       }
     }
@@ -226,7 +226,7 @@ function initHeroSkills() {
   /*
   heroSkillContainer.addEventListener('mouseover', () => {
     //console.log("set select mode to skill");
-    game.setSelectionMode('skill');
+    battleScene.setSelectionMode('skill');
   })*/
 }
 
@@ -375,23 +375,23 @@ function createCardElem(cardData, handIndex, dataCallback) {
 
 
 function initMatchSelectionModes() {
-  //let game = game.scene.getScene('BattleScene');
+  let battleScene = game.scene.getScene('BattleScene');
 
-  gameCanvas = game.htmlTable;//document.querySelector("canvas");
+  gameCanvas = battleScene.htmlTable;//document.querySelector("canvas");
 
   // old canvas to be deleted
   canvasContainer.addEventListener('mouseover', () => {
-    game.setSelectionMode('board');
+    battleScene.setSelectionMode('board');
   });
 
   /*
-  game.htmlTable.addEventListener('mouseover', () => {
-    game.setSelectionMode('board');
+  battleScene.htmlTable.addEventListener('mouseover', () => {
+    battleScene.setSelectionMode('board');
   });*/
 
   /*
   gameContainer.addEventListener('mouseover', () => {
-    game.setSelectionMode('board');
+    battleScene.setSelectionMode('board');
   });*/
 
 
@@ -400,8 +400,8 @@ function initMatchSelectionModes() {
   gameContainer.addEventListener('click', (evt) => {
     const canvasRect = gameCanvas.getBoundingClientRect();
     if (!(evt.pageX > canvasRect.left && evt.pageX < canvasRect.right &&
-      evt.pageY > canvasRect.top && evt.pageY < canvasRect.bottom)) {
-      game.selectCell({x: -1, y: -1}); // auto deselect if clicked outside of the board
+        evt.pageY > canvasRect.top && evt.pageY < canvasRect.bottom)) {
+      battleScene.selectCell({x: -1, y: -1}); // auto deselect if clicked outside of the board
     }
   });
 
@@ -410,12 +410,12 @@ function initMatchSelectionModes() {
     const canvasRect = gameCanvas.getBoundingClientRect();
     if (!(evt.pageX > canvasRect.left && evt.pageX < canvasRect.right &&
       evt.pageY > canvasRect.top && evt.pageY < canvasRect.bottom)) {
-      game.showCellContentTooltip({content:null}, true);
+      battleScene.showCellContentTooltip({content:null}, true);
     }
   });
 
   cardContainer.addEventListener('mouseover', () => {
-    game.setSelectionMode('hand');
+    battleScene.setSelectionMode('hand');
   });
 }
 
