@@ -9,6 +9,29 @@
 
 <body>
 <div id="wrapper">
+    <div id="introContainer">
+        <select id="heroSelect" class="select-css">
+            <option value="warlock">Warlock</option>
+            <option value="rogue">Rogue</option>
+            <option value="wizard">Wizard</option>
+        </select>
+        <div id="classSelection" style="display: none">
+            <div>
+                <img src="https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_necro.png"/>
+                <div class="cardNumber">Warlock</div>
+            </div>
+            <div><img src="https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_assassin.PNG"/>Rogue</div>
+            <div><img src="https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_mage.png"/>Wizard</div>
+        </div>
+
+        <div id="queue" class="mainButtonStyle">
+            <span class="cardNumber">Join Queue</span>
+            <img draggable="false" src="https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Button_Medium_On.png">
+        </div>
+
+    </div>
+
+
 
 <div id="gameOverMessage" class="hideTooltip cardNumber">
     Match over. <span id="lossOrWin"></span><br>
@@ -249,16 +272,8 @@
         <div> </div>
     </div>
 
+
     <div id="buttonContainer">
-        <select id="heroSelect" class="select-css">
-            <option value="warlock">Warlock</option>
-            <option value="rogue">Rogue</option>
-            <option value="wizard">Wizard</option>
-        </select>
-        <div id="queue" class="mainButtonStyle">
-            <span class="cardNumber">Join Queue</span>
-            <img draggable="false" src="https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Button_Medium_On.png">
-        </div>
         <div id="endTurn" class="hideTooltip mainButtonStyle">
             <span class="cardNumber">End Turn</span>
             <img draggable="false" src="https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Button_Medium_On.png">
@@ -309,7 +324,7 @@
 </div>
 
 <div id="cardContainer" class="">
-    <img draggable="false" src="https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/frame_hori.png" id="cardContainerBorder" />
+    <img style="display: none;" draggable="false" src="https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/frame_hori.png" id="cardContainerBorder" />
     <!--<div id="introMessage">Use Strg +/- to adjust the Browsers Zoom Level until the darker area fills ~40% of your Window.</div>-->
 </div>
 

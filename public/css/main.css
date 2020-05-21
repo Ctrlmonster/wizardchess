@@ -64,7 +64,12 @@ button:hover {
 
     /* padding: 1rem; */
     box-sizing: border-box;
-    height: 66vh;
+    height: 74vh;
+
+    /*https://ctrlmonster.github.io/wizardchess*/
+    background-image: url(/public/assets/gui/Card_game_GUI/Backgrounds/wood_board_upper.png);
+    background-repeat: no-repeat;
+    background-size: cover;
 
   }
 
@@ -122,47 +127,28 @@ body {
 
 #wrapper {
     height: 100vh;
-/*
-    background-image: url("/public/assets/searched_images/woodtexture.jpg");
- */
+    /* background-image: url(/public/assets/searched_images/woodtexture.jpg); */
+    /*background-image: url(/public/assets/searched_images/background_1.jpg);
 
-    /*
-    background-image: url("/public/assets/searched_images/background_1.jpg");
      */
 
+    /*background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Backgrounds/Background_05.png);*/
+    /* background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/Field-Background/flat-field-bg2.png); */
+    /* background-repeat: no-repeat; */
 
-    /*
-    background-image: url("https://ctrlmonster.github.io/wizardchess/public/assets/searched_images/bg_test2.webp");
-     */
-    background-image: url("https://ctrlmonster.github.io/wizardchess/public/assets/Field-Background/flat-field-bg2.png");
-
-    background-repeat: no-repeat;
-    background-size: 100%;
+    /*background-size: 100%;
+    background-position-y: -205px;*/
 }
 
 #canvasContainer {
-
-    /*z-index: 1000;
-
-     */
     /*
-    width: 47vw;
-     */
-    /*
+    background: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Desk_gimp_quad.png) no-repeat;
+    background-size: 101.6%;
+    */
     display: flex;
-    align-items: center;
     justify-content: center;
-    */
-    /*
-    background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Desk_gimp.png);
-    background-repeat: no-repeat;
-    background-size: cover;
-    */
-    /*
-    height: 66vh!important;
-    width: 75vh!important;
-    position: relative;
-    */
+    align-items: center;
+    background-position: center;
 }
 
 #canvasContainer canvas {
@@ -191,16 +177,18 @@ body {
 
 #cardContainer {
     position: relative;
-    height: 34vh;
+    height: 26vh;
     align-items: center;
     box-sizing: border-box;
-    padding-top: 3rem;
+    padding-top: 1.5rem;
     /*
     background-image: url("https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Backgrounds/planke.png");
 
      */
+
+    /*
     background-image: url("https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Backgrounds/Background_05.png");
-    background-size: 100%;
+    background-size: 100%;*/
     /*
     background-position-y: -11rem;
      */
@@ -218,6 +206,9 @@ body {
     /*
     background-image: url("/public/assets/gui/Card_game_GUI/Backgrounds/Background_05.png");
      */
+
+    /*https://ctrlmonster.github.io/wizardchess*/
+    background-image: url(/public/assets/gui/Card_game_GUI/Backgrounds/wood_board_lower.png);
     background-repeat: no-repeat;
     background-size: 100%;
     /*background: rgba(22, 22, 22, 0.71);*/
@@ -234,21 +225,20 @@ body {
 }
 
 #historyContainer {
-    width: 18rem;
-    /*position: relative;*/
+    width: 20rem;
+    /* position: relative; */
     font-size: 2rem;
-    /*background: #000;*/
-    /*background: #000;*/
-    /*background: white;*/
-    /*background: #383F51;*/
+    /* background: #000; */
+    /* background: #000; */
+    /* background: white; */
+    background: rgba(0, 0, 0, 0.5);
     position: absolute;
     right: 0;
     top: 6rem;
     height: 650px;
-    padding: 0 10px;
-    /*
-    pointer-events: none;
-     */
+    padding-left: 10px;
+    /* pointer-events: none; */
+    border-radius: 5px;
 }
 
 #turnInfo {
@@ -271,9 +261,13 @@ body {
 }
 
 #historyContainer div {
-    border-bottom: 1px solid white;
+    /*border-bottom: 1px solid white;
+
+     */
     /*border-bottom: 1px solid orange;*/
-    margin-bottom: 5px;
+    /*margin-bottom: 5px;
+
+     */
 }
 
 .historyEntry {
@@ -865,7 +859,8 @@ body {
     position: relative;
     transition: all 0.25s;
     z-index: 10;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    box-shadow: 4px 8px 10px 4px rgba(0,0,0,0.3), 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    border-radius: 20px;
 }
 .cardElement:hover {
     /*box-sizing: border-box;*/
@@ -878,11 +873,11 @@ body {
 }
 
 .cardElementSize {
-    -webkit-transform: scale(0.75);
-    -moz-transform: scale(0.75);
-    -ms-transform: scale(0.75);
-    -o-transform: scale(0.75);
-    transform: scale(0.75);
+    -webkit-transform: scale(0.65);
+    -moz-transform: scale(0.65);
+    -ms-transform: scale(0.65);
+    -o-transform: scale(0.65);
+    transform: scale(0.65);
 }
 
 .cardImageContainer {
@@ -1048,152 +1043,163 @@ table, tr, td {
     border-spacing: 0;
     padding: 0;
     margin: 0;
+    border: none;
 }
+
 
 
 #htmlGameTable {
-    background: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Desk_gimp_quad.png) 100% no-repeat;
-    background-size: cover;
+    background: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Desk_gimp_quad.png) no-repeat;
+    background-size: 150%;
+    width: 70.6vh;
+    height: 67.3vh;
+    table-layout: fixed;
+    border: 23px solid #412003;
+    border-image: url(/public/assets/gui/Card_game_GUI/Backgrounds/wood_board_lower.png) 175 67 54 1015;
+    border-collapse: initial;
+    background-position-x: -14rem;
+    background-position-y: -20rem;
+    box-shadow: 2px 2px 6px 4px rgba(0, 0, 0, 0.5)
 }
 
 .gameTableCell {
-    width: 8.25vh;
-    height: 8.25vh;
+  width: 8vh;
+  height: 8vh;
 }
 
 .cellImageWrapper {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items:center;
-    transition: all 0.15s;
-    transition-timing-function: ease-out;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items:center;
+  transition: all 0.15s;
+  transition-timing-function: ease-out;
 }
 
 .cellBorderImage {
-    position: absolute;
-    left: -4px;
-    top: -4px;
-    width: 108%;
-    height: 118%;
+  position: absolute;
+  left: -4px;
+  top: -4px;
+  width: 108%;
+  height: 118%;
 }
 
 
 .cellTankIcon {
-    position: absolute;
-    bottom: 0;
-    margin: 0 auto;
-    width: 25%;
-    height: 25%;
+  position: absolute;
+  bottom: 0;
+  margin: 0 auto;
+  width: 25%;
+  height: 25%;
 }
 
 .cellCommanderIcon {
-    position: absolute;
-    bottom: 0;
-    margin: 0 auto;
-    width: 5%;
-    height: 24%;
+  position: absolute;
+  bottom: 0;
+  margin: 0 auto;
+  width: 5%;
+  height: 24%;
 }
 
 .cellIdlingIcon {
-    position: absolute;
-    top: -12px;
-    margin: 0 auto;
-    width: 17.5%;
-    height: 17.5%;
+  position: absolute;
+  top: -12px;
+  margin: 0 auto;
+  width: 17.5%;
+  height: 17.5%;
 }
 
 .cellCCIcon {
-    position: absolute;
-    right: 0;
-    margin: auto 0;
-    width: 17.5%;
-    height: 17.5%;
-    border-radius: 90px;
-    background: url('https://ctrlmonster.github.io/wizardchess/public/assets/icons/PNG/37.png') 100% no-repeat;
-    background-size: cover;
+  position: absolute;
+  right: 0;
+  margin: auto 0;
+  width: 17.5%;
+  height: 17.5%;
+  border-radius: 90px;
+  background: url('https://ctrlmonster.github.io/wizardchess/public/assets/icons/PNG/37.png') 100% no-repeat;
+  background-size: cover;
 }
 
 .cellDebuffIcon {
-    position: absolute;
-    left: 0;
-    margin: auto 0;
-    width: 17.5%;
-    height: 17.5%;
-    border-radius: 90px;
-    background: url('https://ctrlmonster.github.io/wizardchess/public/assets/icons/PNG/11.png') 100% no-repeat;
-    background-size: cover;
+  position: absolute;
+  left: 0;
+  margin: auto 0;
+  width: 17.5%;
+  height: 17.5%;
+  border-radius: 90px;
+  background: url('https://ctrlmonster.github.io/wizardchess/public/assets/icons/PNG/11.png') 100% no-repeat;
+  background-size: cover;
 }
 
 .cellContentImage {
-    object-fit: cover;
-    width: 83%;
-    height: 95%;
-    border-radius: 90px;
+  object-fit: cover;
+  width: 83%;
+  height: 95%;
+  border-radius: 90px;
 }
 
 .cellContentImageBackground {
-    background: linear-gradient(0deg, black, #b5b5b5);
+  background: linear-gradient(0deg, black, #b5b5b5);
 }
 
 .cellContentImageBorder {
-    border: 2px solid silver;
+  border: 2px solid silver;
 }
 
 
 
 .cellMonsterStat {
-    background-size: 100%;
-    font-size: 1.35rem;
-    font-weight: 700;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 30%;
-    height: 30%;
-    position: absolute;
-    color: white;
-    text-shadow: -1px -1px 0 #000, 0 -1px 0 #000, 1px -1px 0 #000, 1px 0 0 #000, 1px 1px 0 #000, 0 1px 0 #000, -1px 1px 0 #000, -1px 0 0 #000;
+  background-size: 100%;
+  font-size: 1.35rem;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  height: 30%;
+  position: absolute;
+  color: white;
+  text-shadow: -1px -1px 0 #000, 0 -1px 0 #000, 1px -1px 0 #000, 1px 0 0 #000, 1px 1px 0 #000, 0 1px 0 #000, -1px 1px 0 #000, -1px 0 0 #000;
 }
 
 
 
 .cellMonsterHP {
-    bottom: 0;
-    right: 0;
-    background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/dragon_TCG-assets/energy_red_gimp.png);
+  bottom: 0;
+  right: 0;
+  background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/dragon_TCG-assets/energy_red_gimp.png);
 }
 
 .cellMonsterAtk {
-    left: 0;
-    bottom: 0;
-    background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/dragon_TCG-assets/energy_yellow.png);
+  left: 0;
+  bottom: 0;
+  background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/dragon_TCG-assets/energy_yellow.png);
 }
 
 .cellMonsterMana {
-    right: 0;
-    top: 0;
-    background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/dragon_TCG-assets/energy_blue.png);
+  right: 0;
+  top: 0;
+  background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/dragon_TCG-assets/energy_blue.png);
 }
 
 .cellMonsterMagicPower {
-    background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/dragon_TCG-assets/energy_violet_gimp.png);
+  background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/dragon_TCG-assets/energy_violet_gimp.png);
 }
 
 .cellMonsterHealPower {
-    background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/dragon_TCG-assets/energy_green.png);
+  background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/dragon_TCG-assets/energy_green.png);
 }
 
 .cellStatPosBotLeft {
-    bottom: 0;
-    left: 0;
+  bottom: 0;
+  left: 0;
 }
 
 .cellStatPosTopLeft {
-    top: 0;
-    left: 0;
+  top: 0;
+  left: 0;
 }
 
 
@@ -1202,10 +1208,10 @@ table, tr, td {
 
 /*
 .darkerCell .cellContentImage {
-    border: 2px solid #999;
+  border: 2px solid #999;
 }
 .brighterCell .cellContentImage {
-    border: 2px solid #666;
+  border: 2px solid #666;
 }*/
 
 .hideCellContent {
@@ -1294,10 +1300,24 @@ table, tr, td {
 }
 
 .cellBlockedImage {
-    background: rgba(0, 0, 0, .82);
+    background: rgba(0, 0, 0, .87);
     width: 100%;
     height: 100%;
     position: absolute
+}
+
+.dmgHitImage {
+    position: absolute;
+    top: 0;
+    margin: 0 auto;
+    background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/searched_images/dmg_hit.png);
+    width: 70%;
+    height: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.7rem;
+    transition: all 0.1s ease-out;
 }
 
 .partialHp {
@@ -1321,4 +1341,36 @@ table, tr, td {
 
 .fontStroke {
     text-shadow: -1px -1px 0 #000, 0 -1px 0 #000, 1px -1px 0 #000, 1px 0 0 #000, 1px 1px 0 #000, 0 1px 0 #000, -1px 1px 0 #000, -1px 0 0 #000;
+}
+
+
+/* ================================================ */
+
+#introContainer {
+    width: 100vw;
+    height: 100vh;
+    margin: 0 auto;
+    position: absolute;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center
+}
+
+#classSelection {
+    display: flex;
+    border: 1px solid red;
+}
+#classSelection div {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+#classSelection img {
+    width: 200px;
+    height: 200px;
+    border: 1px solid black;
+    border-radius: 150px;
+    background: linear-gradient(0deg, black, white);
 }

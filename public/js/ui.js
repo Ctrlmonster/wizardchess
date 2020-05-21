@@ -158,7 +158,7 @@ function initHeroSkills() {
   //let battleScene = game.scene.getScene('BattleScene');
   heroSkills.forEach((skillElem, i) => {
     skillElem.addEventListener('click', () => {
-      console.log(`selected skill index ${i}`);
+      //console.log(`selected skill index ${i}`);
       game.selectSkill(i);
     });
   });
@@ -209,7 +209,7 @@ function initHeroSkills() {
       }
 
       else if(evt.key === ' ') {
-        console.log("confirm");
+        //console.log("confirm");
         if (game.actionRequestData.length === 1) { // instant confirmation if only one item could be selected
           client.sendActionResponse(game.actionRequestData[0]).then(res => {
             game.actionRequestData = [];
@@ -423,18 +423,52 @@ function initMatchSelectionModes() {
 function createNewHistoryEntry(data) {
   let entry = document.createElement("DIV");
   entry.classList.add("historyEntry");
-  entry.innerHTML = `Player`;
+  //entry.innerHTML = `Player`;
 
   let friendly = client.player_id === data.playerId;
   let type = stringToUpperCase(data.type);
   let name = data.name;
   let turn = data.turn;
 
-  entry.innerHTML = `${friendly? "<span style='color: #3e92ff'>Myself</span>": "<span style='color: crimson'>Enemy</span>"} Turn Nr. <span>${turn}</span><br>`;
-  entry.innerHTML += `${type}: ${name}`;
+  const entryHeader = document.createElement("DIV");
+  entryHeader.classList.add("cardNumber");
+  entryHeader.style.fontSize = "1.25rem";
+  entryHeader.style.marginBottom = ".3rem";
+  entryHeader.style.marginTop = "1rem";
+  entryHeader.innerHTML = `${friendly? "<span style='color: #3e92ff'>Myself</span>": "<span style='color: crimson'>Enemy</span>"} Turn Nr. <span>${turn}</span><br>`;
+
+  const entryContent = document.createElement("DIV");
+  entryContent.style.display = 'flex';
+  entryContent.style.alignItems = 'center';
+
+  const entryName = document.createElement("DIV");
+  entryName.innerHTML = `${type}: ${name}`;
+  entryName.classList.add("cardNumber");
+  entryName.style.fontSize = "1rem";
+
+  const entryImage = document.createElement("IMG");
+  entryImage.src = `${client_address}public/${data.icon}`;
+  entryImage.style.height = "2.5rem";
+  entryImage.style.width = "2.5rem";
+  entryImage.style.objectFit = "cover";
+  entryImage.style.borderRadius = "3px";
+  /*entryImage.style.border = "1px solid gold";
+
+   */
+  entryImage.style.marginRight = "1rem";
+
+
+
+  entry.appendChild(entryHeader);
+  entryContent.appendChild(entryImage);
+  entryContent.appendChild(entryName);
+  entry.appendChild(entryContent);
+
+  //entry.innerHTML = `${friendly? "<span style='color: #3e92ff'>Myself</span>": "<span style='color: crimson'>Enemy</span>"} Turn Nr. <span>${turn}</span><br>`;
+  //entry.innerHTML += `${type}: ${name}`;
 
   historyContainer.appendChild(entry);
-  console.log(historyContainer.scrollHeight);
+  //console.log(historyContainer.scrollHeight);
   historyContainer.scrollTop = historyContainer.scrollHeight
 }
 

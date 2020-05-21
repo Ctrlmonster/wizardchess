@@ -91,12 +91,12 @@ class Game {
         });
 
         cellContainer.addEventListener('click', () => {
-          console.log(`clicked ${pos.x}| ${pos.y}`);
+          //console.log(`clicked ${pos.x}| ${pos.y}`);
           this.selectCell({x:pos.x, y:pos.y})
         });
 
         const cell = document.createElement("DIV");
-        const {wrapper, blockedIcon, deBuffIcon, idlingIcon, ccIcon, tankIcon, commanderIcon, contentImage, hpNumber, atkNumber, magicPowerNumber, healPowerNumber, monsterManaNumber} = this.createCellElement();
+        const {wrapper, blockedIcon, deBuffIcon, idlingIcon, dmgHitImage, ccIcon, tankIcon, commanderIcon, contentImage, hpNumber, atkNumber, magicPowerNumber, healPowerNumber, monsterManaNumber} = this.createCellElement();
 
 
         cell.setAttribute("id", `${pos.x}${pos.y}`);
@@ -122,7 +122,8 @@ class Game {
           blockedIcon,
           ccIcon,
           deBuffIcon,
-          idlingIcon
+          idlingIcon,
+          dmgHitImage
         };
       }
       table.appendChild(row);
@@ -222,6 +223,12 @@ class Game {
     blockedIcon.classList.add("cellBlockedImage");
     blockedIcon.classList.add("hideCellContent");
 
+    const dmgHitImage = document.createElement("DIV");
+    dmgHitImage.classList.add("dmgHitImage");
+    dmgHitImage.classList.add("cellMonsterStat");
+    dmgHitImage.innerHTML = "-5";
+    dmgHitImage.classList.add("hideCellContent");
+
     // ----------------------------------------
     wrapper.appendChild(contentImage);
     wrapper.appendChild(commanderIcon);
@@ -230,14 +237,16 @@ class Game {
     wrapper.appendChild(ccIcon);
     wrapper.appendChild(deBuffIcon);
     wrapper.appendChild(blockedIcon);
+    wrapper.appendChild(dmgHitImage);
+
     //wrapper.appendChild(contentBorder);
 
 
-    return {wrapper, blockedIcon,idlingIcon, deBuffIcon, ccIcon, tankIcon, commanderIcon, contentImage, hpNumber, atkNumber, magicPowerNumber, healPowerNumber, monsterManaNumber};
+    return {wrapper, blockedIcon,idlingIcon, dmgHitImage, deBuffIcon, ccIcon, tankIcon, commanderIcon, contentImage, hpNumber, atkNumber, magicPowerNumber, healPowerNumber, monsterManaNumber};
   }
 
   updateHTMLGameTable() {
-    console.log("update game table");
+    //console.log("update game table");
 
     for (let x = 0; x < this.board.length; x++) {
       for (let y = 0; y < this.board[x].length; y++) {
@@ -683,7 +692,8 @@ class Game {
     if (!newHistory) return;
     if (newHistory.length === this.eventHistory.length) return;
 
-    //let startIndex = this.eventHistory.length-1;
+    console.log(newHistory);
+    // only add the new items
     for (let i = this.eventHistoryIndex; i < newHistory.length; i++) {
       createNewHistoryEntry(newHistory[i]);
     }
@@ -953,7 +963,7 @@ class Game {
 
 
     // create a zoomed card highlight for minions
-    console.log(content);
+    //console.log(content);
     const dataForZoomedCard = {
       mana: content.manaCost,
       hp: content.maxHp,
@@ -1080,7 +1090,7 @@ class Game {
     if (!options.length) return;
 
     const skill = this.skills[skillIndex];
-    console.log(skillIndex);
+    //console.log(skillIndex);
     if (!skill) return; // avoid the possibility of selecting e.g. a 'skill 6' that doesn't exist
 
     const selectedOption = this.actionRequestData.find(option => option.data === skill.skillIndex);
@@ -1170,7 +1180,6 @@ class Game {
   // TODO: to implement n > 1 ar's, send n and only send the response here if the as many options have been selected
   // select an action request option (for type cell)
   selectCell(pos) {
-    console.log(pos);
 
     // early returns to stop players spamming the server
     if (!this.myTurn || (this.actionRequestData == null || !this.actionRequestData.length)) {
@@ -1341,7 +1350,7 @@ class Game {
 
   exitBattle() {
     client.exitBattle().then(res => {
-      console.log(res);
+      //console.log(res);
       this.switchToWorldScene();
     })
   }
