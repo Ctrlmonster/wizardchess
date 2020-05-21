@@ -67,7 +67,7 @@ button:hover {
     height: 74vh;
 
     /*https://ctrlmonster.github.io/wizardchess*/
-    background-image: url(/public/assets/gui/Card_game_GUI/Backgrounds/wood_board_upper.png);
+    background-image: url(https://ctrlmonster.github.io/public/assets/gui/Card_game_GUI/Backgrounds/wood_board_upper.png);
     background-repeat: no-repeat;
     background-size: cover;
 
@@ -1055,7 +1055,7 @@ table, tr, td {
     height: 67.3vh;
     table-layout: fixed;
     border: 23px solid #412003;
-    border-image: url(/public/assets/gui/Card_game_GUI/Backgrounds/wood_board_lower.png) 175 67 54 1015;
+    border-image: url(https://ctrlmonster.github.io/public/assets/gui/Card_game_GUI/Backgrounds/wood_board_lower.png) 175 67 54 1015;
     border-collapse: initial;
     background-position-x: -14rem;
     background-position-y: -20rem;
