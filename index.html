@@ -4,27 +4,30 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="public/css/main.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins|Bitter">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins|Bitter|Lovers+Quarrel">
 </head>
 
 <body>
 <div id="wrapper">
     <div id="introContainer">
-        <select id="heroSelect" class="select-css">
-            <option value="warlock">Warlock</option>
-            <option value="rogue">Rogue</option>
-            <option value="wizard">Wizard</option>
-        </select>
-        <div id="classSelection" style="display: none">
+        <h1>Wizardchess</h1>
+        <h2 class="cardNumber">Select your Hero Class</h2>
+        <div id="classSelection">
             <div>
-                <img src="https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_necro.png"/>
+                <img data-hero="rogue" src="https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_assassin.PNG"/>
+                <div class="cardNumber">Rogue</div>
+            </div>
+            <div>
+                <img data-hero="warlock" src="https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_necro.png"/>
                 <div class="cardNumber">Warlock</div>
             </div>
-            <div><img src="https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_assassin.PNG"/>Rogue</div>
-            <div><img src="https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_mage.png"/>Wizard</div>
+            <div>
+                <img data-hero="wizard" src="https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_mage.png"/>
+                <div class="cardNumber">Wizard</div>
+            </div>
         </div>
 
-        <div id="queue" class="mainButtonStyle">
+        <div id="queue" class="endOfTurnButtonStyle mainButtonStyle">
             <span class="cardNumber">Join Queue</span>
             <img draggable="false" src="https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Button_Medium_On.png">
         </div>
@@ -274,7 +277,7 @@
 
 
     <div id="buttonContainer">
-        <div id="endTurn" class="hideTooltip mainButtonStyle">
+        <div id="endTurn" class="endOfTurnButtonStyle hideTooltip mainButtonStyle">
             <span class="cardNumber">End Turn</span>
             <img draggable="false" src="https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Button_Medium_On.png">
             <!--<img src="public/assets/gui/GUI_Parts/Gui_parts/button_ready_on.png">-->

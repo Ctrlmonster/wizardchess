@@ -54,8 +54,17 @@ const startDuelMessage = document.getElementById("startDuelMessage");
 const returnToLobbyButton = document.getElementById("returnToLobby");
 const lossOrWinDisplay = document.getElementById("lossOrWin");
 
-//const introMessage = document.getElementById("introMessage");
-const heroSelect = document.getElementById("heroSelect");
+const introContainer = document.getElementById("introContainer");
+const heroSelectionClasses = document.querySelectorAll("#classSelection > div");
+
+heroSelectionClasses.forEach((elem, i) =>
+  elem.addEventListener("click", (evt) => {
+  client.selectedHero = evt.target.getAttribute("data-hero");
+  heroSelectionClasses.forEach(elem => elem.classList.remove("selectedClassIcon"));
+  heroSelectionClasses[i].classList.add("selectedClassIcon");
+  queueButton.classList.remove("endOfTurnButtonStyle");
+}));
+
 
 returnToLobbyButton.addEventListener("click", () => {
   location.reload();
@@ -75,7 +84,7 @@ function showGameElements() {
 
   heroImage.classList.remove("hideTooltip");
   enemyHeroImage.classList.remove("hideTooltip");
-  //introMessage.classList.add("hideTooltip");
+  introContainer.classList.add("hideTooltip");
 
 
   //gameContainer.style.backgroundImage = 'url(\"https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Desk_01.png\")';
@@ -476,8 +485,4 @@ function stringToUpperCase(string) {
   return string[0].toUpperCase() + string.slice(-string.length+1);
 }
 
-
-heroSelect.addEventListener('change', function() {
-  client.selectedHero = this.value;
-});
 

@@ -1,7 +1,7 @@
 class GameClient { // rename api service or something
   constructor(game_ref) {
     this.player_id = null;
-    this.selectedHero = 'warlock';
+    this.selectedHero = null;
     this.socket = null;
     // TODO: game_ref really a scene ref?
     this.game_ref = game_ref; // only needed for socket msg defines atm
@@ -179,6 +179,8 @@ class GameClient { // rename api service or something
   }
 
   joinQueue() {
+    if (this.selectedHero == null) return;
+
     return axios.post(url('lookingForGame'), {
       id: this.player_id,
       hero: this.selectedHero,

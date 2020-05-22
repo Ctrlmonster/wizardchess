@@ -779,7 +779,6 @@ class Game {
     createEndTurnButton(this);
 
     document.getElementById("queue").classList.add("hideTooltip");
-    document.getElementById("heroSelect").classList.add("hideTooltip");
   }
 
 
