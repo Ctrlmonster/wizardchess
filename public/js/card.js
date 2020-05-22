@@ -97,6 +97,7 @@ function createMonsterCard(cardData, handIndex, playCallback, zoomedCardOnly=fal
   textContainer.style.position = 'absolute';
 
   const textElem = document.createElement("DIV");
+  let textLength = displayData.info != null ? displayData.info.length : 1;
   textElem.innerHTML = `<div>`+ (displayData.info != null) ? displayData.info : '' + `</div>`;
   textElem.style.position = 'absolute';
   //textElem.style.border = "1px solid red";
@@ -110,6 +111,12 @@ function createMonsterCard(cardData, handIndex, playCallback, zoomedCardOnly=fal
   textElem.style.fontSize = "0.5vw";
   textElem.style.boxSizing = "border-box";
   //textElem.style.fontWeight = "700";
+
+  let calculatedInfoSize = (Math.log(textLength ** 2) / 2.8) * (2.25 / Math.sqrt(textLength));
+  const maxInfoSize = 0.9;
+  let finalSize = calculatedInfoSize > maxInfoSize ? maxInfoSize : calculatedInfoSize;
+  //cardName.style.top = `${.5 * (1 + maxSize - size)}rem`;
+  textElem.style.fontSize = `${finalSize}rem`;
 
   textContainer.appendChild(text_box);
   textContainer.appendChild(textElem);
@@ -784,6 +791,14 @@ function createSpellCard(cardData, handIndex, playCallback, scene) {
   textElem.style.fontSize = "0.5vw";
   textElem.style.boxSizing = "border-box";
   //textElem.style.fontWeight = "700";
+
+
+  let calculatedInfoSize = (Math.log(displayData.info.length ** 2) / 2.8) * (2.25 / Math.sqrt(displayData.info.length));
+  const maxInfoSize = 0.9;
+  let finalSize = calculatedInfoSize > maxInfoSize ? maxInfoSize : calculatedInfoSize;
+  //cardName.style.top = `${.5 * (1 + maxSize - size)}rem`;
+  textElem.style.fontSize = `${finalSize}rem`;
+
 
   textContainer.appendChild(textElem);
   textContainer.appendChild(text_box);
