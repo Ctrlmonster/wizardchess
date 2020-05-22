@@ -44,7 +44,7 @@ button:hover {
     color: #666!important;
 }
 .endOfTurnButtonStyle img {
-    filter: grayscale(100%);
+    filter: grayscale(100%)!important;
     cursor: default!important;
 }
 .endOfTurnButtonStyle:hover {
@@ -98,6 +98,7 @@ button:hover {
       height: 14rem;
       left: 4.8rem;
       top: -1rem;
+      filter: drop-shadow(2px 4px 6px black);
   }
   .heroFrameStat {
       position: absolute;
@@ -655,6 +656,7 @@ body {
     position: absolute;
     width: 20rem;
     height: auto;
+    filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.5));
 }
 
 .mainButtonStyle span {
@@ -874,7 +876,9 @@ body {
     position: relative;
     transition: all 0.25s;
     z-index: 10;
+    /*
     box-shadow: 2px 1px 3px 2px rgba(0, 0, 0, 0.5);
+     */
     border-radius: 20px;
 }
 .cardElement:hover {
@@ -952,6 +956,9 @@ body {
 .cardElement img {
     width: 100%;
     height: auto;
+    /*
+    filter: drop-shadow(2px 4px 6px rgba(0,0,0,.5));
+     */
 }
 
 img.dragonTailStyle {
@@ -1418,12 +1425,19 @@ table, tr, td {
     padding: 1rem;
     margin-bottom: .5rem;
     transition: all 0.15s;
+    filter: drop-shadow(2px 4px 6px black);
 }
 
 #classSelection img:hover {
+    /*
     background: linear-gradient(0deg, black, #f7f7f7);
+     */
     cursor: pointer;
+    /*
     box-shadow: 0 5px 30px 15px gold;
+     */
+    filter: drop-shadow(2px 4px 6px gold) drop-shadow(0px 1px 1px red);
+
 }
 
 .selectedClassIcon div {
