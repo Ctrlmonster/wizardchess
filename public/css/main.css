@@ -1486,11 +1486,13 @@ table, tr, td {
     justify-content: space-around;
     align-items: center;
     height: 70%;
-    width: 100%;
+    width: 99vw;
 }
 #mulliganCardContainer .cardElementSize {
-    transform: scale(1);
+    transform: scale(1.1);
+    /*
     margin-right: 10rem;
+     */
 }
 
 .deselectedMulliganCard {
@@ -1502,4 +1504,11 @@ table, tr, td {
 }
 #confirmMulligan:hover {
     cursor: pointer;
+}
+#confirmMulligan:hover span {
+    color: gold!important;
+}
+
+#confirmMulligan img {
+    width: 25rem;
 }
