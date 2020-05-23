@@ -1,4 +1,4 @@
-function createMonsterCard(cardData, handIndex, playCallback, zoomedCardOnly=false, scene=null) {
+function createMonsterCard(cardData, handIndex, playCallback, zoomedCardOnly=false, scene=null, mulliganCards) {
   let displayData = Object.assign({}, cardData);
 
   const cardElem = document.createElement('DIV');
@@ -42,6 +42,7 @@ function createMonsterCard(cardData, handIndex, playCallback, zoomedCardOnly=fal
   dragon_wing_left.style.width = '90%';
   dragon_wing_left.style.left = "-6.5rem";
   dragon_wing_left.style.top = "-4.5rem";
+  dragon_wing_left.classList.add("cardElemShadow");
   imageContainer.appendChild(dragon_wing_left);
 
   const dragon_head_right = document.createElement("IMG");
@@ -51,6 +52,7 @@ function createMonsterCard(cardData, handIndex, playCallback, zoomedCardOnly=fal
   dragon_head_right.style.width = '75%';
   dragon_head_right.style.right = "-4.5rem";
   dragon_head_right.style.top = "-6rem";
+  dragon_head_right.classList.add("cardElemShadow");
   imageContainer.appendChild(dragon_head_right);
 
 
@@ -627,7 +629,11 @@ function createMonsterCard(cardData, handIndex, playCallback, zoomedCardOnly=fal
     });
 
     // =========================================
-    cardContainer.appendChild(cardElem);
+    console.log("second" + mulliganCards);
+    if (mulliganCards) {
+      mulliganCardContainer.appendChild(cardElem);
+    }
+    else cardContainer.appendChild(cardElem);
     cardData.element = cardElem;
   }
 
@@ -650,7 +656,7 @@ function createMonsterCard(cardData, handIndex, playCallback, zoomedCardOnly=fal
 // spell cards
 
 
-function createSpellCard(cardData, handIndex, playCallback, scene) {
+function createSpellCard(cardData, handIndex, playCallback, scene, mulliganCards) {
   let displayData = Object.assign({}, cardData);
 
   const cardElem = document.createElement('DIV');
@@ -968,6 +974,8 @@ function createSpellCard(cardData, handIndex, playCallback, scene) {
   });
 
   // =========================================
-  cardContainer.appendChild(cardElem);
+  console.log("second" + mulliganCards);
+  if (mulliganCards) mulliganCardContainer.appendChild(cardElem);
+  else cardContainer.appendChild(cardElem);
   cardData.element = cardElem;
 }

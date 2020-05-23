@@ -45,6 +45,16 @@
     IT'S TIME TO DDDD-DUEL!!
 </div>
 
+<div class="hideTooltip"  id="mulliganContainer">
+    <div>
+        <div id="mulliganCardContainer"></div>
+        <div id="confirmMulligan" class="mainButtonStyle">
+            <span class="cardNumber">Confirm Starthand</span>
+            <img draggable="false" src="https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Button_Medium_On.png">
+        </div>
+    </div>
+</div>
+
 
 <div id="gameContainer">
     <div id="heroAreas">
@@ -76,9 +86,11 @@
             </div>
 
             <div id="heroSkillsContainer" class="heroSkillbar">
-                <img draggable="false" class="heroSkillbarBg" src="https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Line_Button_long.png">
+                <!--<img draggable="false" class="heroSkillbarBg" src="https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Line_Button_long.png">
+                -->
                 <div class="heroSkill hideTooltip" data-buttonIndex="1">
-                    <img draggable="false" class="skillIcon" id="skillIcon0" src="https://ctrlmonster.github.io/wizardchess/public/assets/skill_icons/Basic_Spells/Normal/01_fire_arrow.png">
+                    <span class="skillBinding cardNumber">1</span>
+                    <img draggable="false" class="skillIcon" id="skillIcon0" src="http://probablyprogramming.com/wp-content/uploads/2009/03/handtinytrans.gif">
                     <div class="skillCd"> </div>
                     <div class="heroSkillTooltip hideTooltip">
                         <div class="mainSkillInfo">
@@ -91,7 +103,8 @@
                 </div>
 
                 <div class="heroSkill hideTooltip" data-buttonIndex="2">
-                    <img draggable="false" class="skillIcon" id="skillIcon1" src="public/assets/skill_icons/Basic_Spells/Normal/01_fire_arrow.png">
+                    <span class="skillBinding cardNumber">2</span>
+                    <img draggable="false" class="skillIcon" id="skillIcon1" src="http://probablyprogramming.com/wp-content/uploads/2009/03/handtinytrans.gif">
                     <div class="skillCd"> </div>
                     <div class="heroSkillTooltip hideTooltip">
                         <div class="mainSkillInfo">
@@ -103,7 +116,8 @@
                     </div>
                 </div>
                 <div class="heroSkill hideTooltip" data-buttonIndex="3">
-                    <img draggable="false" class="skillIcon" id="skillIcon2" src="public/assets/skill_icons/Basic_Spells/Normal/01_fire_arrow.png">
+                    <span class="skillBinding cardNumber">3</span>
+                    <img draggable="false" class="skillIcon" id="skillIcon2" src="http://probablyprogramming.com/wp-content/uploads/2009/03/handtinytrans.gif">
                     <div class="skillCd"> </div>
                     <div class="heroSkillTooltip hideTooltip">
                         <div class="mainSkillInfo">
@@ -115,7 +129,8 @@
                     </div>
                 </div>
                 <div class="heroSkill hideTooltip" data-buttonIndex="4">
-                    <img draggable="false" class="skillIcon" id="skillIcon3" src="public/assets/skill_icons/Basic_Spells/Normal/01_fire_arrow.png">
+                    <span class="skillBinding cardNumber">4</span>
+                    <img draggable="false" class="skillIcon" id="skillIcon3" src="http://probablyprogramming.com/wp-content/uploads/2009/03/handtinytrans.gif">
                     <div class="skillCd"> </div>
                     <div class="heroSkillTooltip hideTooltip">
                         <div class="mainSkillInfo">
@@ -127,7 +142,8 @@
                     </div>
                 </div>
                 <div class="heroSkill hideTooltip">
-                    <img draggable="false" class="skillIcon" id="skillIcon4" src="https://ctrlmonster.github.io/wizardchess/public/assets/skill_icons/Basic_Spells/Normal/01_fire_arrow.png">
+                    <span class="skillBinding cardNumber">5</span>
+                    <img draggable="false" class="skillIcon" id="skillIcon4" src="http://probablyprogramming.com/wp-content/uploads/2009/03/handtinytrans.gif">
                     <div class="skillCd"> </div>
                     <div class="heroSkillTooltip hideTooltip">
                         <div class="mainSkillInfo">
@@ -172,7 +188,7 @@
 
                 <div id="enemySkillsContainer" class="heroSkillbar">
                     <div class="heroSkill hideTooltip" data-buttonIndex="1">
-                        <img draggable="false" class="enemySkillIcon" src="https://ctrlmonster.github.io/wizardchess/public/assets/skill_icons/Basic_Spells/Normal/01_fire_arrow.png">
+                        <img draggable="false" class="enemySkillIcon" src="http://probablyprogramming.com/wp-content/uploads/2009/03/handtinytrans.gif">
                         <div class="skillCd"> </div>
                         <div class="heroSkillTooltip hideTooltip">
                             <div class="mainSkillInfo">
@@ -185,7 +201,7 @@
                     </div>
 
                     <div class="heroSkill hideTooltip" data-buttonIndex="2">
-                        <img draggable="false" class="enemySkillIcon" src="https://ctrlmonster.github.io/wizardchess/public/assets/skill_icons/Basic_Spells/Normal/01_fire_arrow.png">
+                        <img draggable="false" class="enemySkillIcon" src="http://probablyprogramming.com/wp-content/uploads/2009/03/handtinytrans.gif">
                         <div class="skillCd"> </div>
                         <div class="heroSkillTooltip hideTooltip">
                             <div class="mainSkillInfo">
@@ -197,7 +213,7 @@
                         </div>
                     </div>
                     <div class="heroSkill hideTooltip" data-buttonIndex="3">
-                        <img draggable="false" class="enemySkillIcon" src="https://ctrlmonster.github.io/wizardchess/public/assets/skill_icons/Basic_Spells/Normal/01_fire_arrow.png">
+                        <img draggable="false" class="enemySkillIcon" src="http://probablyprogramming.com/wp-content/uploads/2009/03/handtinytrans.gif">
                         <div class="skillCd"> </div>
                         <div class="heroSkillTooltip hideTooltip">
                             <div class="mainSkillInfo">
@@ -209,7 +225,7 @@
                         </div>
                     </div>
                     <div class="heroSkill hideTooltip" data-buttonIndex="4">
-                        <img draggable="false" class="enemySkillIcon" src="https://ctrlmonster.github.io/wizardchess/public/assets/skill_icons/Basic_Spells/Normal/01_fire_arrow.png">
+                        <img draggable="false" class="enemySkillIcon" src="http://probablyprogramming.com/wp-content/uploads/2009/03/handtinytrans.gif">
                         <div class="skillCd"> </div>
                         <div class="heroSkillTooltip hideTooltip">
                             <div class="mainSkillInfo">
@@ -221,7 +237,7 @@
                         </div>
                     </div>
                     <div class="heroSkill hideTooltip">
-                        <img draggable="false" class="enemySkillIcon" src="https://ctrlmonster.github.io/wizardchess/public/assets/skill_icons/Basic_Spells/Normal/01_fire_arrow.png">
+                        <img draggable="false" class="enemySkillIcon" src="http://probablyprogramming.com/wp-content/uploads/2009/03/handtinytrans.gif">
                         <div class="skillCd"> </div>
                         <div class="heroSkillTooltip hideTooltip">
                             <div class="mainSkillInfo">

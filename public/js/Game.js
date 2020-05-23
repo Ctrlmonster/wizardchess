@@ -18,6 +18,8 @@ class Game {
     this.board = null;
     this.turn = null;
     this.myTurn = null;
+    this.mulliganHand = [];
+    this.mulliganedCards = new Map();
     this.hand = [];
     this.prevHand = [];
     this.zoomedCard = null;
@@ -692,7 +694,6 @@ class Game {
     if (!newHistory) return;
     if (newHistory.length === this.eventHistory.length) return;
 
-    console.log(newHistory);
     // only add the new items
     for (let i = this.eventHistoryIndex; i < newHistory.length; i++) {
       createNewHistoryEntry(newHistory[i]);
@@ -765,11 +766,19 @@ class Game {
           this.player.rotation = Math.PI;
           this.otherPlayer.rotation = Math.PI;
         }
+
+
+        // create the mulligan hand here
+        //console.log(res.data)
+
+
+        //console.log("----------------------");
+
       });
 
       this.setSelectionMode('board', true);
       showGameElements();
-      this.createPlayerHand();
+      //this.createPlayerHand(); // first player hand (mulligan) is create inside gameClient
       this.updateHeroUi();
       initHeroSkills();
     });
@@ -1011,7 +1020,15 @@ class Game {
     }
   }
 
-  createPlayerHand() {
+
+
+
+  createPlayerHand(mulliganCards) {
+    /*console.log("first " + mulliganCards);
+    console.log(this.hand);
+    console.log(this.prevHand);
+    console.log("-------------------------");*/
+    //if (!mulliganCards)return;
     // clear the previous card elements
     this.prevHand.forEach((cardData, i) => {
       if (cardData.element)
@@ -1023,9 +1040,9 @@ class Game {
       if (cardData) {
         if (this.prevHand.indexOf(cardData) === -1) {
           if (cardData.cardType !== 'monster')
-            createSpellCard(cardData, i, this.selectCard, this);
+            createSpellCard(cardData, i, this.selectCard, this, false);
           else
-            createMonsterCard(cardData, i, this.selectCard, false, this)
+            createMonsterCard(cardData, i, this.selectCard, false, this, false)
         }
         if (cardData.playable) {
           switch(cardData.cardType) {
@@ -1040,6 +1057,40 @@ class Game {
       }
     });
     this.prevHand = this.hand;
+  }
+
+  createMulliganHand() {
+    mulliganContainer.classList.remove("hideTooltip");
+    this.hand.forEach(card => card.element.classList.add("hideTooltip"));
+
+    this.mulliganHand.forEach((cardData, i) => {
+      this.mulliganedCards.set(i, true);
+      // create card elems
+      if (cardData.cardType !== 'monster')
+        createSpellCard(cardData, i, this.selectCard, this, true);
+      else
+        createMonsterCard(cardData, i, this.selectCard, false, this, true)
+    });
+
+    this.mulliganHand.forEach((cardData, i) => {
+      cardData.element.addEventListener("click", () => {
+
+        //console.log(`select card ${i}`);
+        // keep card
+        if (cardData.element.classList.contains("deselectedMulliganCard")) {
+          cardData.element.classList.remove("deselectedMulliganCard");
+          this.mulliganedCards.set(i, true);
+        }
+
+        // mulligan away
+        else {
+          cardData.element.classList.add("deselectedMulliganCard");
+          this.mulliganedCards.set(i, false);
+        }
+
+      })
+    })
+
   }
 
   updateHeroUi() {
@@ -1156,6 +1207,7 @@ class Game {
     const selectedOption = this.actionRequestData.find(option => option.data === card.handIndex);
 
     if (selectedOption) {
+
       client.sendActionResponse(selectedOption).then(res => {
         this.actionRequestData = [];
         //zoomedCard.remove();

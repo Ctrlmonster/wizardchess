@@ -93,8 +93,7 @@ function createQueueButton(game_ref) {
   queueButton = document.getElementById("queue");
   queueButton.addEventListener('click', () => client.joinQueue(game_ref)
     .then(res => {
-      console.log("queue now");
-      // console.log(res.data);
+      // start game
     }));
 }
 

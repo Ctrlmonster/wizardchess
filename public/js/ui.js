@@ -2,6 +2,24 @@ let gameContainer = document.querySelector("#gameContainer");
 let canvasContainer = document.querySelector("#canvasContainer");
 
 const cardContainer = document.getElementById("cardContainer");
+const mulliganCardContainer = document.getElementById("mulliganCardContainer");
+const mulliganContainer = document.getElementById("mulliganContainer");
+
+const confirmMulligan = document.getElementById("confirmMulligan");
+
+confirmMulligan.addEventListener("click", () => {
+  client.confirmMulligan().then(res => {
+    game.hand = res.data;
+    game.createPlayerHand();
+
+    mulliganCardContainer.classList.add("hideTooltip");
+    mulliganContainer.classList.add("hideTooltip");
+    game.mulliganHand = null;
+    game.mulliganedCards = null;
+  })
+});
+
+
 const cellTooltip = document.getElementById("cellTooltip");
 const cellTooltipDetails = document.querySelectorAll("#cellTooltip div");
 const heroSkillContainer = document.getElementById("heroSkillsContainer");

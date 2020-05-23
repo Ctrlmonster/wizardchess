@@ -114,7 +114,7 @@ class GameClient { // rename api service or something
             this.game.updateHistory(res.data.eventHistory);
             this.game.updateMatchData(res.data);
             //this.game.updateTableData(); // update the local grid
-            this.game.createPlayerHand(); // create player hand from the new cards
+            this.game.createPlayerHand(true); // create player hand from the new cards
             // UPDATE SKILL BAR
             this.game.updateHeroSkillBar();
             this.game.updateHeroUi(); // update hero hp/mana display
@@ -129,6 +129,16 @@ class GameClient { // rename api service or something
 
 
         // ======================================000
+        case "start_mulligan":
+          this.getMulliganHand().then(res => {
+            console.log("start_mulligan");
+            //console.log(res.data);
+
+            this.game.mulliganHand = res.data;
+            this.game.createMulliganHand();
+
+          });
+          break;
         case "new_data":
           getDataAndUpdateOtherPlayers(this.game);
           break;
@@ -150,6 +160,19 @@ class GameClient { // rename api service or something
           break;
       }
     };
+  }
+
+  getMulliganHand() {
+    return axios.post(url('getMulliganHand'), {
+      id: this.player_id
+    });
+  }
+
+  confirmMulligan() {
+    return axios.post(url('confirmMulligan'), {
+      id: this.player_id,
+      mulliganedCards: [...this.game.mulliganedCards].map(k => k[1])
+    });
   }
 
   getAnimationData() {
