@@ -1528,7 +1528,7 @@ table, tr, td {
 }
 
 .deselectedMulliganCard {
-    filter: grayscale(100%);
+    filter: grayscale(70%);
 }
 
 #confirmMulligan {
@@ -1556,7 +1556,7 @@ table, tr, td {
     user-select: none;
 }
 img.deselectedIcon {
-    filter: grayscale(0%);
+
 }
 
 #historyOptions {

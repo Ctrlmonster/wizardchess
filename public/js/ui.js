@@ -7,6 +7,9 @@ const mulliganContainer = document.getElementById("mulliganContainer");
 
 const confirmMulligan = document.querySelector("#confirmMulligan");
 
+const historyOptionsContainer = document.getElementById("historyOptions");
+const historyOptions = document.querySelectorAll("#historyOptions input");
+
 confirmMulligan.addEventListener("click", () => {
   client.confirmMulligan().then(res => {
     game.hand = res.data;
@@ -107,8 +110,7 @@ function showGameElements() {
   enemyHeroImage.classList.remove("hideTooltip");
   introContainer.classList.add("hideTooltip");
 
-
-  //gameContainer.style.backgroundImage = 'url(\"https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Desk_01.png\")';
+  historyOptionsContainer.classList.remove("hideTooltip");
 }
 
 
@@ -535,7 +537,7 @@ function stringToUpperCase(string) {
 }
 
 
-const historyOptions = document.querySelectorAll("#historyOptions input");
+// -----------------------------------------------------------------
 historyOptions.forEach(option=> {
   option.addEventListener("change", function () {
     game.setHistoryFilter(this.name);
