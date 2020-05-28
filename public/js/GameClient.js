@@ -131,7 +131,6 @@ class GameClient { // rename api service or something
         // ======================================000
         case "start_mulligan":
           this.getMulliganHand().then(res => {
-            console.log("start_mulligan");
             //console.log(res.data);
 
             this.game.mulliganHand = res.data;

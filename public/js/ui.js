@@ -5,12 +5,15 @@ const cardContainer = document.getElementById("cardContainer");
 const mulliganCardContainer = document.getElementById("mulliganCardContainer");
 const mulliganContainer = document.getElementById("mulliganContainer");
 
-const confirmMulligan = document.getElementById("confirmMulligan");
+const confirmMulligan = document.querySelector("#confirmMulligan");
 
 confirmMulligan.addEventListener("click", () => {
   client.confirmMulligan().then(res => {
     game.hand = res.data;
     game.createPlayerHand();
+
+    gameContainer.classList.remove("hideTooltip");
+    cardContainer.classList.remove("hideTooltip");
 
     mulliganCardContainer.classList.add("hideTooltip");
     mulliganContainer.classList.add("hideTooltip");
@@ -496,11 +499,46 @@ function createNewHistoryEntry(data) {
 
   historyContainer.appendChild(entry);
   //console.log(historyContainer.scrollHeight);
-  historyContainer.scrollTop = historyContainer.scrollHeight
+  historyContainer.scrollTop = historyContainer.scrollHeight;
+
+  // =========================================================
+
+  /*
+  const dataForZoomedCard = {
+    mana: content.manaCost,
+    hp: content.maxHp,
+    healPower: content.healPower,
+    magicPower: content.magicPower,
+    atk : content.baseAtk,
+    monsterType : content.monsterType,
+    commanderMinion: content.commander,
+    info: content.info,
+    icon: content.icon,
+    name: content.name
+  };*/
+
+  if (data.type === 'card') {
+    entry.addEventListener("mouseover", function () {
+      if (data.cardType === 'monster')
+        createMonsterCard(data, null, null, true, game);
+      else
+        createSpellCard(data, null, null, true, game);
+    });
+    entry.addEventListener("mouseout", function () {
+      game.removeZoomedCard();
+    })
+  }
 }
 
 function stringToUpperCase(string) {
   return string[0].toUpperCase() + string.slice(-string.length+1);
 }
 
+
+const historyOptions = document.querySelectorAll("#historyOptions input");
+historyOptions.forEach(option=> {
+  option.addEventListener("change", function () {
+    game.setHistoryFilter(this.name);
+  })
+});
 

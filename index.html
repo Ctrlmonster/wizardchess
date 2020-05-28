@@ -14,15 +14,15 @@
         <h2 class="cardNumber">Choose your Hero Class</h2>
         <div id="classSelection">
             <div>
-                <img data-hero="rogue" src="https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_assassin.PNG"/>
+                <img draggable="false" data-hero="rogue" src="https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_assassin.PNG"/>
                 <div class="cardNumber">Rogue</div>
             </div>
             <div>
-                <img data-hero="warlock" src="https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_necro.png"/>
+                <img draggable="false" data-hero="warlock" src="https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_necro.png"/>
                 <div class="cardNumber">Warlock</div>
             </div>
             <div>
-                <img data-hero="wizard" src="https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_mage.png"/>
+                <img draggable="false" data-hero="wizard" src="https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_mage.png"/>
                 <div class="cardNumber">Wizard</div>
             </div>
         </div>
@@ -46,13 +46,22 @@
 </div>
 
 <div class="hideTooltip"  id="mulliganContainer">
-    <div>
-        <div id="mulliganCardContainer"></div>
+    <div id="upperMulliganArea">
+        <div id="mulliganMessage" class="cardNumber">Choose which Cards to keep on your Starthand</div>
+        <div id="mulliganCardContainer">
+
+        </div>
+
         <div id="confirmMulligan" class="mainButtonStyle">
             <span class="cardNumber">Confirm Starthand</span>
             <img draggable="false" src="https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Button_Medium_On.png">
         </div>
     </div>
+
+    <div id="lowerMulliganArea">
+
+    </div>
+
 </div>
 
 
@@ -254,7 +263,25 @@
             <div id="historyHeader" class="hideTooltip cardNumber">
 
             </div>
+
             <div id="historyContainer" class="scrollbar hideTooltip">
+
+            </div>
+
+            <div id="historyOptions" class="cardNumber">
+
+                <input type="checkbox" id="Myself" name="Myself" checked>
+                <label for="Myself">Myself</label>
+
+                <input type="checkbox" id="Enemy" name="Enemy" checked>
+                <label for="Enemy">Enemy</label>
+
+                <input type="checkbox" id="Cards" name="Cards" checked>
+                <label for="Cards">Cards</label>
+
+                <input type="checkbox" id="Skills" name="Skills" checked>
+                <label for="Skills">Skills</label>
+
             </div>
 
             <div id="turnInfo" class="hideTooltip cardNumber">

@@ -44,11 +44,22 @@ class Game {
 
     this.eventHistory = [];
     this.eventHistoryIndex = 0;
+    this.historyFilters = {
+      Myself: true,
+      Enemy: true,
+      Cards: true,
+      Skills: true
+    };
     // -----------------------------------
     // event/actions
     this.actionRequestData = null;
 
     this.selectCard = this.selectCard.bind(this);
+  }
+
+  setHistoryFilter(option) {
+    this.historyFilters[option] = !this.historyFilters[option];
+    this.updateHistory(null, true)
   }
 
   preload() {
@@ -77,16 +88,20 @@ class Game {
     // create a 2d Array filled with objects that link to the different html elements that have to be updated during the game
     this.tableData = new Array(GRID_NUM_COLS).fill(0).map(() => new Array(GRID_NUM_ROWS).fill(0));//.map(() => new Object()));
 
-    const table = document.createElement("TABLE");
+    const table = document.createElement("DIV");
+    //const table = document.createElement("TABLE");
     table.setAttribute("id", "htmlGameTable");
 
     for (let y = 0; y < GRID_NUM_ROWS; y++) {
-      const row = document.createElement("TR");
+      const row = document.createElement("DIV");
+      row.style.display = "flex";
+      //const row = document.createElement("TR");
       for (let x = 0; x < GRID_NUM_COLS; x++) {
         // rotate the board for each player to start at the bottom
         let pos = (this.player_index === 1) ? {x, y}: {x:GRID_NUM_ROWS-x-1, y:GRID_NUM_COLS-y-1};
 
-        const cellContainer = document.createElement("TD");
+        const cellContainer = document.createElement("DIV");
+        //const cellContainer = document.createElement("TD");
 
         cellContainer.addEventListener('mouseover', () => {
           this.showCellContentTooltip(this.board[pos.x][pos.y])
@@ -690,7 +705,28 @@ class Game {
     return entity;
   }
 
-  updateHistory(newHistory) {
+  updateHistory(newHistory, changeHistoryFilter=false) {
+    if (changeHistoryFilter) {
+      Array.from(historyContainer.children).forEach(entry => entry.remove()); // remove current entries
+      let entriesToBeDisplayed = this.eventHistory;
+      if (!this.historyFilters.Enemy) {
+        entriesToBeDisplayed = entriesToBeDisplayed.filter(entry => client.player_id === entry.playerId) // show only friendly entries
+      }
+      if (!this.historyFilters.Myself) {
+        entriesToBeDisplayed = entriesToBeDisplayed.filter(entry => client.player_id !== entry.playerId) // show only enemy entries
+      }
+      if (!this.historyFilters.Cards) {
+        entriesToBeDisplayed = entriesToBeDisplayed.filter(entry => entry.type !== 'card') // show only enemy entries
+      }
+      if (!this.historyFilters.Skills) {
+        entriesToBeDisplayed = entriesToBeDisplayed.filter(entry => entry.type !== 'skill') // show only enemy entries
+      }
+
+      entriesToBeDisplayed.forEach(entry => createNewHistoryEntry(entry));
+      return;
+    } // -----------------------------------------------
+
+
     if (!newHistory) return;
     if (newHistory.length === this.eventHistory.length) return;
 
@@ -751,6 +787,12 @@ class Game {
   create() {
     // get initial match data
     client.getMatchData().then(res => {
+
+      mulliganContainer.classList.remove("hideTooltip");
+      gameContainer.classList.add("hideTooltip");
+      cardContainer.classList.add("hideTooltip");
+
+
       this.updateMatchData(res.data);
 
       this.createHTMLGameTable();
@@ -1040,7 +1082,7 @@ class Game {
       if (cardData) {
         if (this.prevHand.indexOf(cardData) === -1) {
           if (cardData.cardType !== 'monster')
-            createSpellCard(cardData, i, this.selectCard, this, false);
+            createSpellCard(cardData, i, this.selectCard, false, this, false);
           else
             createMonsterCard(cardData, i, this.selectCard, false, this, false)
         }
@@ -1060,31 +1102,54 @@ class Game {
   }
 
   createMulliganHand() {
-    mulliganContainer.classList.remove("hideTooltip");
     this.hand.forEach(card => card.element.classList.add("hideTooltip"));
 
     this.mulliganHand.forEach((cardData, i) => {
       this.mulliganedCards.set(i, true);
       // create card elems
       if (cardData.cardType !== 'monster')
-        createSpellCard(cardData, i, this.selectCard, this, true);
+        createSpellCard(cardData, i, this.selectCard, false, this, true);
       else
         createMonsterCard(cardData, i, this.selectCard, false, this, true)
     });
 
-    this.mulliganHand.forEach((cardData, i) => {
-      cardData.element.addEventListener("click", () => {
 
-        //console.log(`select card ${i}`);
+    this.mulliganHand.forEach((cardData, i) => {
+
+
+      const deselectedIcon = document.createElement("IMG");
+      deselectedIcon.src = client_address + "/public/assets/gui/Card_game_GUI/Parts/Action_Exit.png";
+      deselectedIcon.classList.add("hideTooltip");
+      deselectedIcon.classList.add("deselectedIcon");
+      deselectedIcon.draggable = false;
+
+
+      if (cardData.cardType === 'spell') {
+        cardData.element.classList.add("playableSpell");
+        cardData.element.children[4].appendChild(deselectedIcon);
+      }
+      else {
+        cardData.element.classList.add("playableMinion");
+        cardData.element.children[2].appendChild(deselectedIcon);
+      }
+
+
+      cardData.element.addEventListener("click", () => {
         // keep card
         if (cardData.element.classList.contains("deselectedMulliganCard")) {
+          if (cardData.cardType === 'spell') cardData.element.classList.add("playableSpell");
+          else cardData.element.classList.add("playableMinion");
           cardData.element.classList.remove("deselectedMulliganCard");
+          deselectedIcon.classList.add("hideTooltip");
           this.mulliganedCards.set(i, true);
         }
 
         // mulligan away
         else {
           cardData.element.classList.add("deselectedMulliganCard");
+          cardData.element.classList.remove("playableMinion");
+          cardData.element.classList.remove("playableSpell");
+          deselectedIcon.classList.remove("hideTooltip");
           this.mulliganedCards.set(i, false);
         }
 

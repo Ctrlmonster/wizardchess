@@ -629,7 +629,6 @@ function createMonsterCard(cardData, handIndex, playCallback, zoomedCardOnly=fal
     });
 
     // =========================================
-    console.log("second" + mulliganCards);
     if (mulliganCards) {
       mulliganCardContainer.appendChild(cardElem);
     }
@@ -654,9 +653,10 @@ function createMonsterCard(cardData, handIndex, playCallback, zoomedCardOnly=fal
 // ---------------------------------------------------------------------------------
 
 // spell cards
+//function createMonsterCard(cardData, handIndex, playCallback, zoomedCardOnly=false, scene=null, mulliganCards) {
 
 
-function createSpellCard(cardData, handIndex, playCallback, scene, mulliganCards) {
+function createSpellCard(cardData, handIndex, playCallback, zoomedCardOnly=false, scene, mulliganCards) {
   let displayData = Object.assign({}, cardData);
 
   const cardElem = document.createElement('DIV');
@@ -953,11 +953,13 @@ function createSpellCard(cardData, handIndex, playCallback, scene, mulliganCards
 
 
 
+
+
   // events ----------------------------------------------
 
   // ========================================
   // tooltips
-
+/*
 
   cardElem.addEventListener("mouseover", function () {
     let zoomedCard = cardElem.cloneNode(true);
@@ -968,14 +970,61 @@ function createSpellCard(cardData, handIndex, playCallback, scene, mulliganCards
     scene.removeZoomedCard();
   });
 
+
   // play card event
   cardElem.addEventListener("click", () => {
     playCallback(handIndex);
   });
 
   // =========================================
-  console.log("second" + mulliganCards);
   if (mulliganCards) mulliganCardContainer.appendChild(cardElem);
   else cardContainer.appendChild(cardElem);
   cardData.element = cardElem;
+
+  */
+
+  // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+
+
+  if (!zoomedCardOnly) {
+    cardElem.addEventListener("mouseover", function () {
+      let zoomedCard = cardElem.cloneNode(true);
+      scene.updateZoomedCard(zoomedCard);
+    });
+
+    cardElem.addEventListener("mouseout", function () {
+      scene.removeZoomedCard();
+    });
+
+    // play card event
+    cardElem.addEventListener("click", () => {
+      playCallback(handIndex);
+    });
+
+    // =========================================
+    if (mulliganCards) {
+      mulliganCardContainer.appendChild(cardElem);
+    }
+    else cardContainer.appendChild(cardElem);
+    cardData.element = cardElem;
+  }
+
+  // ----------------------------------------------------
+  // zoomed card only (cell monster hover)
+  else {
+    let zoomedCard = cardElem.cloneNode(true);
+    scene.updateZoomedCard(zoomedCard);
+    cardElem.remove(); // delete the unnecessary elem
+  }
+
+
+
+
+
+
+
+
+
+
+
 }
