@@ -36,8 +36,42 @@ function showStartTurnMessage() {
   }, 700)
 }
 
+const matchFoundMessage = document.querySelector("#matchFoundMessage");
+const matchupMyClass = document.querySelector("#matchupMyClass");
+const matchupEnemyClass = document.querySelector("#matchupEnemyClass");
+
+function startMulliganDisplay() {
+  matchFoundMessage.classList.remove("hideTooltip");
+
+  switch(game.hero) {
+    case 'rogue':
+      matchupMyClass.src = "https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_assassin.PNG";
+      break;
+    case 'warlock':
+      matchupMyClass.src = "https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_necro.png";
+      break;
+    case 'wizard':
+      matchupMyClass.src = "https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_mage.png";
+      break;
+  }
+  switch(game.enemyHero) {
+    case 'rogue':
+      matchupEnemyClass.src = "https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_assassin.PNG";
+      break;
+    case 'warlock':
+      matchupEnemyClass.src = "https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_necro.png";
+      break;
+    case 'wizard':
+      matchupEnemyClass.src = "https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_mage.png";
+      break;
+  }
 
 
+  setTimeout(() => {
+    matchFoundMessage.classList.add("fadeOut");
+    setTimeout(() => matchFoundMessage.classList.add("hideTooltip"), 2000);
+  }, 1500)
+}
 
 confirmMulligan.addEventListener("click", () => {
   waitingMulliganMsgContainer.classList.remove("hideTooltip");
@@ -117,6 +151,8 @@ const lossOrWinDisplay = document.getElementById("lossOrWin");
 
 const introContainer = document.getElementById("introContainer");
 const heroSelectionClasses = document.querySelectorAll("#classSelection > div");
+
+
 
 heroSelectionClasses.forEach((elem, i) =>
   elem.addEventListener("click", (evt) => {
@@ -641,6 +677,7 @@ function startBlitzTimer(amount) {
   blitzTimer.addEventListener('targetAchieved', function (e) {
     blitzTimerElem.innerHTML = "Time's up!";
     lossOrWinDisplay.innerHTML = "You lost by Timeout.";
+    gameOverMessage.style.backgroundImage = "none";
     gameOverMessage.classList.remove("hideTooltip");
     timer.pause();
     blitzTimer.pause();
@@ -655,4 +692,11 @@ function pauseBlitzTimer() {
   //timerElem.innerHTML = (timer.getTimeValues().toString());
   const blitzTimeLeft = blitzTimer.getTimeValues();
   game.totalPlayerTimeLeft = blitzTimeLeft.minutes * 60 + blitzTimeLeft.seconds;
+}
+
+function showConfetti() {
+  document.getElementById("confettiContainer").classList.remove("hideTooltip");
+  let confettiSettings = {"target":"confettiContainer","max":"175","size":"1","animate":true,"props":["circle","square","triangle","line"],"colors":[[165,104,246],[230,61,135],[0,199,228],[253,214,126]],"clock":"15","rotate":true,"width":"1970","height":"1036","start_from_edge":false,"respawn":true};
+  let confetti = new ConfettiGenerator(confettiSettings);
+  confetti.render();
 }

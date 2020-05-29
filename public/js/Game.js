@@ -838,13 +838,14 @@ class Game {
   create() {
     // get initial match data
     client.getMatchData().then(res => {
+      this.updateMatchData(res.data);
 
+
+      startMulliganDisplay();
       mulliganContainer.classList.remove("hideTooltip");
       gameContainer.classList.add("hideTooltip");
       cardContainer.classList.add("hideTooltip");
 
-
-      this.updateMatchData(res.data);
 
       this.createHTMLGameTable();
 

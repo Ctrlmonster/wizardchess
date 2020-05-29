@@ -93,7 +93,24 @@ function createQueueButton(game_ref) {
   queueButton = document.getElementById("queue");
   queueButton.addEventListener('click', () => client.joinQueue(game_ref)
     .then(res => {
+      Array.from(document.querySelectorAll(".classQueueSymbol")).forEach(elem => elem.classList.add("hideTooltip"));
+      //document.querySelector(`#queueSymbol_${client.selectedHero}`).classList.add("hideTooltip");
+      document.querySelector(`#queueSymbol_${client.selectedHero}`).classList.remove("hideTooltip")
+      //setTimeout(() => document.querySelector(`#queueSymbol_${client.selectedHero}`).classList.remove("hideTooltip"), 100);
+
       // start game
+      /* // use if class symbol wanted in loading anim
+      switch(client.selectedHero) {
+        case 'warlock':
+          queueSymbol.src = "https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_necro.png";
+          break;
+        case 'rogue':
+          queueSymbol.src = "https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_assassin.PNG";
+          break;
+        case 'wizard':
+          queueSymbol.src = "https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_mage.png";
+          break;
+      }*/
     }));
 }
 

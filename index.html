@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="public/css/main.css">
+    <link rel="stylesheet" type="text/css" href="public/css/spinkit.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins|Bitter|Lovers+Quarrel">
 </head>
 
@@ -17,6 +18,19 @@
     <div class="cardNumber">Your Turn!</div>
 </div>
 
+<div id="matchFoundMessage" class="hideTooltip">
+    <div>
+        <div class="cardNumber">
+            Found a Match!
+        </div>
+        <div class="cardNumber" id="matchupHeroPortraits">
+            <img id="matchupMyClass" draggable="false" src="http://probablyprogramming.com/wp-content/uploads/2009/03/handtinytrans.gif"/>
+            VS
+            <img id="matchupEnemyClass" draggable="false" src="http://probablyprogramming.com/wp-content/uploads/2009/03/handtinytrans.gif"/>
+        </div>
+    </div>
+</div>
+
 <div id="wrapper">
     <div id="introContainer">
         <h1>Wizardchess</h1>
@@ -26,22 +40,76 @@
                 <img draggable="false" data-hero="rogue" src="https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_assassin.PNG"/>
                 <div class="cardNumber">Rogue</div>
             </div>
+
             <div>
                 <img draggable="false" data-hero="warlock" src="https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_necro.png"/>
                 <div class="cardNumber">Warlock</div>
             </div>
+
             <div>
                 <img draggable="false" data-hero="wizard" src="https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_mage.png"/>
                 <div class="cardNumber">Wizard</div>
             </div>
         </div>
 
+
+
+        <div id="queueSymbol_rogue" class="hideTooltip sk-circle classQueueSymbol">
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+        </div>
+
+
+        <div id="queueSymbol_warlock" class="hideTooltip sk-circle classQueueSymbol">
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+        </div>
+
+        <div id="queueSymbol_wizard" class="hideTooltip sk-circle classQueueSymbol">
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+            <div class="sk-circle-dot"></div>
+        </div>
+
+
         <div id="queue" class="endOfTurnButtonStyle mainButtonStyle">
             <span class="cardNumber">Join Queue</span>
             <img draggable="false" src="https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Button_Medium_On.png">
         </div>
 
+
     </div>
+
+
 
 
 
@@ -393,10 +461,16 @@
 
 </div>
 
+<canvas id="confettiContainer" class="hideTooltip"></canvas>
+
 <!-- libs -->
 <!--<script src="lib/phaser.min.js"></script>-->
 <!--<script src="lib/axios.min.js"></script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/confetti-js@0.0.18/dist/index.min.js"></script>
+
+
 
 <script src="public/lib/easytimer.min.js"></script>
 

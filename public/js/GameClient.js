@@ -52,20 +52,28 @@ class GameClient { // rename api service or something
           lossOrWinDisplay.innerHTML = "You won by Timeout!";
           lossOrWinDisplay.style.color = "gold";
           gameOverMessage.classList.remove("hideTooltip");
+          showConfetti();
           timer.pause();
           blitzTimer.pause();
           break;
         case "game_over":
           this.getMatchData().then(res => {
+            timer.pause();
+            blitzTimer.pause();
             //console.log(res);
             let gameResult;
-            if (res.data.hp <= 0 && res.data.enemyHp <= 0)
-              gameResult = "Wow, the Match ended in a Draw!";
-            if (res.data.hp <= 0 && res.data.enemyHp > 0)
+            if (res.data.hp <= 0 && res.data.enemyHp <= 0) {
+              gameResult = "¯\\_(ツ)_/¯";
+              gameOverMessage.style.backgroundImage = "none";
+            }
+            if (res.data.hp <= 0 && res.data.enemyHp > 0) {
               gameResult = "You lost.";
+              gameOverMessage.style.backgroundImage = "none";
+            }
             if (res.data.hp > 0 && res.data.enemyHp <= 0) {
               gameResult = "You won!";
               lossOrWinDisplay.style.color = "gold";
+              showConfetti();
             }
 
             lossOrWinDisplay.innerHTML = gameResult;

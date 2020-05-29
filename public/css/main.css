@@ -1418,21 +1418,25 @@ table, tr, td {
 }
 
 #introContainer h2 {
-    font-size: 3rem;
-    margin-bottom: 5rem;
+    font-size: 2rem;
+    margin-bottom: 2rem;
 }
 #introContainer h1 {
-    font-size: 5rem;
     margin-bottom: 2rem;
     color: gold;
+    margin-top: -1rem;
 }
+
+
+
+
 
 #classSelection {
     width: 50vw;
     display: flex;
     justify-content: space-around;
     transition: all 0.2s;
-    margin-bottom: 2.5rem;
+    margin-bottom: 5.5rem;
 }
 
 #classSelection div {
@@ -1462,7 +1466,6 @@ table, tr, td {
     box-shadow: 0 5px 30px 15px gold;
      */
     filter: drop-shadow(2px 4px 6px gold) drop-shadow(0px 1px 1px red);
-
 }
 
 .selectedClassIcon div {
@@ -1625,7 +1628,47 @@ img.deselectedIcon {
     transition: opacity 2s;
     position: absolute;
     pointer-events: none;
+}
 
+#matchFoundMessage {
+    background: rgba(0,0,0,.95);
+    z-index: 200;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    transition: opacity 3s;
+    position: absolute;
+    pointer-events: none;
+}
+
+#matchFoundMessage div {
+    margin: auto;
+    margin-top: 10%;
+    font-size: 5rem;
+    color: gold;
+    width: 50vw;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+#matchFoundMessage img {
+    width: 200px;
+    height: 200px;
+    border: 1px solid silver;
+    border-radius: 150px;
+    padding: 1rem;
+    margin-bottom: .5rem;
+    transition: all 0.15s;
+    filter: drop-shadow(2px 4px 6px black);
+}
+
+#matchupHeroPortraits {
+    display: flex;
+    justify-content: space-evenly;
+    width: 50vw;
+    flex-flow: row!important;
 }
 
 #startTurnMessage div {
@@ -1637,4 +1680,35 @@ img.deselectedIcon {
 
 .clockDigits {
     margin-left: 1.5rem
+}
+
+#confettiContainer {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    z-index: 300;
+    pointer-events: none;
+}
+
+#queueSymbol_warlock {
+    z-index: 100;
+    position: absolute;
+    left: 49.3vw
+}
+#queueSymbol_wizard {
+    z-index: 100;
+    position: absolute;
+    left: 66vw
+}
+#queueSymbol_rogue {
+    z-index: 100;
+    position: absolute;
+    left: 32.5vw
+}
+
+.classQueueSymbol {
+    z-index: 100;
+    position: absolute;
+    top: 57vh;
 }
