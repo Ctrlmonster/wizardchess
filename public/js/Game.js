@@ -802,14 +802,14 @@ class Game {
 
 
   checkIfTurnStart(myTurn) {
-    console.log(myTurn, !this.myTurn, (this.mulliganHand == null), this.limitTurnTime);
+    //console.log(myTurn, !this.myTurn, (this.mulliganHand == null), this.limitTurnTime);
 
     if (myTurn && !this.myTurn && this.mulliganHand == null) {
       /*if (game.mulliganHand == null) */
 
       showStartTurnMessage();
       if (this.limitTurnTime) {
-        console.log("here");
+        //console.log("here");
         startTurnTimer(this.maxTurnTime);
         if (this.doBlitzMatch) { // check if blitz timer should be continued
           blitzTimer.start();

@@ -26,7 +26,7 @@ function fadeMulliganMessage() {
 const startTurnMsgContainer = document.querySelector("#startTurnMessage");
 
 function showStartTurnMessage() {
-  console.log("show start turn msg");
+  //console.log("show start turn msg");
   startTurnMsgContainer.classList.remove("hideTooltip");
   startTurnMsgContainer.classList.remove("fadeOut");
   setTimeout(() => {
@@ -589,10 +589,16 @@ let blitzTimer;
 const timerElem = document.getElementById("turnTimerNum");
 const blitzTimerElem = document.getElementById("blitzTimerNum");
 
-function startTurnTimer(amount) {
+function startTurnTimer(amount, continueTimer=false) {
   document.getElementById("turnTimer").classList.remove("hideTooltip");
-  timer = new easytimer.Timer();
-  timer.start({countdown: true, startValues: {seconds: amount}});
+  if (!continueTimer) {
+    timer = new easytimer.Timer();
+    timer.start({countdown: true, startValues: {seconds: amount}});
+  } else {
+    timer.reset();
+    timer.start();
+  }
+
 
   timerElem.innerHTML = (timer.getTimeValues().toString());
   timer.addEventListener('secondsUpdated', function (e) {
@@ -604,6 +610,8 @@ function startTurnTimer(amount) {
   });
   timer.addEventListener('targetAchieved', function (e) {
     timerElem.innerHTML = "Time's up!";
+    console.log("time's up - end turn");
+    console.log(e);
     game.endTurn(endTurnButton, document.querySelector("#endTurn img"))
   });
 }
