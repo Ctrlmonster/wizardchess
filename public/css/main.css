@@ -34,7 +34,7 @@ button:hover {
     cursor: pointer;
 }
 .highlightButton {
-    box-shadow: 0px 0px 43px 36px #4fe607, 0px 0px 24px 4px rgb(244, 255, 0);
+    box-shadow: 0px 0px 43px 36px #4fe607, 0px 0px 24px 4px rgb(244, 255, 0)!important;
     transition: all 0.2s;
 }
 .highlightButton span {
@@ -335,24 +335,22 @@ body {
 
 #gameOverMessage {
     position: absolute;
-    /* margin: 0 auto; */
-    left: 30vw;
-    top: 25vh;
-    padding: 25px 50px;
-    border: 3px solid #ccc;
-    font-size: 2.5rem;
-    background: #ffb800;
+    font-size: 5rem;
+    background: rgba(0,0,0,0.75);
     display: flex;
     background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/winning_decorations.png);
     -webkit-background-size: cover;
-    background-size: cover;
+    background-size: 100%;
     z-index: 100;
-    height: 35vh;
-    width: 40vw;
+    height: 100vh;
+    width: 100vw;
     justify-content: center;
     align-items: center;
+    text-align: center;
     flex-flow: column;
+    background-repeat: no-repeat;
 }
+
 
 #startDuelMessage {
     position: absolute;
@@ -367,7 +365,7 @@ body {
     text-decoration: underline;
 }
 #returnToLobby:hover {
-    color: orange;
+    color: gold;
     cursor: pointer;
 }
 
@@ -620,7 +618,10 @@ body {
     flex-flow: column;
     justify-content: flex-end;
     width: 15vw;
+    align-items: center;
+    /*
     align-items: flex-end;
+     */
 }
 
 .mainButtonStyle {
@@ -1099,7 +1100,7 @@ table, tr, td {
     width: 70.37vh;
      */
     table-layout: fixed;
-    border: 23px solid #412003;
+    border: 25px solid #412003;
     border-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Backgrounds/wood_board_lower.png) 175 67 54 1015;
     border-collapse: initial;
     background-position-x: -14rem;
@@ -1485,7 +1486,7 @@ table, tr, td {
     /*display: flex;
     justify-content: center;
     align-self: center;*/
-    z-index: 1000;
+    z-index: 100;
 }
 
 #mulliganMessage {
@@ -1569,4 +1570,71 @@ img.deselectedIcon {
     height: 3rem;
      */
 
+}
+
+
+#turnTimer {
+    margin: 0 auto 0.5rem;
+    font-size: 1.5rem;
+    width: 24rem;
+    display: flex;
+    margin-left: 2.5rem
+}
+
+#blitzTimer {
+    margin: 0 auto 4.5rem;
+    font-size: 1.5rem;
+    width: 24rem;
+    display: flex;
+    margin-left: 2.5rem
+}
+
+.timeAlert {
+    color: red;
+}
+
+#waitingMulliganMessage {
+    background: rgba(0,0,0,.75);
+    z-index: 200;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    position: absolute;
+    transition: all 3s;
+}
+#waitingMulliganMessage div {
+    margin: auto;
+    margin-top: 20%;
+    font-size: 2.5rem;
+}
+
+.fadeOut {
+    opacity: 0!important;
+}
+
+#startTurnMessage {
+    background: rgba(0,0,0,.75);
+    z-index: 200;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    transition: opacity 2s;
+    position: absolute;
+    pointer-events: none;
+
+}
+
+#startTurnMessage div {
+    margin-top: 20%;
+    font-size: 5rem;
+    color: gold;
+}
+
+
+.clockDigits {
+    margin-left: 1.5rem
 }

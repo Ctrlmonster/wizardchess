@@ -48,17 +48,25 @@ class GameClient { // rename api service or something
         case "idle":
           //console.log("received ws idle message from server");
           break;
+        case "game_over_timeout":
+          lossOrWinDisplay.innerHTML = "You won by Timeout!";
+          lossOrWinDisplay.style.color = "gold";
+          gameOverMessage.classList.remove("hideTooltip");
+          timer.pause();
+          blitzTimer.pause();
+          break;
         case "game_over":
-          console.log("game is over");
           this.getMatchData().then(res => {
             //console.log(res);
             let gameResult;
             if (res.data.hp <= 0 && res.data.enemyHp <= 0)
-              gameResult = "It ended in a Draw.";
+              gameResult = "Wow, the Match ended in a Draw!";
             if (res.data.hp <= 0 && res.data.enemyHp > 0)
               gameResult = "You lost.";
-            if (res.data.hp > 0 && res.data.enemyHp <= 0)
+            if (res.data.hp > 0 && res.data.enemyHp <= 0) {
               gameResult = "You won!";
+              lossOrWinDisplay.style.color = "gold";
+            }
 
             lossOrWinDisplay.innerHTML = gameResult;
             gameOverMessage.classList.remove("hideTooltip");
@@ -132,10 +140,18 @@ class GameClient { // rename api service or something
         case "start_mulligan":
           this.getMulliganHand().then(res => {
             //console.log(res.data);
-
             this.game.mulliganHand = res.data;
             this.game.createMulliganHand();
 
+          });
+          break;
+        case "mulligan_over":
+          this.getMatchData().then(res => {
+            //finishMulligan();
+            this.game.mulliganHand = null;
+            this.game.mulliganedCards = null;
+            this.game.updateMatchData(res.data);
+            fadeMulliganMessage();
           });
           break;
         case "new_data":
@@ -159,6 +175,12 @@ class GameClient { // rename api service or something
           break;
       }
     };
+  }
+
+  sendBlitzTimeout() {
+    return axios.post(url('sendBlitzTimeout'), {
+      id: this.player_id
+    });
   }
 
   getMulliganHand() {

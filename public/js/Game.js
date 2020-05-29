@@ -17,7 +17,7 @@ class Game {
     this.player_index = null;
     this.board = null;
     this.turn = null;
-    this.myTurn = null;
+
     this.mulliganHand = [];
     this.mulliganedCards = new Map();
     this.hand = [];
@@ -29,6 +29,13 @@ class Game {
     this.hp = null;
     this.mana = null;
     this.cardsLeft = null;
+
+    this.myTurn = null;
+    this.maxTurnTime = null;
+    this.totalPlayerTime = null;
+    this.totalPlayerTimeLeft = null;
+    this.limitTurnTime = null;
+    this.doBlitzMatch = null;
 
     this.enemyHero = null;
     this.enemyCardsLeft = null;
@@ -372,8 +379,12 @@ class Game {
           // minion hp
           hpNumber.innerHTML = hp;
           hpNumber.classList.remove("hideCellContent");
+          if (hp > maxHp) hpNumber.classList.add("buffedStat");
+          else hpNumber.classList.remove("buffedStat");
+
           if (hp < maxHp) hpNumber.classList.add("partialHp");
           else hpNumber.classList.remove("partialHp");
+
 
           // display tank symbol
           if (cellData.content.monsterType === 'tank') {
@@ -758,28 +769,68 @@ class Game {
     this.turn = data.turn;
     this.nextTurn = data.nextTurn;
     this.phase = data.phase;
-    this.myTurn = data.myTurn;
     this.otherPos = data.otherPos;
     this.hand = data.hand;
     this.skills = data.skills;
     this.opponentSkills = data.opponentSkills;
 
-    //console.log(this.skills);
-    //console.log(this.opponentSkills);
+    this.maxTurnTime = data.maxTurnTime;
+    this.limitTurnTime = data.limitTurnTime;
+    this.doBlitzMatch = data.doBlitzMatch;
+
+
+
+    if (this.doBlitzMatch) { // check if first call and blitz start should be started
+      if (this.totalPlayerTime == null && data.myTurn && this.mulliganHand == null) {
+        this.totalPlayerTime = data.totalPlayerTime;
+        this.totalPlayerTimeLeft = data.totalPlayerTime;
+        startBlitzTimer(this.totalPlayerTimeLeft);
+        startTurnTimer(this.maxTurnTime);
+      }
+    }
+
+    this.checkIfTurnStart(data.myTurn);
+
+    this.myTurn = data.myTurn;
+
+    /*
+        if (data.limitTurnTime) {
+          this.checkIfTurnStart(data.myTurn);
+        }*/
   }
 
-  updateHeroSprites() {
-    this.player.setPosition(
-      this.pos.x*CELL_DRAW_SIZE+CELL_DRAW_OFFSET,
-      this.pos.y*CELL_DRAW_SIZE+CELL_DRAW_OFFSET,
-    );
-    this.otherPlayer.setPosition(
-      this.otherPos.x*CELL_DRAW_SIZE+CELL_DRAW_OFFSET,
-      this.otherPos.y*CELL_DRAW_SIZE+CELL_DRAW_OFFSET,
-    );
-    // set enemy hero to invisible
-    if (!this.board[this.otherPos.x][this.otherPos.y].content.visible) this.otherPlayer.setAlpha(0);
-    else this.otherPlayer.setAlpha(1);
+
+
+  checkIfTurnStart(myTurn) {
+    console.log(myTurn, !this.myTurn, (this.mulliganHand == null), this.limitTurnTime);
+
+    if (myTurn && !this.myTurn && this.mulliganHand == null) {
+      /*if (game.mulliganHand == null) */
+
+      showStartTurnMessage();
+      if (this.limitTurnTime) {
+        console.log("here");
+        startTurnTimer(this.maxTurnTime);
+        if (this.doBlitzMatch) { // check if blitz timer should be continued
+          blitzTimer.start();
+        }
+      }
+    }
+  }
+
+
+  endTurn(button, buttonImage) {
+    buttonImage.src = "public/assets/gui/Card_game_GUI/Parts/Button_Medium_Off.png";
+    this.actionRequestData = null; // clear previous turns ar data (just for belows highlighting fn)
+    this.updateHighlighting(); // remove highlighting
+    button.classList.add("endOfTurnButtonStyle");
+    button.classList.remove("highlightButton");
+    client.endTurn().then(res => { // remove end turn highlighting
+      heroSkills.forEach(skill => skill.classList.remove("playableSkill"))
+    });
+
+    stopTimer();
+    pauseBlitzTimer();
   }
 
 
@@ -1065,7 +1116,7 @@ class Game {
 
 
 
-  createPlayerHand(mulliganCards) {
+  createPlayerHand() {
     /*console.log("first " + mulliganCards);
     console.log(this.hand);
     console.log(this.prevHand);

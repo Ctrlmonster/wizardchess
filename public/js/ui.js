@@ -10,20 +10,57 @@ const confirmMulligan = document.querySelector("#confirmMulligan");
 const historyOptionsContainer = document.getElementById("historyOptions");
 const historyOptions = document.querySelectorAll("#historyOptions input");
 
+const waitingMulliganMsgContainer = document.getElementById("waitingMulliganMessage");
+const waitingMulliganMessage = document.querySelector("#waitingMulliganMessage div");
+
+
+function fadeMulliganMessage() {
+  waitingMulliganMessage.innerHTML = "Start Match!";
+  waitingMulliganMessage.style.fontSize = "5rem";
+  waitingMulliganMessage.style.color = "gold";
+  waitingMulliganMsgContainer.classList.add("fadeOut");
+  setTimeout(() => waitingMulliganMsgContainer.classList.add("hideTooltip"), 2000)
+}
+
+
+const startTurnMsgContainer = document.querySelector("#startTurnMessage");
+
+function showStartTurnMessage() {
+  console.log("show start turn msg");
+  startTurnMsgContainer.classList.remove("hideTooltip");
+  startTurnMsgContainer.classList.remove("fadeOut");
+  setTimeout(() => {
+    startTurnMsgContainer.classList.add("fadeOut");
+
+    setTimeout(() => startTurnMsgContainer.classList.add("hideTooltip"), 2000);
+  }, 700)
+}
+
+
+
+
 confirmMulligan.addEventListener("click", () => {
+  waitingMulliganMsgContainer.classList.remove("hideTooltip");
   client.confirmMulligan().then(res => {
-    game.hand = res.data;
-    game.createPlayerHand();
-
-    gameContainer.classList.remove("hideTooltip");
-    cardContainer.classList.remove("hideTooltip");
-
-    mulliganCardContainer.classList.add("hideTooltip");
-    mulliganContainer.classList.add("hideTooltip");
-    game.mulliganHand = null;
-    game.mulliganedCards = null;
+    //game.hand = res.data;
+    finishMulligan(res.data)
   })
 });
+
+function finishMulligan(finalHand) {
+
+  game.hand = finalHand;
+  game.mulliganHand = null;
+  game.mulliganedCards = null;
+
+  game.createPlayerHand();
+
+  gameContainer.classList.remove("hideTooltip");
+  cardContainer.classList.remove("hideTooltip");
+
+  mulliganCardContainer.classList.add("hideTooltip");
+  mulliganContainer.classList.add("hideTooltip");
+}
 
 
 const cellTooltip = document.getElementById("cellTooltip");
@@ -544,3 +581,70 @@ historyOptions.forEach(option=> {
   })
 });
 
+
+// -----------------------------------------------------------------
+
+let timer;
+let blitzTimer;
+const timerElem = document.getElementById("turnTimerNum");
+const blitzTimerElem = document.getElementById("blitzTimerNum");
+
+function startTurnTimer(amount) {
+  document.getElementById("turnTimer").classList.remove("hideTooltip");
+  timer = new easytimer.Timer();
+  timer.start({countdown: true, startValues: {seconds: amount}});
+
+  timerElem.innerHTML = (timer.getTimeValues().toString());
+  timer.addEventListener('secondsUpdated', function (e) {
+    const timeLeft = timer.getTimeValues();
+    if (timeLeft.minutes < 1 && timeLeft.seconds < 10) {
+      timerElem.classList.add("timeAlert");
+    }
+    timerElem.innerHTML = (timer.getTimeValues().toString());
+  });
+  timer.addEventListener('targetAchieved', function (e) {
+    timerElem.innerHTML = "Time's up!";
+    game.endTurn(endTurnButton, document.querySelector("#endTurn img"))
+  });
+}
+
+function stopTimer() {
+  timer.reset();
+  timer.pause();
+  timerElem.classList.remove("timeAlert");
+  timerElem.innerHTML = (timer.getTimeValues().toString());
+}
+
+// ----------------------------------------------------------
+
+function startBlitzTimer(amount) {
+  document.getElementById("blitzTimer").classList.remove("hideTooltip");
+  blitzTimer = new easytimer.Timer();
+  blitzTimer.start({countdown: true, startValues: {seconds: amount}});
+
+  blitzTimerElem.innerHTML = (blitzTimer.getTimeValues().toString());
+  blitzTimer.addEventListener('secondsUpdated', function (e) {
+    const blitzTimeLeft = blitzTimer.getTimeValues();
+    if (blitzTimeLeft.minutes < 1) {
+      blitzTimerElem.classList.add("timeAlert");
+    }
+    blitzTimerElem.innerHTML = (blitzTimer.getTimeValues().toString());
+  });
+  blitzTimer.addEventListener('targetAchieved', function (e) {
+    blitzTimerElem.innerHTML = "Time's up!";
+    lossOrWinDisplay.innerHTML = "You lost by Timeout.";
+    gameOverMessage.classList.remove("hideTooltip");
+    timer.pause();
+    blitzTimer.pause();
+    client.sendBlitzTimeout();
+    //game.endTurn(endTurnButton, document.querySelector("#endTurn img"))
+  });
+}
+
+function pauseBlitzTimer() {
+  blitzTimer.pause();
+  //timerElem.classList.remove("timeAlert");
+  //timerElem.innerHTML = (timer.getTimeValues().toString());
+  const blitzTimeLeft = blitzTimer.getTimeValues();
+  game.totalPlayerTimeLeft = blitzTimeLeft.minutes * 60 + blitzTimeLeft.seconds;
+}

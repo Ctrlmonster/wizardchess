@@ -105,8 +105,11 @@ function createLeaveButton(game_ref) {
 }
 
 function createEndTurnButton(game_ref) {
+
   endTurnButton = document.getElementById('endTurn');
   endTurnButton.addEventListener('click', function() {
+    game_ref.endTurn(endTurnButton, this)
+    /*
     this.children[1].src = "public/assets/gui/Card_game_GUI/Parts/Button_Medium_Off.png";
     game_ref.actionRequestData = null; // clear previous turns ar data (just for belows highlighting fn)
     game_ref.updateHighlighting(); // remove highlighting
@@ -114,14 +117,14 @@ function createEndTurnButton(game_ref) {
     endTurnButton.classList.remove("highlightButton");
     client.endTurn().then(res => { // remove end turn highlighting
       heroSkills.forEach(skill => skill.classList.remove("playableSkill"))
-    })
+    });
+
+    stopTimer();
+    */
   })
 }
 
-// end turn for above
-function endTurn() {
 
-}
 
 
 const initPlayer = (game_ref) => {

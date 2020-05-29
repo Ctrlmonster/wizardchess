@@ -8,6 +8,15 @@
 </head>
 
 <body>
+
+<div id="waitingMulliganMessage" class="hideTooltip">
+    <div class="cardNumber">Waiting for your Opponent...</div>
+</div>
+
+<div id="startTurnMessage" class="hideTooltip">
+    <div class="cardNumber">Your Turn!</div>
+</div>
+
 <div id="wrapper">
     <div id="introContainer">
         <h1>Wizardchess</h1>
@@ -37,13 +46,14 @@
 
 
 <div id="gameOverMessage" class="hideTooltip cardNumber">
-    Match over. <span id="lossOrWin"></span><br>
+    <span id="lossOrWin"></span><br>
     <div id="returnToLobby">Return to the Lobby</div>
 </div>
 
 <div id="startDuelMessage" class="hideTooltip">
     IT'S TIME TO DDDD-DUEL!!
 </div>
+
 
 <div class="hideTooltip"  id="mulliganContainer">
     <div id="upperMulliganArea">
@@ -320,6 +330,13 @@
 
 
     <div id="buttonContainer">
+        <div id="turnTimer" class="cardNumber hideTooltip">
+        Turn Timer: <div class="clockDigits" id="turnTimerNum"></div>
+        </div>
+        <div id="blitzTimer" class="cardNumber hideTooltip">
+            Match Timer: <div  class="clockDigits" id="blitzTimerNum"></div>
+        </div>
+
         <div id="endTurn" class="endOfTurnButtonStyle hideTooltip mainButtonStyle">
             <span class="cardNumber">End Turn</span>
             <img draggable="false" src="https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Button_Medium_On.png">
@@ -381,10 +398,7 @@
 <!--<script src="lib/axios.min.js"></script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
 
-<script src="public/lib/phaser/phaser.min.js"></script>
-<!--<script src="./public/lib/phaser/phaser.min.js"></script>-->
-<script src="public/lib/phaser/plugins/rexgridtableplugin.min.js"></script>
-<!--<script src="lib/phaser/phaser-3.22.0/dist/phaser.js"></script>-->
+<script src="public/lib/easytimer.min.js"></script>
 
 <!-- ui -->
 <script src="public/js/ui.js"></script>
