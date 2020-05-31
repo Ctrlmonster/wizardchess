@@ -785,7 +785,7 @@ class Game {
         this.totalPlayerTime = data.totalPlayerTime;
         this.totalPlayerTimeLeft = data.totalPlayerTime;
         startBlitzTimer(this.totalPlayerTimeLeft);
-        startTurnTimer(this.maxTurnTime);
+        if (this.limitTurnTime) startTurnTimer(this.maxTurnTime);
       }
     }
 
@@ -810,7 +810,7 @@ class Game {
       showStartTurnMessage();
       if (this.limitTurnTime) {
         //console.log("here");
-        startTurnTimer(this.maxTurnTime);
+        startTurnTimer(this.maxTurnTime, true);
         if (this.doBlitzMatch) { // check if blitz timer should be continued
           blitzTimer.start();
         }
@@ -829,8 +829,8 @@ class Game {
       heroSkills.forEach(skill => skill.classList.remove("playableSkill"))
     });
 
-    stopTimer();
-    pauseBlitzTimer();
+    if (game.limitTurnTime) stopTimer();
+    if (game.doBlitzMatch) pauseBlitzTimer();
   }
 
 

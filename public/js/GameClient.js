@@ -58,8 +58,8 @@ class GameClient { // rename api service or something
           break;
         case "game_over":
           this.getMatchData().then(res => {
-            timer.pause();
-            blitzTimer.pause();
+            if (timer) timer.pause();
+            if (blitzTimer) blitzTimer.pause();
             //console.log(res);
             let gameResult;
             if (res.data.hp <= 0 && res.data.enemyHp <= 0) {

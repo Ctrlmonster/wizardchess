@@ -627,29 +627,34 @@ const blitzTimerElem = document.getElementById("blitzTimerNum");
 
 function startTurnTimer(amount, continueTimer=false) {
   document.getElementById("turnTimer").classList.remove("hideTooltip");
+
   if (!continueTimer) {
     timer = new easytimer.Timer();
     timer.start({countdown: true, startValues: {seconds: amount}});
-  } else {
+
+    timer.addEventListener('secondsUpdated', function (e) {
+      const timeLeft = timer.getTimeValues();
+      if (timeLeft.minutes < 1 && timeLeft.seconds < 10) {
+        timerElem.classList.add("timeAlert");
+      }
+      timerElem.innerHTML = (timer.getTimeValues().toString());
+    });
+
+
+    timer.addEventListener('targetAchieved', function (e) {
+      timerElem.innerHTML = "Time's up!";
+      console.log("time's up - end turn");
+      console.log(e);
+      game.endTurn(endTurnButton, document.querySelector("#endTurn img"))
+    });
+  }
+
+  else {
     timer.reset();
     timer.start();
   }
 
-
-  timerElem.innerHTML = (timer.getTimeValues().toString());
-  timer.addEventListener('secondsUpdated', function (e) {
-    const timeLeft = timer.getTimeValues();
-    if (timeLeft.minutes < 1 && timeLeft.seconds < 10) {
-      timerElem.classList.add("timeAlert");
-    }
-    timerElem.innerHTML = (timer.getTimeValues().toString());
-  });
-  timer.addEventListener('targetAchieved', function (e) {
-    timerElem.innerHTML = "Time's up!";
-    console.log("time's up - end turn");
-    console.log(e);
-    game.endTurn(endTurnButton, document.querySelector("#endTurn img"))
-  });
+  //timerElem.innerHTML = (timer.getTimeValues().toString());
 }
 
 function stopTimer() {
