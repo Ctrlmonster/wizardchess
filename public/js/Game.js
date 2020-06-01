@@ -22,7 +22,8 @@ class Game {
     this.mulliganedCards = new Map();
     this.hand = [];
     this.prevHand = [];
-    this.zoomedCard = null;
+    this.zoomedCard = null; // card highlight or hovering
+    this.playedCard = null; // card highlight for played cards
     // hero stats;
     this.hero = null;
     this.pos = null;
@@ -1078,7 +1079,7 @@ class Game {
       icon: content.icon,
       name: content.name
     };
-    createMonsterCard(dataForZoomedCard, null, null, true, this);
+    createMonsterCard(dataForZoomedCard, null, null, 'zoom', this);
   }
 
 
@@ -1107,10 +1108,37 @@ class Game {
       heroAreas.appendChild(this.zoomedCard);
     }
   }
+
   removeZoomedCard() {
     if (this.zoomedCard != null) {
       this.zoomedCard.remove();
       this.zoomedCard = null;
+    }
+  }
+
+  updatePlayedCard(playedCardElem) {
+    if (this.playedCard != null) {
+      this.removePlayedCard();
+    }
+    this.playedCard = playedCardElem;
+    this.playedCard.setAttribute("id", "playedCard");
+    if (!this.myTurn) this.playedCard.classList.add("enemyPlayedCard");
+
+    const playedCardRef = this.playedCard;
+    heroAreas.appendChild(this.playedCard);
+
+    setTimeout(() => {
+      if (this.playedCard.isSameNode(playedCardRef)) {
+        this.playedCard.classList.add("fadeOut");
+        setTimeout(this.removePlayedCard, 3500)
+      }
+    }, 750);
+  }
+
+  removePlayedCard() {
+    if (this.playedCard != null) {
+      this.playedCard.remove();
+      this.playedCard = null;
     }
   }
 

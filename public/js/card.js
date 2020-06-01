@@ -1,4 +1,4 @@
-function createMonsterCard(cardData, handIndex, playCallback, zoomedCardOnly=false, scene=null, mulliganCards) {
+function createMonsterCard(cardData, handIndex, playCallback, cardHighlight=null, scene=null, mulliganCards) {
   let displayData = Object.assign({}, cardData);
 
   const cardElem = document.createElement('DIV');
@@ -613,7 +613,7 @@ function createMonsterCard(cardData, handIndex, playCallback, zoomedCardOnly=fal
 
   //let zoomedCard = null;
 
-  if (!zoomedCardOnly) {
+  if (cardHighlight !== 'zoom') {
     cardElem.addEventListener("mouseover", function () {
       let zoomedCard = cardElem.cloneNode(true);
       scene.updateZoomedCard(zoomedCard);
@@ -638,9 +638,16 @@ function createMonsterCard(cardData, handIndex, playCallback, zoomedCardOnly=fal
 
   // ----------------------------------------------------
   // zoomed card only (cell monster hover)
-  else {
+  if (cardHighlight === 'zoom') {
     let zoomedCard = cardElem.cloneNode(true);
     scene.updateZoomedCard(zoomedCard);
+    cardElem.remove(); // delete the unnecessary elem
+  }
+
+  if (cardHighlight === 'played') {
+    console.log("played here");
+    let playedCard = cardElem.cloneNode(true);
+    scene.updatePlayedCard(playedCard);
     cardElem.remove(); // delete the unnecessary elem
   }
 }
@@ -656,7 +663,7 @@ function createMonsterCard(cardData, handIndex, playCallback, zoomedCardOnly=fal
 //function createMonsterCard(cardData, handIndex, playCallback, zoomedCardOnly=false, scene=null, mulliganCards) {
 
 
-function createSpellCard(cardData, handIndex, playCallback, zoomedCardOnly=false, scene, mulliganCards) {
+function createSpellCard(cardData, handIndex, playCallback, cardHighlight, scene, mulliganCards) {
   let displayData = Object.assign({}, cardData);
 
   const cardElem = document.createElement('DIV');
@@ -986,7 +993,7 @@ function createSpellCard(cardData, handIndex, playCallback, zoomedCardOnly=false
   // vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
 
-  if (!zoomedCardOnly) {
+  if (cardHighlight !== 'zoom') {
     cardElem.addEventListener("mouseover", function () {
       let zoomedCard = cardElem.cloneNode(true);
       scene.updateZoomedCard(zoomedCard);
@@ -1011,19 +1018,18 @@ function createSpellCard(cardData, handIndex, playCallback, zoomedCardOnly=false
 
   // ----------------------------------------------------
   // zoomed card only (cell monster hover)
-  else {
+  if (cardHighlight === 'zoom') {
     let zoomedCard = cardElem.cloneNode(true);
     scene.updateZoomedCard(zoomedCard);
     cardElem.remove(); // delete the unnecessary elem
   }
 
-
-
-
-
-
-
-
+  if (cardHighlight === 'played') {
+    console.log("played here");
+    let playedCard = cardElem.cloneNode(true);
+    scene.updatePlayedCard(playedCard);
+    cardElem.remove(); // delete the unnecessary elem
+  }
 
 
 

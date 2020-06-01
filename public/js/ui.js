@@ -595,9 +595,9 @@ function createNewHistoryEntry(data) {
   if (data.type === 'card') {
     entry.addEventListener("mouseover", function () {
       if (data.cardType === 'monster')
-        createMonsterCard(data, null, null, true, game);
+        createMonsterCard(data, null, null, 'zoom', game);
       else
-        createSpellCard(data, null, null, true, game);
+        createSpellCard(data, null, null, 'zoom', game);
     });
     entry.addEventListener("mouseout", function () {
       game.removeZoomedCard();

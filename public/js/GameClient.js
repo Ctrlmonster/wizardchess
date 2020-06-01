@@ -92,16 +92,15 @@ class GameClient { // rename api service or something
           break;
 
         case "animation_damage":
-          this.getAnimationData("damage").then(res => {
+          this.getAnimationData('damage').then(res => {
+
             const animatedPositions = [];
-            res.data.forEach(dmg => {
-              const {pos, amount} = dmg;
+            res.data.forEach(cardData => {
+              const {pos, amount} = cardData.damage;
               const cell = this.game.tableData[pos.x][pos.y];
               let numAnimsOnSamePos = animatedPositions.filter(prevPos => prevPos.x === pos.x && prevPos.y === pos.y).length;
-
               const showTimer = numAnimsOnSamePos * 600;
-              //const hideTimer = showTimer + 100;
-              //console.log(`show: ${showTimer} - hide: ${hideTimer}`);
+
               setTimeout(function() {
                 cell.dmgHitImage.classList.remove("hideCellContent");
                 cell.dmgHitImage.innerHTML = `-${amount}`;
@@ -116,6 +115,18 @@ class GameClient { // rename api service or something
               animatedPositions.push(pos);
             });
             //this.game.tableData[]
+          });
+
+          break;
+
+        case "animation_playcard":
+          this.getAnimationData('playcard').then(res => {
+            const {playcard} = res.data[0];
+            if (playcard.cardType === 'monster')
+              createMonsterCard(playcard, null, null, 'played', this.game);
+            else
+              createSpellCard(playcard, null, null, 'played', this.game);
+            console.log(this.game.playedCard);
           });
 
           break;
@@ -204,9 +215,10 @@ class GameClient { // rename api service or something
     });
   }
 
-  getAnimationData() {
+  getAnimationData(key) {
     return axios.post(url('getAnimationData'), {
-      id: this.player_id
+      id: this.player_id,
+      key
     });
   }
 
