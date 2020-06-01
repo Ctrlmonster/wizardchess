@@ -14,7 +14,7 @@ const CELL_DRAW_OFFSET = CELL_DRAW_SIZE / 2;
 
 // localhost needs http/ws -> heroku needs https and wss
 const local_client = !true;
-const localServer = true;
+const localServer = !true;
 
 let server_address, ws_address, ip, port;
 if (localServer) {
