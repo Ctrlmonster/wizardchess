@@ -121,6 +121,8 @@ class GameClient { // rename api service or something
 
         case "animation_playcard":
           this.getAnimationData('playcard').then(res => {
+            // TODO: check this (remove return condition to check)
+            if (!res.data[0]) return;
             const {playcard} = res.data[0];
             if (playcard.cardType === 'monster')
               createMonsterCard(playcard, null, null, 'played', this.game);
