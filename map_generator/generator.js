@@ -43,7 +43,7 @@ function selectCell(x, y, cellElem) {
 saveMapButton.addEventListener("click", function() {
   let outputString = "[";
   selectedCells.forEach(cell => {
-    outputString += `{x:${cell.x}, y:${cell.y}},`
+    outputString += `{x:${cell.y}, y:${cell.x}},`
   });
   outputString += "]";
   mapOutput.innerHTML = outputString;
