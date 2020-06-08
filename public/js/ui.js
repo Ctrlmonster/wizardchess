@@ -705,3 +705,12 @@ function showConfetti() {
   let confetti = new ConfettiGenerator(confettiSettings);
   confetti.render();
 }
+
+
+const customDeckString = document.getElementById("customDeckString");
+const confirmCustomDeck = document.getElementById("confirmCustomDeck");
+
+
+confirmCustomDeck.addEventListener("click", function() {
+  client.registerCustomDeck(customDeckString.value)
+})

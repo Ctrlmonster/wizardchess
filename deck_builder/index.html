@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Wizardchess Deck Builder</title>
+    <link rel="stylesheet" type="text/css" href="deck_builder.css">
+    <link rel="stylesheet" type="text/css" href="../public/css/main.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins|Bitter|Lovers+Quarrel">
+  </head>
+  <body>
+    <div id="wrapper">
+
+
+    <div id="heroAreas" class="deckHeroArea">
+      <div class="deckClassSelection" id="classSelection">
+          <div>
+              <img draggable="false" data-hero="rogue" src="https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_assassin.PNG"/>
+              <div class="cardNumber">Rogue</div>
+          </div>
+
+          <div>
+              <img draggable="false" data-hero="warlock" src="https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_necro.png"/>
+              <div class="cardNumber">Warlock</div>
+          </div>
+
+          <div>
+              <img draggable="false" data-hero="wizard" src="https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_mage.png"/>
+              <div class="cardNumber">Wizard</div>
+          </div>
+      </div>
+    </div>
+
+
+    <div class="cardSelection">
+      General Cards<br><br>
+    </div>
+
+    <div class="classCardSelection">
+      Class Cards<br><br>
+    </div>
+
+
+
+
+
+    <div id="deckContainer">
+      <div>
+        My Deck (<span id="builtDeckSize">0</span> / 30):
+        <div id="deckList">
+          <div>Build your Deck from the Card List</div>
+        </div>
+      </div>
+
+
+      <div id="deckfinal">
+        <div id="genDeckList" class="cardNumber">Click to Generate Deck</div>
+        <div id="deckOutput">Copy Deck List from here</div>
+      </div>
+    </div>
+
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"></script>
+    <script src="../public/js/constants.js" charset="utf-8"></script>
+    <script src="../public/js/GameClient.js" charset="utf-8"></script>
+    <script src="../public/js/Game.js" charset="utf-8"></script>
+    <script src="../public/js/card.js" charset="utf-8"></script>
+    <script src="deckbuilder.js" charset="utf-8"></script>
+
+  </body>
+</html>

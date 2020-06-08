@@ -198,6 +198,16 @@ class GameClient { // rename api service or something
     };
   }
 
+  echo() {
+    return axios.post(url('echo'));
+  }
+
+
+  getGeneralCards() {
+    return axios.post(url('getGeneralCards'));
+  }
+
+
   sendBlitzTimeout() {
     return axios.post(url('sendBlitzTimeout'), {
       id: this.player_id
@@ -324,6 +334,13 @@ class GameClient { // rename api service or something
     return axios.post(url('getTooltipInformation'), {
       id: this.player_id,
       data: hoverData,
+    })
+  }
+
+  registerCustomDeck(deckString) {
+    return axios.post(url('registerCustomDeck'), {
+      id: this.player_id,
+      data: deckString,
     })
   }
 

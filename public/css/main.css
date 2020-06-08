@@ -1730,3 +1730,16 @@ img.deselectedIcon {
     position: absolute;
     top: 57vh;
 }
+
+
+#customDeck {
+  position: absolute;
+  top: 5rem;
+  right: 5rem;
+  transform: scale(0.5);
+  display
+}
+
+#confirmCustomDeck:hover {
+  cursor: pointer;
+}

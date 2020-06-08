@@ -1,0 +1,83 @@
+.cardSelection {
+  color: white;
+  font-size: 1.5rem;
+}
+
+.classCardSelection {
+  color: white;
+  font-size: 1.5rem;
+
+}
+
+.deckClassSelection {
+  display: block!important
+}
+
+.deckHeroArea {
+  display: flex!important;
+  flex-flow: row!important;
+  justify-content: center!important;
+  align-items: baseline!important;
+}
+
+#deckList {
+}
+
+.cardEntry {
+  font-size: 1.25rem!important;
+  margin-bottom: 0.5rem;
+  background: #333;
+}
+
+.cardEntry:hover {
+  cursor: pointer;
+}
+
+.deckEntry {
+  color: white;
+  font-size: 1.25rem;
+}
+
+.deckEntry:hover {
+  cursor: pointer;
+}
+
+#deckfinal {
+  height: 35vh;
+}
+
+#deckContainer {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  font-size: 1.5rem;
+  color: gold;
+  width: 30vw;
+}
+
+#deckOutput {
+  webkit-user-select: all;
+  user-select: all;
+  font-size: 1rem;
+}
+
+#genDeckList {
+  border-radius: 3px;
+  display: inline-block;
+  padding: 5px;
+}
+
+#genDeckList:hover  {
+  cursor: pointer;
+  color: gold;
+}
+
+
+#wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+#heroAreas {
+  width: 33.3vw!important;
+}
