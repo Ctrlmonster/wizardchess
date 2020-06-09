@@ -6,7 +6,6 @@
 .classCardSelection {
   color: white;
   font-size: 1.5rem;
-
 }
 
 .deckClassSelection {
@@ -80,4 +79,12 @@
 
 #heroAreas {
   width: 33.3vw!important;
+}
+
+.deckSpellCard {
+  color: #188ff6 !important;
+}
+
+.deckMonsterCard {
+  color: white!important;
 }

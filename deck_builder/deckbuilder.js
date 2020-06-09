@@ -21,7 +21,7 @@ client.echo().then(res => console.log(res.data))
 
 let cardPool;
 client.getGeneralCards().then(res => {
-  console.log(res.data)
+  console.log(res.data);
   cardPool = res.data;
   listAllCards(cardPool.general.possessable, 'general', cardSelection)
   listAllCards(cardPool.classes.rogue.possessable, 'rogue', classCardSelection)
@@ -46,21 +46,29 @@ heroImages[2].addEventListener("click", function() {
 
 function listAllCards(cardList, type, containerElem) {
   Array.from(containerElem.children).forEach(child => child.remove())
+  let cardsArray = [];
   for (let cardName in cardList) {
-    let card = cardList[cardName];
+    cardsArray.push(cardList[cardName]);
+  }
 
+  cardsArray = cardsArray.sort((a,b) => a.mana - b.mana);
+
+  for (let card of cardsArray) {
+    let cardName = card.name;
     if (card.tempPossessable === false) continue;
 
     const elem = document.createElement("DIV");
-    elem.innerHTML = card.name;
+    elem.innerHTML = `(${card.mana}) ${card.name}`;
     elem.classList.add("cardNumber")
     elem.classList.add("cardEntry")
+    elem.classList.add(`${(card.cardType === 'monster') ? 'deckMonsterCard' : 'deckSpellCard'}`);
 
     elem.addEventListener("mouseover", function() {
       if (card.cardType === 'monster') {
         const data = {...card};
         data.atk = data.stats.atk;
         data.hp = data.stats.hp;
+        data.commanderMinion = (data.rarity === 'commander');
         createMonsterCard(data, null, null, 'zoom', game);
       }
       if (card.cardType === 'spell') {
@@ -80,8 +88,11 @@ function listAllCards(cardList, type, containerElem) {
       if (!cardInDeck) {
         selectedDeck.push({name: cardName, number: 1, cardRef: card, type});
       }
-      else if (cardInDeck.number < 2) {
-        cardInDeck.number++;
+      else {
+        let maxNumber = card.legendary ? 1 : 2;
+        if (cardInDeck.number < maxNumber) {
+          cardInDeck.number++;
+        }
       }
       selectedDeck = selectedDeck.sort((a,b) => a.cardRef.mana - b.cardRef.mana)
       updateDeckList();
@@ -116,6 +127,7 @@ function updateDeckList() {
         const data = {...card.cardRef};
         data.atk = data.stats.atk;
         data.hp = data.stats.hp;
+        data.commanderMinion = (data.rarity === 'commander');
         createMonsterCard(data, null, null, 'zoom', game);
       }
       if (card.cardRef.cardType === 'spell') {
