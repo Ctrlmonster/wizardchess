@@ -111,9 +111,20 @@ button:hover {
 
   .heroFrameHP {
       right: -23.5rem;
+      background-image: url(../../public/assets/gui/dragon_TCG-assets/energy_red_gimp.png);
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
   }
+
   .heroFrameMana {
       left: 0rem;
+      background-image: url(../../public/assets/gui/dragon_TCG-assets/energy_blue.png);
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
   }
 
 
@@ -687,17 +698,15 @@ body {
 
 
 #heroHp {
-    color: crimson;
+    font-size: 2rem;
 }
 #heroMana {
-    color: #385eff;
+    font-size: 2rem;
 }
 
 #enemyHeroHp {
-    color: crimson;
 }
 #enemyHeroMana {
-    color: #385eff;
 }
 
 .spellCardStyle {
@@ -1112,8 +1121,14 @@ table, tr, td {
 
 
 #htmlGameTable {
+
     background: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Desk_gimp_quad.png) no-repeat;
     background-size: 170%;
+        background-position-x: -14rem;
+    background-position-y: -20rem;
+
+
+
     /*
     width: 70.37vh;
      */
@@ -1121,14 +1136,13 @@ table, tr, td {
     border: 25px solid #412003;
     border-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Backgrounds/wood_board_lower.png) 175 67 54 1015;
     border-collapse: initial;
-    background-position-x: -14rem;
-    background-position-y: -20rem;
+
     box-shadow: 2px 2px 6px 4px rgba(0, 0, 0, 0.5)
 }
 
 .gameTableCell {
-  width: 8vh;
-  height: 8vh;
+    width: 8vh;
+    height: 8vh;
 }
 
 .cellImageWrapper {
@@ -1734,15 +1748,60 @@ img.deselectedIcon {
 
 #customDeck {
   position: absolute;
-  top: 5rem;
-  right: 5rem;
-  transform: scale(0.5);
+  top: -7.5rem;
+  right: 0rem;
+
+  transform: scale(0.75);
+}
+
+#customDeck a {
+    text-decoration: none;
+    color: white;
+    font-size: 2rem;
+}
+#customDeck a:hover {
+    color: gold;
+}
+
+#confirmCustomDeck {
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    padding-top: 10px;
+    background: url(../../public/assets/gui/Card_game_GUI/Parts/Button_Medium_On.png) no-repeat;
+    background-size: cover;
+    width: 12rem;
+    height: 5rem;
+    font-size: 1.2rem;
+    margin-top: -.5rem;
 }
 
 #confirmCustomDeck:hover {
   cursor: pointer;
+  color: gold;
 }
 
 textarea {
     resize: none;
+    margin-top: 63rem;
+    font-family: "Noto Sans";
+    font-size: 1.3rem;
+    width: 11.2rem;
+    height: 2.5rem;
+    margin-left: 0.5rem;
+    border-radius: 3px;
+
 }
+
+.manaGem {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.75rem;
+    height: 3.75rem;
+    background-size: cover!important;
+}
+

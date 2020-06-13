@@ -1,15 +1,19 @@
 .cardSelection {
   color: white;
   font-size: 1.5rem;
+  max-height: 65vh;
+  overflow-y: scroll;
 }
 
 .classCardSelection {
   color: white;
   font-size: 1.5rem;
+  width: 20vw;
 }
 
 .deckClassSelection {
-  display: block!important
+  display: block!important;
+  width: 20vw;
 }
 
 .deckHeroArea {
@@ -35,6 +39,7 @@
 .deckEntry {
   color: white;
   font-size: 1.25rem;
+  background: #333333;
 }
 
 .deckEntry:hover {
@@ -51,40 +56,89 @@
   justify-content: space-between;
   font-size: 1.5rem;
   color: gold;
-  width: 30vw;
+  width: 15vw;
 }
 
 #deckOutput {
   webkit-user-select: all;
   user-select: all;
-  font-size: 1rem;
+  font-size: 0.8rem;
+  padding: 0.5rem;
 }
 
 #genDeckList {
   border-radius: 3px;
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   padding: 5px;
+  padding-top: 10px;
+  background: url(../public/assets/gui/Card_game_GUI/Parts/Button_Medium_On.png) no-repeat;
+  background-size: cover;
+  width: 12rem;
+  height: 5rem;
+  font-size: 1.2rem;
 }
 
 #genDeckList:hover  {
-  cursor: pointer;
-  color: gold;
+cursor: pointer;
+color: gold;
 }
 
 
 #wrapper {
-  display: flex;
-  justify-content: space-between;
+display: flex;
+justify-content: space-between;
+height: auto!important;
+}
+.container {
+background: none!important;
+padding-top: 2rem;
 }
 
 #heroAreas {
-  width: 33.3vw!important;
+width: 30vw!important;
 }
 
 .deckSpellCard {
-  color: #188ff6 !important;
+color: #188ff6 !important;
 }
 
 .deckMonsterCard {
-  color: white!important;
+color: white!important;
+}
+.deckSpellCard:hover {
+color: #6fe614!important;
+}
+.deckMonsterCard:hover {
+color: #6fe614!important;
+}
+.deckLegendaryMonsterCard:hover {
+color: #6fe614!important;
+}
+
+.deckLegendaryMonsterCard {
+color: gold!important;
+}
+
+#backgroundContainer {
+height: 100vh;
+position: absolute;
+width: 100%;
+z-index: -1;
+background: #685b4e;
+}
+#upperBackground {
+height: 74vh;
+width: 100%;
+background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Backgrounds/wood_board_upper.png);
+background-repeat: no-repeat;
+background-size: cover;
+}
+#lowerBackground {
+height: 26vh;
+background-image: url(https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Backgrounds/wood_board_lower.png);
+background-repeat: no-repeat;
+background-size: 100%;
+width: 100%;
 }

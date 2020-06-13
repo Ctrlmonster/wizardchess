@@ -643,8 +643,6 @@ function startTurnTimer(amount, continueTimer=false) {
 
     timer.addEventListener('targetAchieved', function (e) {
       timerElem.innerHTML = "Time's up!";
-      console.log("time's up - end turn");
-      console.log(e);
       game.endTurn(endTurnButton, document.querySelector("#endTurn img"))
     });
   }

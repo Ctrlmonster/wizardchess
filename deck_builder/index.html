@@ -8,7 +8,11 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins|Bitter|Lovers+Quarrel">
   </head>
   <body>
-    <div id="wrapper">
+  <div id="backgroundContainer">
+      <div id="upperBackground"></div>
+      <div id="lowerBackground"></div>
+  </div>
+    <div id="wrapper" class="container">
 
 
     <div id="heroAreas" class="deckHeroArea">
@@ -31,12 +35,12 @@
     </div>
 
 
-    <div class="cardSelection">
-      General Cards<br><br>
+    <div class="cardSelection scrollbar">
+        <div>General Cards</div>
     </div>
 
     <div class="classCardSelection">
-      Class Cards<br><br>
+        <div>Class Cards</div>
     </div>
 
 
@@ -47,13 +51,13 @@
       <div>
         My Deck (<span id="builtDeckSize">0</span> / 30):
         <div id="deckList">
-          <div>Build your Deck from the Card List</div>
+          <div>Click on Cards to Select them</div>
         </div>
       </div>
 
 
       <div id="deckfinal">
-        <div id="genDeckList" class="cardNumber">Click to Generate Deck</div>
+        <div id="genDeckList" class="cardNumber">Generate Deck</div>
         <div id="deckOutput">Copy Deck List from here</div>
       </div>
     </div>

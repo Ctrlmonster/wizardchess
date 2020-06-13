@@ -128,7 +128,6 @@ class GameClient { // rename api service or something
               createMonsterCard(playcard, null, null, 'played', this.game);
             else
               createSpellCard(playcard, null, null, 'played', this.game);
-            console.log(this.game.playedCard);
           });
 
           break;

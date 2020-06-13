@@ -108,10 +108,10 @@
 
 
         <div id="customDeck" class="cardNumber">
-            <!--<span class="cardNumber">Custom Deck</span>
-            <img draggable="false" src="https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Button_Medium_On.png">-->
-            <div>Custom Deck</div>
-            <textarea id="customDeckString"></textarea>
+            <div>
+                <a target="_blank" rel="noopener noreferrer" href="deck_builder/index.html">Create a Deck</a>
+            </div>
+            <textarea placeholder="Enter Deck here" id="customDeckString"></textarea>
             <div id="confirmCustomDeck">
               Confirm
             </div>
@@ -172,13 +172,13 @@
                 <div class="heroFrameContainer">
                     <img draggable="false" class="heroFrame" src="https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Desk_Hero_Backframe.png">
                     <img draggable="false" id="heroImage" class="heroClass" src="public/assets/badges/RPG_Class_Badges/Badge_png/Badge_assassin.PNG">
-                    <div class="heroFrameMana heroFrameStat" >
-                        <span id="heroMana">Mana</span>
-                        <img draggable="false" src="public/assets/gui/dragon_TCG-assets/energy_blue.png">
+                    <div class="heroFrameMana heroFrameStat cardNumber" >
+                        <div id="heroMana">Mana</div>
+                        <!--<img draggable="false" src="public/assets/gui/dragon_TCG-assets/energy_blue.png">-->
                     </div>
-                    <div class="heroFrameHP heroFrameStat" >
-                        <span id="heroHp">HP</span>
-                        <img draggable="false" src="public/assets/gui/dragon_TCG-assets/energy_red_gimp.png">
+                    <div class="heroFrameHP heroFrameStat cardNumber" >
+                        <div id="heroHp">HP</div>
+                        <!--<img draggable="false" src="public/assets/gui/dragon_TCG-assets/energy_red_gimp.png">-->
                     </div>
                 </div>
             </div>
@@ -273,6 +273,7 @@
                     <div class="heroFrameContainer">
                         <img draggable="false" class="heroFrame" src="https://ctrlmonster.github.io/wizardchess/public/assets/gui/Card_game_GUI/Parts/Desk_Hero_Backframe.png">
                         <img draggable="false" id="enemyHeroImage" class="heroClass" src="https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_mage.png">
+                        <!--
                         <div class="heroFrameHP heroFrameStat" >
                             <span id="enemyHeroHp">HP</span>
                             <img draggable="false" src="https://ctrlmonster.github.io/wizardchess/public/assets/gui/dragon_TCG-assets/energy_red_gimp.png">
@@ -280,6 +281,15 @@
                         <div class="heroFrameMana heroFrameStat" >
                             <span id="enemyHeroMana">Mana</span>
                             <img draggable="false" src="https://ctrlmonster.github.io/wizardchess/public/assets/gui/dragon_TCG-assets/energy_blue.png">
+                        </div> -->
+
+                        <div class="heroFrameMana heroFrameStat cardNumber" >
+                            <div id="enemyHeroMana">Mana</div>
+                            <!--<img draggable="false" src="public/assets/gui/dragon_TCG-assets/energy_blue.png">-->
+                        </div>
+                        <div class="heroFrameHP heroFrameStat cardNumber" >
+                            <div id="enemyHeroHp">HP</div>
+                            <!--<img draggable="false" src="public/assets/gui/dragon_TCG-assets/energy_red_gimp.png">-->
                         </div>
                     </div>
                 </div>

@@ -99,14 +99,40 @@ function createMonsterCard(cardData, handIndex, playCallback, cardHighlight=null
   textContainer.style.position = 'absolute';
 
   const textElem = document.createElement("DIV");
+  const infoTextElem = document.createElement("DIV");
+  infoTextElem.innerHTML = displayData.info != null ? displayData.info : "";
   let textLength = displayData.info != null ? displayData.info.length : 1;
-  textElem.innerHTML = `<div>`+ (displayData.info != null) ? displayData.info : '' + `</div>`;
+
+  if (displayData.commanderMinion || displayData.monsterType === 'tank') {
+    const roleTextElem = document.createElement("DIV");
+    let roleText = "";
+    if (displayData.commanderMinion && displayData.monsterType === 'tank') {
+      roleText = "Command | Tank";
+    }
+    if (displayData.commanderMinion && displayData.monsterType !== 'tank') {
+      roleText = "Command";
+    }
+    if (!displayData.commanderMinion && displayData.monsterType === 'tank') {
+      roleText = "Tank";
+    }
+    textLength += roleText.length;
+
+    roleTextElem.innerHTML = roleText;
+    roleTextElem.style.marginRight = "1rem";
+    textElem.appendChild(roleTextElem);
+  }
+
+
+  textElem.appendChild(infoTextElem);
+
+  //textElem.innerHTML = `<div>`+ (displayData.info != null) ? displayData.info : '' + `</div>`;
   textElem.style.position = 'absolute';
   //textElem.style.border = "1px solid red";
   textElem.style.width = "100%";//textContainer.style.width;
   textElem.style.height = "7rem";
   textElem.style.padding = "10px 20px 0px 35px";
   textElem.style.display = "flex";
+  textElem.style.flexFlow = "column";
   textElem.style.justifyContent = "center";
   textElem.style.alignItems = "center";
   textElem.style.fontFamily = "Bitter";
@@ -201,11 +227,9 @@ function createMonsterCard(cardData, handIndex, playCallback, cardHighlight=null
   // THREE STATS
   // ==================================================================================
   if (displayData.atk > 0 && displayData.healPower > 0 && displayData.magicPower > 0) {
-    const atkCrystal = document.createElement("IMG");
-    atkCrystal.draggable = false;
-    atkCrystal.src = client_address + "/public/assets/gui/dragon_TCG-assets/energy_yellow.png";
-    atkCrystal.style.position = 'absolute';
-    atkCrystal.style.width = '4rem';
+    const atkCrystal = document.createElement("DIV");
+    atkCrystal.style.background = `url(${client_address + "/public/assets/gui/dragon_TCG-assets/energy_yellow.png"})`;
+    atkCrystal.classList.add("manaGem");
     atkCrystal.style.bottom = '-1rem';
     atkCrystal.style.left = '-1rem';
     cardElem.appendChild(atkCrystal);
@@ -213,20 +237,13 @@ function createMonsterCard(cardData, handIndex, playCallback, cardHighlight=null
     const atkNumber = document.createElement("DIV");
     atkNumber.innerHTML = displayData.atk;
     atkNumber.classList.add("cardNumber");
-    atkNumber.style.position = 'absolute';
-    //dmgBox.style.height = '4.5rem';
-    atkNumber.style.width = '4rem';
-    atkNumber.style.bottom = '.25rem';
-    atkNumber.style.left = '.6rem';
-    cardElem.appendChild(atkNumber);
+    atkCrystal.appendChild(atkNumber);
 
     // -------------------------------------------
 
-    const magicCrystal = document.createElement("IMG");
-    magicCrystal.draggable = false;
-    magicCrystal.src = client_address + "/public/assets/gui/dragon_TCG-assets/energy_violet_gimp.png";
-    magicCrystal.style.position = 'absolute';
-    magicCrystal.style.width = '4rem';
+    const magicCrystal = document.createElement("DIV");
+    magicCrystal.style.background = `url(${client_address + "/public/assets/gui/dragon_TCG-assets/energy_violet_gimp.png"})`;
+    magicCrystal.classList.add("manaGem");
     magicCrystal.style.bottom = '4rem';
     magicCrystal.style.left = '-1rem';
     cardElem.appendChild(magicCrystal);
@@ -234,19 +251,12 @@ function createMonsterCard(cardData, handIndex, playCallback, cardHighlight=null
     const magicNumber = document.createElement("DIV");
     magicNumber.innerHTML = displayData.magicPower;
     magicNumber.classList.add("cardNumber");
-    magicNumber.style.position = 'absolute';
-    magicNumber.style.width = '4rem';
-    magicNumber.style.bottom = '5.4rem';
-    magicNumber.style.left = '.6rem';
-    cardElem.appendChild(magicNumber);
+    magicCrystal.appendChild(magicNumber);
 
     // -------------------------------------------
-
-    const healCrystal = document.createElement("IMG");
-    healCrystal.draggable = false;
-    healCrystal.src = client_address + "/public/assets/gui/dragon_TCG-assets/energy_green.png";
-    healCrystal.style.position = 'absolute';
-    healCrystal.style.width = '4rem';
+    const healCrystal = document.createElement("DIV");
+    healCrystal.style.background = `url(${client_address + "/public/assets/gui/dragon_TCG-assets/energy_green.png"})`;
+    healCrystal.classList.add("manaGem");
     healCrystal.style.bottom = '4rem';
     healCrystal.style.right = '-.75rem';
     cardElem.appendChild(healCrystal);
@@ -254,12 +264,8 @@ function createMonsterCard(cardData, handIndex, playCallback, cardHighlight=null
     const healNumber = document.createElement("DIV");
     healNumber.innerHTML = displayData.healPower;
     healNumber.classList.add("cardNumber");
-    healNumber.style.position = 'absolute';
-    //dmgBox.style.height = '4.5rem';
-    healNumber.style.width = '4rem';
-    healNumber.style.bottom = '4rem';
-    healNumber.style.right = '-2.35rem';
-    cardElem.appendChild(healNumber);
+    healCrystal.appendChild(healNumber);
+
   }
 
   // ==================================================================================
@@ -270,11 +276,9 @@ function createMonsterCard(cardData, handIndex, playCallback, cardHighlight=null
 
     // next case: minion has atk and healPower
     if (displayData.atk > 0 && displayData.healPower) {
-      const atkCrystal = document.createElement("IMG");
-      atkCrystal.draggable = false;
-      atkCrystal.src = client_address + "/public/assets/gui/dragon_TCG-assets/energy_yellow.png";
-      atkCrystal.style.position = 'absolute';
-      atkCrystal.style.width = '4rem';
+      const atkCrystal = document.createElement("DIV");
+      atkCrystal.style.background = `url(${client_address + "/public/assets/gui/dragon_TCG-assets/energy_yellow.png"})`;
+      atkCrystal.classList.add("manaGem");
       atkCrystal.style.bottom = '-1rem';
       atkCrystal.style.left = '-1rem';
       cardElem.appendChild(atkCrystal);
@@ -282,20 +286,12 @@ function createMonsterCard(cardData, handIndex, playCallback, cardHighlight=null
       const atkNumber = document.createElement("DIV");
       atkNumber.innerHTML = displayData.atk;
       atkNumber.classList.add("cardNumber");
-      atkNumber.style.position = 'absolute';
-      //dmgBox.style.height = '4.5rem';
-      atkNumber.style.width = '4rem';
-      atkNumber.style.bottom = '.25rem';
-      atkNumber.style.left = '.6rem';
-      cardElem.appendChild(atkNumber);
+      atkCrystal.appendChild(atkNumber);
 
       // -------------------------------------------
-
-      const healCrystal = document.createElement("IMG");
-      healCrystal.draggable = false;
-      healCrystal.src = client_address + "/public/assets/gui/dragon_TCG-assets/energy_green.png";
-      healCrystal.style.position = 'absolute';
-      healCrystal.style.width = '4rem';
+      const healCrystal = document.createElement("DIV");
+      healCrystal.style.background = `url(${client_address + "/public/assets/gui/dragon_TCG-assets/energy_green.png"})`;
+      healCrystal.classList.add("manaGem");
       healCrystal.style.bottom = '4rem';
       healCrystal.style.left = '-1rem';
       cardElem.appendChild(healCrystal);
@@ -303,22 +299,17 @@ function createMonsterCard(cardData, handIndex, playCallback, cardHighlight=null
       const healNumber = document.createElement("DIV");
       healNumber.innerHTML = displayData.healPower;
       healNumber.classList.add("cardNumber");
-      healNumber.style.position = 'absolute';
-      healNumber.style.width = '4rem';
-      healNumber.style.bottom = '5.4rem';
-      healNumber.style.left = '.6rem';
-      cardElem.appendChild(healNumber);
+      healCrystal.appendChild(healNumber);
+
 
       twoStatsExist = true;
     }
     // ==================================================================================
     // next case: minion has atk and magicPower
     if (displayData.atk > 0 && displayData.magicPower) {
-      const atkCrystal = document.createElement("IMG");
-      atkCrystal.draggable = false;
-      atkCrystal.src = client_address + "/public/assets/gui/dragon_TCG-assets/energy_yellow.png";
-      atkCrystal.style.position = 'absolute';
-      atkCrystal.style.width = '4rem';
+      const atkCrystal = document.createElement("DIV");
+      atkCrystal.style.background = `url(${client_address + "/public/assets/gui/dragon_TCG-assets/energy_yellow.png"})`;
+      atkCrystal.classList.add("manaGem");
       atkCrystal.style.bottom = '-1rem';
       atkCrystal.style.left = '-1rem';
       cardElem.appendChild(atkCrystal);
@@ -326,20 +317,13 @@ function createMonsterCard(cardData, handIndex, playCallback, cardHighlight=null
       const atkNumber = document.createElement("DIV");
       atkNumber.innerHTML = displayData.atk;
       atkNumber.classList.add("cardNumber");
-      atkNumber.style.position = 'absolute';
-      //dmgBox.style.height = '4.5rem';
-      atkNumber.style.width = '4rem';
-      atkNumber.style.bottom = '.25rem';
-      atkNumber.style.left = '.6rem';
-      cardElem.appendChild(atkNumber);
+      atkCrystal.appendChild(atkNumber);
 
       // -------------------------------------------
 
-      const magicCrystal = document.createElement("IMG");
-      magicCrystal.draggable = false;
-      magicCrystal.src = client_address + "/public/assets/gui/dragon_TCG-assets/energy_violet_gimp.png";
-      magicCrystal.style.position = 'absolute';
-      magicCrystal.style.width = '4rem';
+      const magicCrystal = document.createElement("DIV");
+      magicCrystal.style.background = `url(${client_address + "/public/assets/gui/dragon_TCG-assets/energy_violet_gimp.png"})`;
+      magicCrystal.classList.add("manaGem");
       magicCrystal.style.bottom = '4rem';
       magicCrystal.style.left = '-1rem';
       cardElem.appendChild(magicCrystal);
@@ -347,11 +331,7 @@ function createMonsterCard(cardData, handIndex, playCallback, cardHighlight=null
       const magicNumber = document.createElement("DIV");
       magicNumber.innerHTML = displayData.magicPower;
       magicNumber.classList.add("cardNumber");
-      magicNumber.style.position = 'absolute';
-      magicNumber.style.width = '4rem';
-      magicNumber.style.bottom = '5.4rem';
-      magicNumber.style.left = '.6rem';
-      cardElem.appendChild(magicNumber);
+      magicCrystal.appendChild(magicNumber);
 
       twoStatsExist = true;
     }
@@ -359,11 +339,9 @@ function createMonsterCard(cardData, handIndex, playCallback, cardHighlight=null
     // ==================================================================================
     // next case: minion has healPower and magicPower
     if (displayData.healPower > 0 && displayData.magicPower) {
-      const magicCrystal = document.createElement("IMG");
-      magicCrystal.draggable = false;
-      magicCrystal.src = client_address + "/public/assets/gui/dragon_TCG-assets/energy_violet_gimp.png";
-      magicCrystal.style.position = 'absolute';
-      magicCrystal.style.width = '4rem';
+      const magicCrystal = document.createElement("DIV");
+      magicCrystal.style.background = `url(${client_address + "/public/assets/gui/dragon_TCG-assets/energy_violet_gimp.png"})`;
+      magicCrystal.classList.add("manaGem");
       magicCrystal.style.bottom = '-1rem';
       magicCrystal.style.left = '-1rem';
       cardElem.appendChild(magicCrystal);
@@ -371,20 +349,12 @@ function createMonsterCard(cardData, handIndex, playCallback, cardHighlight=null
       const magicNumber = document.createElement("DIV");
       magicNumber.innerHTML = displayData.magicPower;
       magicNumber.classList.add("cardNumber");
-      magicNumber.style.position = 'absolute';
-      //dmgBox.style.height = '4.5rem';
-      magicNumber.style.width = '4rem';
-      magicNumber.style.bottom = '.25rem';
-      magicNumber.style.left = '.6rem';
-      cardElem.appendChild(magicNumber);
+      magicCrystal.appendChild(magicNumber);
 
       // -------------------------------------------
-
-      const healCrystal = document.createElement("IMG");
-      healCrystal.draggable = false;
-      healCrystal.src = client_address + "/public/assets/gui/dragon_TCG-assets/energy_green.png";
-      healCrystal.style.position = 'absolute';
-      healCrystal.style.width = '4rem';
+      const healCrystal = document.createElement("DIV");
+      healCrystal.style.background = `url(${client_address + "/public/assets/gui/dragon_TCG-assets/energy_green.png"})`;
+      healCrystal.classList.add("manaGem");
       healCrystal.style.bottom = '4rem';
       healCrystal.style.left = '-1rem';
       cardElem.appendChild(healCrystal);
@@ -392,11 +362,7 @@ function createMonsterCard(cardData, handIndex, playCallback, cardHighlight=null
       const healNumber = document.createElement("DIV");
       healNumber.innerHTML = displayData.healPower;
       healNumber.classList.add("cardNumber");
-      healNumber.style.position = 'absolute';
-      healNumber.style.width = '4rem';
-      healNumber.style.bottom = '5.4rem';
-      healNumber.style.left = '.6rem';
-      cardElem.appendChild(healNumber);
+      healCrystal.appendChild(healNumber);
 
       twoStatsExist = true;
     }
@@ -408,11 +374,9 @@ function createMonsterCard(cardData, handIndex, playCallback, cardHighlight=null
 
       // next case: minion has only atk
       if (displayData.atk > 0) {
-        const atkCrystal = document.createElement("IMG");
-        atkCrystal.draggable = false;
-        atkCrystal.src = client_address + "/public/assets/gui/dragon_TCG-assets/energy_yellow.png";
-        atkCrystal.style.position = 'absolute';
-        atkCrystal.style.width = '4rem';
+        const atkCrystal = document.createElement("DIV");
+        atkCrystal.style.background = `url(${client_address + "/public/assets/gui/dragon_TCG-assets/energy_yellow.png"})`;
+        atkCrystal.classList.add("manaGem");
         atkCrystal.style.bottom = '-1rem';
         atkCrystal.style.left = '-1rem';
         cardElem.appendChild(atkCrystal);
@@ -420,21 +384,14 @@ function createMonsterCard(cardData, handIndex, playCallback, cardHighlight=null
         const atkNumber = document.createElement("DIV");
         atkNumber.innerHTML = displayData.atk;
         atkNumber.classList.add("cardNumber");
-        atkNumber.style.position = 'absolute';
-        //dmgBox.style.height = '4.5rem';
-        atkNumber.style.width = '4rem';
-        atkNumber.style.bottom = '.25rem';
-        atkNumber.style.left = '.6rem';
-        cardElem.appendChild(atkNumber);
+        atkCrystal.appendChild(atkNumber);
       }
 
       // next case: minion has only healPower
       if (displayData.healPower > 0) {
-        const healCrystal = document.createElement("IMG");
-        healCrystal.draggable = false;
-        healCrystal.src = client_address + "/public/assets/gui/dragon_TCG-assets/energy_green.png";
-        healCrystal.style.position = 'absolute';
-        healCrystal.style.width = '4rem';
+        const healCrystal = document.createElement("DIV");
+        healCrystal.style.background = `url(${client_address + "/public/assets/gui/dragon_TCG-assets/energy_green.png"})`;
+        healCrystal.classList.add("manaGem");
         healCrystal.style.bottom = '-1rem';
         healCrystal.style.left = '-1rem';
         cardElem.appendChild(healCrystal);
@@ -442,21 +399,14 @@ function createMonsterCard(cardData, handIndex, playCallback, cardHighlight=null
         const healNumber = document.createElement("DIV");
         healNumber.innerHTML = displayData.healPower;
         healNumber.classList.add("cardNumber");
-        healNumber.style.position = 'absolute';
-        //dmgBox.style.height = '4.5rem';
-        healNumber.style.width = '4rem';
-        healNumber.style.bottom = '.25rem';
-        healNumber.style.left = '.6rem';
-        cardElem.appendChild(healNumber);
+        healCrystal.appendChild(healNumber);
       }
 
       // next case: minion has only magicPower
       if (displayData.magicPower > 0) {
-        const magicCrystal = document.createElement("IMG");
-        magicCrystal.draggable = false;
-        magicCrystal.src = client_address + "/public/assets/gui/dragon_TCG-assets/energy_violet_gimp.png";
-        magicCrystal.style.position = 'absolute';
-        magicCrystal.style.width = '4rem';
+        const magicCrystal = document.createElement("DIV");
+        magicCrystal.style.background = `url(${client_address + "/public/assets/gui/dragon_TCG-assets/energy_violet_gimp.png"})`;
+        magicCrystal.classList.add("manaGem");
         magicCrystal.style.bottom = '-1rem';
         magicCrystal.style.left = '-1rem';
         cardElem.appendChild(magicCrystal);
@@ -464,12 +414,7 @@ function createMonsterCard(cardData, handIndex, playCallback, cardHighlight=null
         const magicNumber = document.createElement("DIV");
         magicNumber.innerHTML = displayData.magicPower;
         magicNumber.classList.add("cardNumber");
-        magicNumber.style.position = 'absolute';
-        //dmgBox.style.height = '4.5rem';
-        magicNumber.style.width = '4rem';
-        magicNumber.style.bottom = '.25rem';
-        magicNumber.style.left = '.6rem';
-        cardElem.appendChild(magicNumber);
+        magicCrystal.appendChild(magicNumber);
       }
 
     }
@@ -477,6 +422,7 @@ function createMonsterCard(cardData, handIndex, playCallback, cardHighlight=null
 
 
 
+  /*
   const hpCrystal = document.createElement("IMG");
   hpCrystal.draggable = false;
   hpCrystal.src = client_address + "/public/assets/gui/dragon_TCG-assets/energy_red_gimp.png";
@@ -488,7 +434,7 @@ function createMonsterCard(cardData, handIndex, playCallback, cardHighlight=null
   hpCrystal.style.right = '-.75rem';
   cardElem.appendChild(hpCrystal);
 
-  const hpNumber = document.createElement("DIV");
+   const hpNumber = document.createElement("DIV");
   hpNumber.innerHTML = displayData.hp;
   //hpNumber.innerHTML = String(Math.trunc(Math.random() * 10));
   hpNumber.classList.add("cardNumber");
@@ -500,25 +446,32 @@ function createMonsterCard(cardData, handIndex, playCallback, cardHighlight=null
   cardElem.appendChild(hpNumber);
 
 
-  const mana_gem = document.createElement("IMG");
-  mana_gem.draggable = false;
-  mana_gem.src = client_address + "/public/assets/gui/dragon_TCG-assets/energy_blue.png";
-  //mana_gem.src = "/public/assets/gui/dragon_TCG-assets/energy_orange.png";
-  mana_gem.style.position = 'absolute';
+  */
+
+  const hpCrystal = document.createElement("DIV");
+  hpCrystal.style.background = `url(${client_address + "/public/assets/gui/dragon_TCG-assets/energy_red_gimp.png"})`;
+  hpCrystal.classList.add("manaGem");
+  hpCrystal.style.bottom = '-1rem';
+  hpCrystal.style.right = '-.75rem';
+  cardElem.appendChild(hpCrystal);
+
+  const hpNumber = document.createElement("DIV");
+  hpNumber.innerHTML = displayData.hp;
+  hpNumber.classList.add("cardNumber");
+  hpCrystal.appendChild(hpNumber);
+
+
+  const mana_gem = document.createElement("DIV");
+  mana_gem.style.background = `url(${client_address + "/public/assets/gui/dragon_TCG-assets/energy_blue.png"})`;
+  mana_gem.classList.add("manaGem");
   mana_gem.style.top = '-1.5rem';
   mana_gem.style.left = '-1.4rem';
-  mana_gem.style.width = '4.5rem';
   cardElem.appendChild(mana_gem);
 
   const manaNumber = document.createElement("DIV");
   manaNumber.innerHTML = displayData.mana;
-  //manaNumber.innerHTML = String(Math.trunc(Math.random() * 10));
   manaNumber.classList.add("cardNumber");
-  manaNumber.style.position = 'absolute';
-  manaNumber.style.top = '0rem';
-  manaNumber.style.left = '0rem';
-  manaNumber.style.width = '4.5rem';
-  cardElem.appendChild(manaNumber);
+  mana_gem.appendChild(manaNumber);
 
 
   // monster role (for now tank and non-tank)
@@ -586,7 +539,7 @@ function createMonsterCard(cardData, handIndex, playCallback, cardHighlight=null
   cardname_container.appendChild(cardname_decoration_right);
 
   const cardname_decoration_left = document.createElement("IMG");
-  cardname_decoration_right.draggable = false;
+  cardname_decoration_left.draggable = false;
   cardname_decoration_left.src = client_address + "/public/assets/gui/dragon_TCG-assets/02decoration_03.png";
   cardname_decoration_left.style.position = 'absolute';
   cardname_decoration_left.style.right = '-1.25rem';
@@ -645,7 +598,6 @@ function createMonsterCard(cardData, handIndex, playCallback, cardHighlight=null
   }
 
   if (cardHighlight === 'played') {
-    console.log("played here");
     let playedCard = cardElem.cloneNode(true);
     scene.updatePlayedCard(playedCard);
     cardElem.remove(); // delete the unnecessary elem
@@ -893,6 +845,9 @@ function createSpellCard(cardData, handIndex, playCallback, cardHighlight, scene
   //cardElem.appendChild(hpNumber);
 */
 
+
+
+  /*
   const mana_gem = document.createElement("IMG");
   mana_gem.draggable = false;
   mana_gem.src = client_address + "/public/assets/gui/dragon_TCG-assets/energy_blue.png";
@@ -901,16 +856,19 @@ function createSpellCard(cardData, handIndex, playCallback, cardHighlight, scene
   mana_gem.style.left = '-1.4rem';
   mana_gem.style.width = '4.5rem';
   cardElem.appendChild(mana_gem);
+  */
+
+  const mana_gem = document.createElement("DIV");
+  mana_gem.style.background = `url(${client_address + "/public/assets/gui/dragon_TCG-assets/energy_blue.png"})`;
+  mana_gem.classList.add("manaGem");
+  mana_gem.style.top = '-1.5rem';
+  mana_gem.style.left = '-1.4rem';
+  cardElem.appendChild(mana_gem);
 
   const manaNumber = document.createElement("DIV");
   manaNumber.innerHTML = displayData.mana;
-  //manaNumber.innerHTML = String(Math.trunc(Math.random() * 10));
   manaNumber.classList.add("cardNumber");
-  manaNumber.style.position = 'absolute';
-  manaNumber.style.top = '0rem';
-  manaNumber.style.left = '0rem';
-  manaNumber.style.width = '4.5rem';
-  cardElem.appendChild(manaNumber);
+  mana_gem.appendChild(manaNumber);
 
 
   const cardName = document.createElement("DIV");
@@ -1025,7 +983,6 @@ function createSpellCard(cardData, handIndex, playCallback, cardHighlight, scene
   }
 
   if (cardHighlight === 'played') {
-    console.log("played here");
     let playedCard = cardElem.cloneNode(true);
     scene.updatePlayedCard(playedCard);
     cardElem.remove(); // delete the unnecessary elem
