@@ -12,9 +12,15 @@
 }
 
 .deckClassSelection {
-  display: block!important;
+  display: flex;
+  flex-flow: wrap;
   width: 20vw;
 }
+
+#classSelection > div {
+  margin: 1rem;
+}
+
 
 .deckHeroArea {
   display: flex!important;

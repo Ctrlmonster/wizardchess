@@ -48,6 +48,13 @@ heroImages[2].addEventListener("click", function() {
   heroImages.forEach(elem => elem.parentElement.classList.remove("selectedClassIcon"));
   this.parentElement.classList.add("selectedClassIcon");
 });
+heroImages[3].addEventListener("click", function() {
+  Array.from(deckList.children).forEach(child => child.remove());
+  selectedDeck = [];
+  listAllCards(cardPool.classes.priest.possessable, 'priest', classCardSelection);
+  heroImages.forEach(elem => elem.parentElement.classList.remove("selectedClassIcon"));
+  this.parentElement.classList.add("selectedClassIcon");
+});
 
 function listAllCards(cardList, type, containerElem) {
   Array.from(containerElem.children).forEach(child => child.remove());
