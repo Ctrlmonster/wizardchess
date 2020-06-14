@@ -1726,17 +1726,22 @@ img.deselectedIcon {
 #queueSymbol_warlock {
     z-index: 100;
     position: absolute;
-    left: 49.3vw
+    left: 43vw
 }
 #queueSymbol_wizard {
     z-index: 100;
     position: absolute;
-    left: 66vw
+    left: 55.5vw
 }
 #queueSymbol_rogue {
     z-index: 100;
     position: absolute;
-    left: 32.5vw
+    left: 30.5vw
+}
+#queueSymbol_priest {
+    z-index: 100;
+    position: absolute;
+    left: 68.25vw
 }
 
 .classQueueSymbol {
