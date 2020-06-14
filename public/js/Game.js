@@ -360,7 +360,7 @@ class Game {
             ccIcon.classList.remove("hideCellContent");
           }
           // debuff icon
-          if (buffs.some(buff => buff.debuff && buff.ccType == null)) {
+          if (buffs.some(buff => buff.debuff && !buff.hiddenFromOpponent && buff.ccType == null)) {
             deBuffIcon.classList.remove("hideCellContent");
           }
 
@@ -1040,6 +1040,7 @@ class Game {
     if (content.buffs.length) {
       cellTooltipDetails[10].innerHTML = `Buffs:<br>`;
       content.buffs.forEach(buff => {
+        if (buff.hiddenFromOpponent) return;
         let {timer} = buff;
         if (buff.endPhase) {
 

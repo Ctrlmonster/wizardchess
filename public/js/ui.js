@@ -53,6 +53,9 @@ function startMulliganDisplay() {
     case 'wizard':
       matchupMyClass.src = "https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_mage.png";
       break;
+    case 'priest':
+      matchupMyClass.src = "https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_priest.PNG";
+      break;
   }
   switch(game.enemyHero) {
     case 'rogue':
@@ -63,6 +66,9 @@ function startMulliganDisplay() {
       break;
     case 'wizard':
       matchupEnemyClass.src = "https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_mage.png";
+      break;
+    case 'priest':
+      matchupEnemyClass.src = "https://ctrlmonster.github.io/wizardchess/public/assets/badges/RPG_Class_Badges/Badge_png/Badge_priest.PNG";
       break;
   }
 
