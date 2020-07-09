@@ -200,18 +200,19 @@ class Game {
     const magicPowerNumber = document.createElement("DIV");
     magicPowerNumber.classList.add("cellMonsterStat");
     magicPowerNumber.classList.add("cellMonsterMagicPower");
-    magicPowerNumber.classList.add("cellStatPosTopLeft");
+    magicPowerNumber.classList.add("cellStatPosBotLeft");
     magicPowerNumber.classList.add("hideCellContent");
     wrapper.appendChild(magicPowerNumber);
 
     const healPowerNumber = document.createElement("DIV");
     healPowerNumber.classList.add("cellMonsterStat");
     healPowerNumber.classList.add("cellMonsterHealPower");
-    healPowerNumber.classList.add("cellStatPosTopLeft");
+    healPowerNumber.classList.add("cellStatPosBotLeft"); // cellStatPosBotLeft if there are no healers that can do dmg
+    //healPowerNumber.classList.add("cellStatPosTopLeft");
     healPowerNumber.classList.add("hideCellContent");
     wrapper.appendChild(healPowerNumber);
 
-    const monsterManaNumber = document.createElement("DIV");
+    const monsterManaNumber = document.createElement("DIV"); // monster mana to be removed
     monsterManaNumber.classList.add("cellMonsterStat");
     monsterManaNumber.classList.add("cellMonsterMana");
     monsterManaNumber.classList.add("hideCellContent");
@@ -416,7 +417,8 @@ class Game {
             atkNumber.classList.add("hideCellContent")
           }
 
-          // mana display
+          // mana display (monster mana to be removed)
+          /*
           if (magicPower || healPower) {
             monsterManaNumber.innerHTML = mana;
             monsterManaNumber.classList.remove("hideCellContent");
@@ -428,7 +430,7 @@ class Game {
           else {
             monsterManaNumber.innerHTML = "";
             monsterManaNumber.classList.add("hideCellContent");
-          }
+          }*/
 
           // magicPower display
           if (magicPower) {
@@ -1035,6 +1037,7 @@ class Game {
     cellTooltipDetails[7].innerHTML = `Can Move: ${content.canMove && content.allowedToMove}`;
     cellTooltipDetails[8].innerHTML = `Can Fight: ${content.canFight && content.allowedToFight}`;
     cellTooltipDetails[9].innerHTML = `Can Defend: ${content.canDefend}`;
+    cellTooltipDetails[8].innerHTML = `Can Cast: ${content.canCast && content.allowedToCast}`;
     cellTooltipDetails[9].innerHTML = `Idling: ${content.idling}`;
 
     if (content.buffs.length) {
